@@ -117,7 +117,7 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Compilador", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Pochete Compiler", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNovo.setText(QtGui.QApplication.translate("MainWindow", "Novo", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNovo.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
@@ -179,4 +179,4 @@ class Ui_MainWindow(object):
             self.plainTextEdit.clear()
 
     def _about(self):
-        QtGui.QMessageBox.about(self.MainWindow, "Sobre:", "Equipe: ")
+        QtGui.QMessageBox.about(self.MainWindow, "Sobre:", "Equipe:\nPaulo Eduardo Danker\nThiago Pradi")
