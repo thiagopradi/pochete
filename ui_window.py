@@ -155,6 +155,8 @@ class Ui_MainWindow(object):
         MainWindow.connect(self.actionAbri, QtCore.SIGNAL("activated()"), self._open)
         MainWindow.connect(self.actionEquipe, QtCore.SIGNAL("activated()"), self._about)
         MainWindow.connect(self.actionSalvar, QtCore.SIGNAL("activated()"), self._save)
+        MainWindow.connect(self.actionCompilar, QtCore.SIGNAL("activated()"), self._compile)
+        MainWindow.connect(self.actionGerar_Codigo, QtCore.SIGNAL("activated()"), self._generate)
 
     
     def _novo(self):
@@ -187,6 +189,12 @@ class Ui_MainWindow(object):
             fname = open(filename, 'w')
             fname.write(self.editor.text())
             fname.close()
+    
+    def _compile(self):
+        QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
+    
+    def _generate(self):
+        QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
 
     def _about(self):
         QtGui.QMessageBox.about(self.MainWindow, "Sobre:", "Equipe:\nPaulo Eduardo Danker\nThiago Pradi")
