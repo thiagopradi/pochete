@@ -154,6 +154,7 @@ class Ui_MainWindow(object):
         MainWindow.connect(self.actionRecortar, QtCore.SIGNAL("activated()"), self._cut)
         MainWindow.connect(self.actionAbri, QtCore.SIGNAL("activated()"), self._open)
         MainWindow.connect(self.actionEquipe, QtCore.SIGNAL("activated()"), self._about)
+        MainWindow.connect(self.actionSalvar, QtCore.SIGNAL("activated()"), self._save)
 
     
     def _novo(self):
@@ -173,10 +174,19 @@ class Ui_MainWindow(object):
     def _open(self):
         filename = QtGui.QFileDialog.getOpenFileName(self.MainWindow, 'Abrir Arquivo', '')
         if filename:
+            # TODO: atualizar statusbar
             fname = open(filename)
             data = fname.read()
             self.editor.setText(data)
             self.plainTextEdit.clear()
+    
+    def _save(self):
+        filename = QtGui.QFileDialog.getSaveFileName(self.MainWindow, 'Salvar Arquivo', '')
+        if filename:
+            # TODO: atualizar statusbar
+            fname = open(filename, 'w')
+            fname.write(self.editor.text())
+            fname.close()
 
     def _about(self):
         QtGui.QMessageBox.about(self.MainWindow, "Sobre:", "Equipe:\nPaulo Eduardo Danker\nThiago Pradi")
