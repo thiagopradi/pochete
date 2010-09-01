@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '..\teste.ui'
+# Form implementation generated from reading ui file 'teste.ui'
 #
-# Created: Mon Aug 30 15:24:06 2010
+# Created: Wed Sep 01 11:19:17 2010
 #      by: PyQt4 UI code generator 4.7.4
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-from PyQt4 import Qsci
-import icons_rc
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-        # teste
-        self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(762, 529)
         MainWindow.setInputMethodHints(QtCore.Qt.ImhNone)
@@ -35,35 +31,7 @@ class Ui_MainWindow(object):
         self.editor.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.editor.setObjectName("editor")
         self.verticalLayout.addWidget(self.editor)
-        
-        # Alteracoes minhas!
-        # baseado em: http://kib2.free.fr/tutos/PyQt4/QScintilla2.html
-        ## define the font to use
-        font = QtGui.QFont()
-        font.setFamily("Consolas")
-        font.setFixedPitch(True)
-        font.setPointSize(10)
-        # the font metrics here will help
-        # building the margin width later
-        fm = QtGui.QFontMetrics(font)
-
-        ## set the default font of the editor
-        ## and take the same font for line numbers
-        self.editor.setFont(font)
-        self.editor.setMarginsFont(font)
-
-        ## Line numbers
-        # conventionnaly, margin 0 is for line numbers
-        self.editor.setMarginWidth(0, fm.width( "00000" ) + 5)
-        self.editor.setMarginLineNumbers(0, True)
-        
-        ## Editing line color
-        self.editor.setCaretLineVisible(True)
-        self.editor.setCaretLineBackgroundColor(QtGui.QColor("#e8e8ff"))
-        # fim alteracoes
-        
         self.plainTextEdit = QtGui.QPlainTextEdit(self.centralwidget)
-        self.plainTextEdit.setReadOnly(True)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -145,12 +113,10 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Pochete Compiler", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Compilador", None, QtGui.QApplication.UnicodeUTF8))
         self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNovo.setText(QtGui.QApplication.translate("MainWindow", "Novo", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNovo.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
-        
-        
         self.actionAbri.setText(QtGui.QApplication.translate("MainWindow", "Abrir", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAbri.setToolTip(QtGui.QApplication.translate("MainWindow", "Abrir", None, QtGui.QApplication.UnicodeUTF8))
         self.actionAbri.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+A", None, QtGui.QApplication.UnicodeUTF8))
@@ -162,7 +128,7 @@ class Ui_MainWindow(object):
         self.actionCopiar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Shift+C", None, QtGui.QApplication.UnicodeUTF8))
         self.actionColar.setText(QtGui.QApplication.translate("MainWindow", "Colar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionColar.setToolTip(QtGui.QApplication.translate("MainWindow", "Colar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionColar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+V", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionColar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Shift+V", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRecortar.setText(QtGui.QApplication.translate("MainWindow", "Recortar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRecortar.setToolTip(QtGui.QApplication.translate("MainWindow", "Recortar", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRecortar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Shift+X", None, QtGui.QApplication.UnicodeUTF8))
@@ -175,54 +141,6 @@ class Ui_MainWindow(object):
         self.actionEquipe.setText(QtGui.QApplication.translate("MainWindow", "Equipe", None, QtGui.QApplication.UnicodeUTF8))
         self.actionEquipe.setToolTip(QtGui.QApplication.translate("MainWindow", "Equipe", None, QtGui.QApplication.UnicodeUTF8))
         self.actionEquipe.setShortcut(QtGui.QApplication.translate("MainWindow", "F1", None, QtGui.QApplication.UnicodeUTF8))
-        
-        MainWindow.connect(self.actionNovo, QtCore.SIGNAL("activated()"), self._novo)
-        MainWindow.connect(self.actionColar, QtCore.SIGNAL("activated()"), self._paste)
-        MainWindow.connect(self.actionCopiar, QtCore.SIGNAL("activated()"), self._copy)
-        MainWindow.connect(self.actionRecortar, QtCore.SIGNAL("activated()"), self._cut)
-        MainWindow.connect(self.actionAbri, QtCore.SIGNAL("activated()"), self._open)
-        MainWindow.connect(self.actionEquipe, QtCore.SIGNAL("activated()"), self._about)
-        MainWindow.connect(self.actionSalvar, QtCore.SIGNAL("activated()"), self._save)
-        MainWindow.connect(self.actionCompilar, QtCore.SIGNAL("activated()"), self._compile)
-        MainWindow.connect(self.actionGerar_Codigo, QtCore.SIGNAL("activated()"), self._generate)
 
-    
-    def _novo(self):
-        self.editor.setText("")
-        self.plainTextEdit.clear()
-        
-    
-    def _paste(self):
-        self.editor.paste()
-    
-    def _copy(self):
-        self.editor.copy()
-
-    def _cut(self):
-        self.editor.cut()
-    
-    def _open(self):
-        filename = QtGui.QFileDialog.getOpenFileName(self.MainWindow, 'Abrir Arquivo', '')
-        if filename:
-            # TODO: atualizar statusbar
-            fname = open(filename)
-            data = fname.read()
-            self.editor.setText(data)
-            self.plainTextEdit.clear()
-    
-    def _save(self):
-        filename = QtGui.QFileDialog.getSaveFileName(self.MainWindow, 'Salvar Arquivo', '')
-        if filename:
-            # TODO: atualizar statusbar
-            fname = open(filename, 'w')
-            fname.write(self.editor.text())
-            fname.close()
-    
-    def _compile(self):
-        QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
-    
-    def _generate(self):
-        QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
-
-    def _about(self):
-        QtGui.QMessageBox.about(self.MainWindow, "Sobre:", "Equipe:\nPaulo Eduardo Danker\nThiago Pradi")
+from PyQt4 import Qsci
+import icons_rc
