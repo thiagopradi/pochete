@@ -14,6 +14,8 @@ import icons_rc
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         # teste
+        self.filename = ""
+
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(762, 529)
@@ -198,13 +200,15 @@ class Ui_MainWindow(object):
 
     
     def _onChange(self):
-        print "Teste"
+        self.status_file.setText(u"Modificado")
 
     def _novo(self):
         self.editor.setText("")
         self.plainTextEdit.clear()
+        self.filename = ""
+        self.status_file.setText(u"Não modificado")
+        self.status_filename.setText("-")
         
-    
     def _paste(self):
         self.editor.paste()
     
@@ -215,21 +219,29 @@ class Ui_MainWindow(object):
         self.editor.cut()
     
     def _open(self):
-        filename = QtGui.QFileDialog.getOpenFileName(self.MainWindow, 'Abrir Arquivo', '')
+        filename = unicode(QtGui.QFileDialog.getOpenFileName(self.MainWindow, 'Abrir Arquivo', ''))
         if filename:
-            # TODO: atualizar statusbar
             fname = open(filename)
             data = fname.read()
             self.editor.setText(data)
             self.plainTextEdit.clear()
+            self.filename = filename
+            self._updateStatusbar()
     
     def _save(self):
-        filename = QtGui.QFileDialog.getSaveFileName(self.MainWindow, 'Salvar Arquivo', '')
-        if filename:
-            # TODO: atualizar statusbar
-            fname = open(filename, 'w')
+        if not self.filename:
+            filename = unicode(QtGui.QFileDialog.getSaveFileName(self.MainWindow, 'Salvar Arquivo', ''))
+            if filename:
+                fname = open(filename, 'w')
+                fname.write(self.editor.text())
+                fname.close()
+                self.filename = filename
+                self._updateStatusbar()
+        else:
+            fname = open(self.filename, 'w')
             fname.write(self.editor.text())
             fname.close()
+            self._updateStatusbar()
     
     def _compile(self):
         QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
@@ -239,3 +251,7 @@ class Ui_MainWindow(object):
 
     def _about(self):
         QtGui.QMessageBox.about(self.MainWindow, "Sobre:", "Equipe:\nPaulo Eduardo Danker\nThiago Pradi")
+
+    def _updateStatusbar(self):
+        self.status_filename.setText(self.filename)
+        self.status_file.setText(u"Não modificado")
