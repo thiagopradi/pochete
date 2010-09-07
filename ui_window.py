@@ -17,7 +17,7 @@ class Ui_MainWindow(object):
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(762, 529)
-        MainWindow.setInputMethodHints(QtCore.Qt.ImhNone)
+        #MainWindow.setInputMethodHints(QtCore.Qt.ImhNone)
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.centralwidget = QtGui.QWidget(MainWindow)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
@@ -74,6 +74,14 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
+        # teste
+        self.status_file = QtGui.QLabel(u"Não modificado")
+        self.status_file.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.statusbar.addWidget(self.status_file, 0)
+        self.status_filename = QtGui.QLabel("-")
+        self.status_filename.setFrameShape(QtGui.QFrame.StyledPanel)
+        self.statusbar.addWidget(self.status_filename, 1)
+
         MainWindow.setStatusBar(self.statusbar)
         self.toolBar = QtGui.QToolBar(MainWindow)
         sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Fixed)
@@ -186,7 +194,12 @@ class Ui_MainWindow(object):
         MainWindow.connect(self.actionCompilar, QtCore.SIGNAL("activated()"), self._compile)
         MainWindow.connect(self.actionGerar_Codigo, QtCore.SIGNAL("activated()"), self._generate)
 
+        MainWindow.connect(self.editor, QtCore.SIGNAL("textChanged()"), self._onChange)
+
     
+    def _onChange(self):
+        print "Teste"
+
     def _novo(self):
         self.editor.setText("")
         self.plainTextEdit.clear()
