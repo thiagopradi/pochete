@@ -9,7 +9,7 @@ minuscula_digito = r'[0-9a-z]'
 digito = r'[0-9]'
 positivo = r'[1-9]'
 aux_id = r'%s(%s %s?)*|%s(%s?%s)*%s?' % (maiuscula, minuscula_digito, maiuscula, minuscula, maiuscula,minuscula_digito, maiuscula)
-aux_literal = r"'[^\n']*'|" + r'\"[^"]"'
+aux_literal = r"\'[^\n\']*\'|" + r'\"[^\"]\"'
 
 t_SIMBOLO = r'\(|\)|\[|\]|,|;|:=|==|:|!=|<|<=|>|>=|\+|-|\*\*|\*|/|&|%'  
 t_ignore_COMMENT = r'\#.*'
@@ -45,10 +45,11 @@ def t_REAL(t):
 def t_LITERAL(t):
   r'aux_literal'
   return t
+  
 
 lexer = lex.lex()
 
-lexer.input(' Pfda "fdipoasjfpodsa" fdasjipfpoasd and 0.0 0.1 0.2 3.2132 fjdpasjfd or 0x932AFfd89 jfdopajifd *** 0o31278 0o8 ::= 0b001 0B111 111 01 #fjdpoajfpoijdasofjas')
+lexer.input(' Pfda \"fdipoasjfpodsa\" fdasjipfpoasd and 0.0 0.1 0.2 3.2132 fjdpasjfd or 0x932AFfd89 jfdopajifd *** 0o31278 0o8 ::= 0b001 0B111 111 01 #fjdpoajfpoijdasofjas')
 
 
 for tok in lexer:
