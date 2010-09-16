@@ -1,3 +1,4 @@
+#coding: utf-8
 import ply.lex as lex
 from ply.lex import TOKEN
 
@@ -45,12 +46,13 @@ def t_REAL(t):
 def t_LITERAL(t):
   r'aux_literal'
   return t
+
+def t_error(t):
+  raise Exception(u"Erro na linha %s - %s - símbolo inválido" % (t.lexer.lineno, t.value[0]))
+
+def t_newline(t):
+  r'(\r|\n)+'
+  t.lexer.lineno += 1
   
-
-lexer = lex.lex()
-
-lexer.input(' Pfda \"fdipoasjfpodsa\" fdasjipfpoasd and 0.0 0.1 0.2 3.2132 fjdpasjfd or 0x932AFfd89 jfdopajifd *** 0o31278 0o8 ::= 0b001 0B111 111 01 #fjdpoajfpoijdasofjas')
-
-
-for tok in lexer:
-  print tok
+def lexer():
+  return lex.lex()

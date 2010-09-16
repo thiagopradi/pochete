@@ -10,7 +10,11 @@
 from PyQt4 import QtCore, QtGui
 from PyQt4 import Qsci
 import icons_rc
-
+from lexer import lexer
+tokens = {"ID":"identificador", "RESERVADO":"palavra reservada", "INTEIRO":"constante inteira", 
+          "BINARIO":"constante binária", "OCTAL":"constante octal", "HEXADECIMAL":"constante hexadecimal",
+           "REAL":"constante real", "LITERAL":"constante literal", "SIMBOLO":u"símbolo especial" }
+           
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         # teste
@@ -44,7 +48,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("Consolas")
         font.setFixedPitch(True)
-        font.setPointSize(10)
+        font.setPointSize(14)
         # the font metrics here will help
         # building the margin width later
         fm = QtGui.QFontMetrics(font)
@@ -244,7 +248,16 @@ class Ui_MainWindow(object):
             self._updateStatusbar()
     
     def _compile(self):
-        QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
+        self.plainTextEdit.clear()
+        var_lex = lexer()
+        var_lex.input(str(self.editor.text()))
+        try:
+          self.plainTextEdit.appendPlainText("linha\tclasse\t\ttoken")
+          for token in var_lex:
+            self.plainTextEdit.appendPlainText("%s\t%s\t%s" % (token.lineno, tokens[token.type], token.value))
+          self.plainTextEdit.appendPlainText("Programa compilado com sucesso")
+        except Exception, e:
+          self.plainTextEdit.setPlainText(unicode(e))
     
     def _generate(self):
         QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
