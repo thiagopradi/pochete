@@ -10,12 +10,17 @@ minuscula_digito = r'[0-9a-z]'
 digito = r'[0-9]'
 positivo = r'[1-9]'
 aux_id = r'%s(%s %s?)*|%s(%s?%s)*%s?' % (maiuscula, minuscula_digito, maiuscula, minuscula, maiuscula,minuscula_digito, maiuscula)
-aux_literal = r"\'[^\n\']*\'|" + r'\"[^\"]\"'
+aux_literal = r'"[^"]*"' + r"|'[^\r\n]*'"
 
 t_SIMBOLO = r'\(|\)|\[|\]|,|;|:=|==|:|!=|<|<=|>|>=|\+|-|\*\*|\*|/|&|%'  
-t_ignore_COMMENT = r'\#.*'
 t_INTEIRO = r'0|%s%s*' % (positivo, digito)
 t_ignore = ' \t'
+
+
+def t_ignore_COMMENT(t):
+  r'\#.*'
+  t.lexer.lineno += 1
+  pass
 
 @TOKEN(aux_id)
 def t_ID(t):
@@ -45,10 +50,16 @@ def t_REAL(t):
 @TOKEN(aux_literal)
 def t_LITERAL(t):
   r'aux_literal'
+  t.lexer.lineno += len(t.value.split("\r\n")) - 1
+  t.value = t.value.replace("\r\n", r"\r\n")
+  
   return t
 
 def t_error(t):
-  raise Exception(u"Erro na linha %s - %s - símbolo inválido" % (t.lexer.lineno, t.value[0]))
+  if(t.value.strip() in ['"', "'"]):
+    raise Exception(u"Erro na linha %s - constante literal não finalizada" % t.lexer.lineno)
+  else:
+    raise Exception(u"Erro na linha %s - %s - símbolo inválido" % (t.lexer.lineno, t.value[0]))
 
 def t_newline(t):
   r'(\r|\n)+'
