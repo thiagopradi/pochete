@@ -1,4 +1,6 @@
 #coding: utf-8
+import os
+
 import ply.lex as lex
 from ply.lex import TOKEN
 
@@ -11,6 +13,7 @@ digito = r'[0-9]'
 positivo = r'[1-9]'
 aux_id = r'%s(%s %s?)*|%s(%s?%s)*%s?' % (maiuscula, minuscula_digito, maiuscula, minuscula, maiuscula,minuscula_digito, maiuscula)
 aux_literal = r'"[^"]*"' + r"|'[^\r\n]*'"
+new_line = (r"\n" if os.name == 'posix' else r"\r\n") # TODO: testar no mac e no windows
 
 t_SIMBOLO = r'\(|\)|\[|\]|,|;|:=|==|:|!=|<|<=|>|>=|\+|-|\*\*|\*|/|&|%'  
 t_INTEIRO = r'0|%s%s*' % (positivo, digito)
@@ -61,8 +64,9 @@ def t_error(t):
   else:
     raise Exception(u"Erro na linha %s - %s - símbolo inválido" % (t.lexer.lineno, t.value[0]))
 
+@TOKEN(new_line)
 def t_newline(t):
-  r'(\r|\n)+'
+  r'new_line'
   t.lexer.lineno += 1
   
 def lexer():
