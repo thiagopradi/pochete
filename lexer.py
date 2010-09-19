@@ -53,8 +53,8 @@ def t_REAL(t):
 @TOKEN(aux_literal)
 def t_LITERAL(t):
   r'aux_literal'
-  t.lexer.lineno += len(t.value.split("\r\n")) - 1
-  t.value = t.value.replace("\r\n", r"\r\n")
+  t.lexer.lineno += len(t.value.split(os.linesep)) - 1 # TODO: testar no windows e no linux
+  t.value = t.value.replace(os.linesep, r"\n") # como eh so pra exibicao pode ser \n mesmo =D
   
   return t
 
