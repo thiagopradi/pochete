@@ -66,6 +66,8 @@ class Ui_MainWindow(object):
         ## Editing line color
         self.editor.setCaretLineVisible(True)
         self.editor.setCaretLineBackgroundColor(QtGui.QColor("#e8e8ff"))
+
+        self.editor.setUtf8(True)
         # fim alteracoes
         
         self.plainTextEdit = QtGui.QPlainTextEdit(self.centralwidget)
@@ -250,14 +252,17 @@ class Ui_MainWindow(object):
     def _compile(self):
         self.plainTextEdit.clear()
         var_lex = lexer()
-        var_lex.input(str(self.editor.text()))
+        var_lex.input(unicode(self.editor.text()))
         try:
           self.plainTextEdit.appendPlainText("linha\tclasse\t\ttoken")
           for token in var_lex:
-            self.plainTextEdit.appendPlainText("%s\t%s\t%s" % (token.lineno, tokens[token.type], token.value))
+              self.plainTextEdit.appendPlainText("%s\t%s\t%s" % (token.lineno, tokens[token.type], token.value))
           self.plainTextEdit.appendPlainText("Programa compilado com sucesso")
         except Exception, e:
-          self.plainTextEdit.setPlainText(unicode(e))
+            # XXX: e.message foi depreciado no 2.6, mas a versao windows
+            # XXX: do Pochete Compiler usa python2.5, entao tudo bem! =D
+            # TODO: testar no windows e mac
+            self.plainTextEdit.setPlainText(unicode(e.message))
     
     def _generate(self):
         QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
