@@ -13,7 +13,7 @@ digito = r'[0-9]'
 positivo = r'[1-9]'
 aux_id = r'%s(%s %s?)*|%s(%s?%s)*%s?' % (maiuscula, minuscula_digito, maiuscula, minuscula, maiuscula,minuscula_digito, maiuscula)
 aux_literal = r'"[^"]*"' + r"|'[^\r\n]*'"
-new_line = (r"\n" if os.name == 'posix' else r"\r\n") # TODO: testar no mac e no windows
+new_line = (r"\r\n" if os.name == 'posix' else r"\r\n") # TODO: testar no windows
 
 t_SIMBOLO = r'\(|\)|\[|\]|,|;|:=|==|:|!=|<|<=|>|>=|\+|-|\*\*|\*|/|&|%'  
 t_INTEIRO = r'0|%s%s*' % (positivo, digito)
