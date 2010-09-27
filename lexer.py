@@ -13,7 +13,7 @@ digito = r'[0-9]'
 positivo = r'[1-9]'
 aux_id = r'%s(%s %s?)*|%s(%s?%s)*%s?' % (maiuscula, minuscula_digito, maiuscula, minuscula, maiuscula,minuscula_digito, maiuscula)
 aux_literal = r'"[^"]*"' + r"|'[^\r\n]*'"
-new_line = (r"\r\n" if os.name == 'posix' else r"\r\n") # TODO: testar no windows
+new_line = (r"\r\n" if os.name == 'posix' else r"\r\n")
 
 t_SIMBOLO = r'\(|\)|\[|\]|,|;|:=|==|:|!=|<|<=|>|>=|\+|-|\*\*|\*|/|&|%'  
 t_INTEIRO = r'0|%s%s*' % (positivo, digito)
@@ -53,13 +53,13 @@ def t_REAL(t):
 @TOKEN(aux_literal)
 def t_LITERAL(t):
   r'aux_literal'
-  t.lexer.lineno += len(t.value.split(os.linesep)) - 1 # TODO: testar no windows e no linux
-  t.value = t.value.replace(os.linesep, r"\n") # como eh so pra exibicao pode ser \n mesmo =D
+  t.lexer.lineno += len(t.value.split(os.linesep)) - 1
+  t.value = t.value.replace(os.linesep, r"\n")
   
   return t
 
 def t_error(t):
-  if(t.value.strip() in ['"', "'"]):
+  if(t.value.strip()[0] in ['"', "'"]):
     raise Exception(u"Erro na linha %s - constante literal não finalizada" % t.lexer.lineno)
   else:
     raise Exception(u"Erro na linha %s - %s - símbolo inválido" % (t.lexer.lineno, t.value[0]))
