@@ -21,7 +21,7 @@ t_ignore = ' \t'
 
 
 def t_ignore_COMMENT(t):
-  r'\#.*'
+  r'\#.*\r\n'
   t.lexer.lineno += 1
   pass
 
