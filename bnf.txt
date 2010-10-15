@@ -1,0 +1,61 @@
+Recursão a esquerda 
+
+<expressão> ::= <valor> <expressão1>
+<expressão1> ::= <> | or <valor> <expressão1> | and <valor> <expressão1>
+<valor> ::= <relacional> | true | false | not <valor>
+<relacional> ::= <aritmética> <operador> <aritmética> | <aritmética>
+<operador> ::= == | != | < | <= | > | >=
+<aritmética> ::= <termo> <aritmética1>
+<aritmética1> ::= <> | + <termo> <aritmética1> | - <termo> <aritmética1>
+<termo> ::= <fator> <termo1>
+<termo1> ::= <> | * <fator> <termo1> | / <fator> <termo1> | % <fator> <termo1>
+<fator> ::= <elemento> <fator1>
+<fator1> ::= <> | ** <elemento> <fator1>
+<elemento> ::= identificador | constante_inteira | constante_real | constante_literal | ( <expressão> ) | + <elemento> | - <elemento>
+
+
+Não determinismo esquerda - direto e indireto
+
+<expressão> ::= <valor> <expressão1>
+<expressão1> ::= <> | or <valor> <expressão1> | and <valor> <expressão1>
+<valor> ::= <relacional> | true | false | not <valor>
+<relacional> ::= <aritmética> <relacional1>
+<relacional1> ::= <operador> <aritmética> | <>
+<operador> ::= == | != | < | <= | > | >=
+<aritmética> ::= <termo> <aritmética1>
+<aritmética1> ::= <> | + <termo> <aritmética1> | - <termo> <aritmética1>
+<termo> ::= <fator> <termo1>
+<termo1> ::= <> | * <fator> <termo1> | / <fator> <termo1> | % <fator> <termo1>
+<fator> ::= <elemento> <fator1>
+<fator1> ::= <> | ** <elemento> <fator1>
+<elemento> ::= identificador | constante_inteira | constante_real | constante_literal | ( <expressão> ) | + <elemento> | - <elemento>
+
+
+==========================================================================================================================================================================================================================================================================================================================
+ Nova:
+ 
+<programa> ::= def identificador : [<lista de comandos>]
+<lista de comandos> ::= <comando> | <comando> <lista de comandos>
+<comando> ::= <comando de atribuição> | <comando de entrada> | <comando de saida> | <comando de seleção> | <comando de repetição>
+<lista de identificadores> ::= identificador | identificador <lista de identificadores>
+<lista de expressões> ::= <expressão> | <expressão> , <lista de expressões>
+<comando de atribuição> ::= <lista de identificadores> := <expressão>;
+<comando de entrada> ::= input( <lista de identificadores> );
+<comando de saída> ::= output( <lista de expressões> );
+<comando de seleção> ::= if <expressão> : [ <lista de comandos>] <elif> <else>;
+<elif> ::= <> | elif <expressão> : [ <lista de comandos> ] <elif>
+<else> ::= <> | else: [ <lista de comandos> ]
+<comando de repetição> ::= while <expressão> : [ <lista de comandos>] <else>;
+<expressão> ::= <valor> <expressão1>
+<expressão1> ::= <> | or <valor> <expressão1> | and <valor> <expressão1>
+<valor> ::= <relacional> | true | false | not <valor>
+<relacional> ::= <aritmética> <relacional1>
+<relacional1> ::= <operador> <aritmética> | <>
+<operador> ::= == | != | < | <= | > | >=
+<aritmética> ::= <termo> <aritmética1>
+<aritmética1> ::= <> | + <termo> <aritmética1> | - <termo> <aritmética1>
+<termo> ::= <fator> <termo1>
+<termo1> ::= <> | * <fator> <termo1> | / <fator> <termo1> | % <fator> <termo1>
+<fator> ::= <elemento> <fator1>
+<fator1> ::= <> | ** <elemento> <fator1>
+<elemento> ::= identificador | constante_inteira | constante_real | constante_literal | ( <expressão> ) | + <elemento> | - <elemento>
