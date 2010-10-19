@@ -35,10 +35,13 @@ Não determinismo esquerda - direto e indireto
  Nova:
  
 <programa> ::= def identificador : [<lista de comandos>]
-<lista de comandos> ::= <comando> | <comando> <lista de comandos>
+<lista de comandos> ::= <comando> <lista de comandos1>
+<lista de comandos1> ::= <> | <lista de comandos>
 <comando> ::= <comando de atribuição> | <comando de entrada> | <comando de saida> | <comando de seleção> | <comando de repetição>
-<lista de identificadores> ::= identificador | identificador <lista de identificadores>
-<lista de expressões> ::= <expressão> | <expressão> , <lista de expressões>
+<lista de identificadores> ::= identificador <lista de indentificadores1>
+<lista de indentificadores1> ::= <> | <lista de identificadores>
+<lista de expressões> ::= <expressão> <lista de expressões1>
+<lista de expressões1> ::= , <lista de expressões> | <>
 <comando de atribuição> ::= <lista de identificadores> := <expressão>;
 <comando de entrada> ::= input( <lista de identificadores> );
 <comando de saída> ::= output( <lista de expressões> );
