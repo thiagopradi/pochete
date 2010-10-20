@@ -29,7 +29,7 @@ t_SIM_DIF = r'=='
 t_INTEIRO = r'0|%s%s*' % (positivo, digito)
 t_ignore = ' \t\n'
 
-literals = [';', ':', ',', '[', ']', '(', ')', '+', '-', '*']
+literals = [';', ':', ',', '[', ']', '(', ')', '+', '-', '*', '/', '%']
 
 
 def t_ignore_COMMENT(t):

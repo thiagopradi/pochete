@@ -170,6 +170,9 @@ s = """def teste: [
 		] else : [
 		  ba := ba+3;
 		];
+	
+		ba := ((1+2) * 3);
+		ba := 3.0 / 2.0;
 		
 		#else: [
 		#  bff := ff+2;
