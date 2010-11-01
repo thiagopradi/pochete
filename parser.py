@@ -150,32 +150,38 @@ def p_elemento(p):
                 | '-' elemento"""
     pass
 
+def p_error(t):
+    # TODO - caracter esperado
+    raise Exception(u"Erro na linha %s - encontrado %s" % (t.lineno, t.value))
+
 parser = yacc.yacc()
-s = """def teste: [
-		output(1);
-		input(a, b);
-		output(a);
-		y := 1 + 2;
-		ba := 32 * 33;
-		if a : [
-		  ba := ba + 3;
-		] elif a : [
-		  ba := ba+3;
-		] else: [
-		  ba := ba+3;
-		];
-		
-		while a: [
-		  ba:= ba+3;
-		] else : [
-		  ba := ba+3;
-		];
-	
-		ba := ((1+2) * 3);
-		ba := 3.0 / 2.0;
-		
-		#else: [
-		#  bff := ff+2;
-		#];
-	]"""
-print parser.parse(s, lexer=lexer())
+
+if __name__ == '__main__':
+    s = """def teste: [
+		    output(1);
+		    input(a, b);
+		    output(a);
+		    y := 1 + 2;
+		    ba := 32 * 33;
+		    if a : [
+		    ba := ba + 3;
+		    ] elif a : [
+		    ba := ba+3;
+		    ] else: [
+		    ba := ba+3;
+		    ];
+		    
+		    while a: [
+		    ba:= ba+3;
+		    ] else : [
+		    ba := ba+3;
+		    ];
+	    
+		    ba := ((1+2) * 3);
+		    ba := 3.0 / 2.0;
+		    
+		    #else: [
+		    #  bff := ff+2;
+		    #];
+	    ]"""
+    print parser.parse(s, lexer=lexer())

@@ -11,6 +11,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4 import Qsci
 import icons_rc
 from lexer import lexer
+from parser import parser
 tokens = {"ID":"identificador", "RESERVADO":"palavra reservada", "INTEIRO":"constante inteira", 
           "BINARIO":"constante binária", "OCTAL":"constante octal", "HEXADECIMAL":"constante hexadecimal",
            "REAL":"constante real", "LITERAL":"constante literal", "SIMBOLO":u"símbolo especial" }
@@ -252,17 +253,12 @@ class Ui_MainWindow(object):
     def _compile(self):
         self.plainTextEdit.clear()
         var_lex = lexer()
-        var_lex.input(unicode(self.editor.text()))
         try:
-          self.plainTextEdit.appendPlainText("linha\tclasse\t\ttoken")
-          for token in var_lex:
-              self.plainTextEdit.appendPlainText("%s\t%s\t%s" % (token.lineno, tokens[token.type], token.value))
+          parser.parse(str(self.editor.text()), var_lex)
           self.plainTextEdit.appendPlainText("Programa compilado com sucesso")
         except Exception, e:
-            # XXX: e.message foi depreciado no 2.6, mas a versao windows
-            # XXX: do Pochete Compiler usa python2.5, entao tudo bem! =D
-            # TODO: testar no windows e mac
-            self.plainTextEdit.setPlainText(unicode(e.message))
+          # TODO: testar no windows e mac
+          self.plainTextEdit.setPlainText(unicode(e.message))
     
     def _generate(self):
         QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")

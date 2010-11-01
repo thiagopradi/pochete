@@ -25,7 +25,7 @@ t_SIM_ATTR = r':='
 t_SIM_POT = r'\*\*'
 t_SIM_GE = r'>='
 t_SIM_LE = r'<='
-t_SIM_DIF = r'=='
+t_SIM_DIF = r'=!'
 t_INTEIRO = r'0|%s%s*' % (positivo, digito)
 t_ignore = ' \t\n'
 
