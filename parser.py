@@ -5,7 +5,7 @@ from lexer import tokens, lexer
 def p_programa(p):
     "programa : DEF ID ':' '[' listacmd ']'"
     pass
-
+    
 def p_empty(p):
     "empty :"
     pass
@@ -79,11 +79,21 @@ def p_expressao(p):
     "expressao : valor expressao1"
     pass
 
+def p_expressao_error(t):
+    "expressao : error expressao1"
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
+
 def p_expressao1(p):
     """expressao1 : empty
                 | OR valor expressao1
                 | AND valor expressao1"""
     pass
+
+def p_expressao1_error(t):
+    """expressao1 : empty
+                | OR error expressao1
+                | AND error expressao1"""    
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
 def p_valor(p):
     """valor : relacional
@@ -92,14 +102,30 @@ def p_valor(p):
            | NOT valor"""
     pass
 
+def p_valor_error(t):
+    """valor : relacional
+           | TRUE
+           | FALSE
+           | NOT valor"""
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
+
 def p_relacional(p):
     "relacional : aritmetica relacional1"
     pass
+
+def p_relacional_error(t):
+    "relacional : aritmetica relacional1"
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
 def p_relacional1(p):
     """relacional1 : operador aritmetica
                  | empty"""
     pass
+
+def p_relacional1_error(t):
+    """relacional1 : operador aritmetica
+                 | empty"""
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
 def p_operador(p):
     """operador : SIM_EQ
@@ -110,9 +136,22 @@ def p_operador(p):
               | SIM_GE"""
     pass
 
+def p_operador_error(t):
+    """operador : SIM_EQ
+              | SIM_DIF
+              | '<'
+              | SIM_LE
+              | '>'
+              | SIM_GE"""
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
+
 def p_aritmetica(p):
     "aritmetica : termo aritmetica1"
     pass
+    
+def p_aritmetica_error(t):
+    "aritmetica : termo aritmetica1"  
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
 def p_aritmetica1(p):
     """aritmetica1 : empty
@@ -120,9 +159,19 @@ def p_aritmetica1(p):
                    | '-' termo aritmetica1"""
     pass
 
+def p_aritmetica1_error(t):
+    """aritmetica1 : empty
+                   | '+' termo aritmetica1
+                   | '-' termo aritmetica1"""
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
+
 def p_termo(p):
     "termo : fator termo1"
     pass
+
+def p_termo_error(t):
+    "termo : fator termo1"
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
 def p_termo1(p):
     """termo1 : empty
@@ -131,14 +180,30 @@ def p_termo1(p):
               | '%' fator termo1"""
     pass
 
+def p_termo1_error(t):
+    """termo1 : empty
+            | '*' fator termo1
+            | '/' fator termo1
+            | '%' fator termo1"""
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
+
 def p_fator(p):
     "fator : elemento fator1"
     pass
+    
+def p_fator_error(t):
+    "fator : elemento fator1"
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
 def p_fator1(p):
     """fator1 : empty
               | SIM_POT elemento fator1"""
     pass
+
+def p_fator1_error(t):
+    """fator1 : empty
+            | SIM_POT elemento fator1"""
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
 def p_elemento(p):
     """elemento : ID
@@ -150,8 +215,18 @@ def p_elemento(p):
                 | '-' elemento"""
     pass
 
+def p_elemento_error(t):
+  """elemento : ID
+              | INTEIRO
+              | REAL
+              | LITERAL
+              | '(' expressao ')'
+              | '+' elemento
+              | '-' elemento"""
+  raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
+
+
 def p_error(t):
-    # TODO - caracter esperado
     raise Exception(u"Erro na linha %s - encontrado %s" % (t.lineno, t.value))
 
 parser = yacc.yacc()
