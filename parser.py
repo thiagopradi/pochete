@@ -79,10 +79,6 @@ def p_expressao(p):
     "expressao : valor expressao1"
     pass
 
-def p_expressao_error(t):
-    "expressao : error expressao1"
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
-
 def p_expressao1(p):
     """expressao1 : empty
                 | OR valor expressao1
@@ -91,9 +87,8 @@ def p_expressao1(p):
 
 def p_expressao1_error(t):
     """expressao1 : empty
-                | OR error expressao1
-                | AND error expressao1"""    
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
+                | error valor expressao1"""    
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado AND ou OR" % (t.lineno, t.value))
 
 def p_valor(p):
     """valor : relacional
@@ -103,11 +98,9 @@ def p_valor(p):
     pass
 
 def p_valor_error(t):
-    """valor : relacional
-           | TRUE
-           | FALSE
-           | NOT valor"""
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
+    """valor : error
+           | error valor"""
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado TRUE, FALSE ou NOT" % (t.lineno, t.value))
 
 def p_relacional(p):
     "relacional : aritmetica relacional1"
@@ -137,13 +130,8 @@ def p_operador(p):
     pass
 
 def p_operador_error(t):
-    """operador : SIM_EQ
-              | SIM_DIF
-              | '<'
-              | SIM_LE
-              | '>'
-              | SIM_GE"""
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
+    """operador : error"""
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado operador lógico" % (t.lineno, t.value))
 
 def p_aritmetica(p):
     "aritmetica : termo aritmetica1"
@@ -216,15 +204,11 @@ def p_elemento(p):
     pass
 
 def p_elemento_error(t):
-  """elemento : ID
-              | INTEIRO
-              | REAL
-              | LITERAL
-              | '(' expressao ')'
-              | '+' elemento
-              | '-' elemento"""
+  """elemento : error
+              | error expressao error
+              | error elemento
+              | error elemento"""
   raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
-
 
 def p_error(t):
     raise Exception(u"Erro na linha %s - encontrado %s" % (t.lineno, t.value))
