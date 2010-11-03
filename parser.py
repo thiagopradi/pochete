@@ -58,16 +58,14 @@ def p_cmdsaida(p):
     pass
 
 def p_cmdsaida_error(t):
-    "cmdsaida : OUTPUT '(' listaexp error ';'"
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado )" % (t.lineno(4), t[4].value))
-
-def p_cmdsaida1_error(t):
-    "cmdsaida : OUTPUT error listaexp ')' ';'"
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado (" % (t.lineno(2), t[2].value))
-
-def p_cmdsaida2_error(t):
-    "cmdsaida : OUTPUT '(' listaexp ')' error"
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado ;" % (t.lineno(5), t[5].value))
+    """cmdsaida : OUTPUT '(' listaexp error ';' 
+    | OUTPUT error listaexp ')' ';' 
+    | OUTPUT '(' listaexp ')' error    """
+    erros = {2:"(",4:")", 5:";"}
+    for token in t[1:]:
+      print token
+      if token == "error":
+        raise Exception(u"Erro na linha %s - encontrado %s, esperado )" % ('1', token.value))
 
 def p_cmdselecao(p):
     "cmdselecao : IF expressao ':' '[' listacmd ']' elif else ';'"
