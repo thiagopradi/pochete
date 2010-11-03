@@ -1,1 +1,3107 @@
 Created by PLY version 3.3 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    HEXADECIMAL
+    SIMBOLO
+    RESERVADO
+    OCTAL
+    BINARIO
+
+Grammar
+
+Rule 0     S' -> programa
+Rule 1     programa -> DEF ID : [ listacmd ]
+Rule 2     empty -> <empty>
+Rule 3     listacmd -> comando listacmd1
+Rule 4     listacmd1 -> empty
+Rule 5     listacmd1 -> listacmd
+Rule 6     comando -> cmdatribui
+Rule 7     comando -> cmdentrada
+Rule 8     comando -> cmdsaida
+Rule 9     comando -> cmdselecao
+Rule 10    comando -> cmdrepeticao
+Rule 11    listaidenti -> ID listaindenti1
+Rule 12    listaindenti1 -> empty
+Rule 13    listaindenti1 -> , listaidenti
+Rule 14    listaexp -> expressao listaexp1
+Rule 15    listaexp1 -> , listaexp
+Rule 16    listaexp1 -> empty
+Rule 17    cmdatribui -> listaidenti SIM_ATTR expressao ;
+Rule 18    cmdentrada -> INPUT ( listaidenti ) ;
+Rule 19    cmdsaida -> OUTPUT ( listaexp ) ;
+Rule 20    cmdsaida -> OUTPUT ( listaexp error ;
+Rule 21    cmdselecao -> IF expressao : [ listacmd ] elif else ;
+Rule 22    elif -> empty
+Rule 23    elif -> ELIF expressao : [ listacmd ] elif
+Rule 24    else -> empty
+Rule 25    else -> ELSE : [ listacmd ]
+Rule 26    cmdrepeticao -> WHILE expressao : [ listacmd ] else ;
+Rule 27    expressao -> valor expressao1
+Rule 28    expressao1 -> empty
+Rule 29    expressao1 -> OR valor expressao1
+Rule 30    expressao1 -> AND valor expressao1
+Rule 31    expressao1 -> error valor expressao1
+Rule 32    valor -> relacional
+Rule 33    valor -> TRUE
+Rule 34    valor -> FALSE
+Rule 35    valor -> NOT valor
+Rule 36    valor -> error
+Rule 37    valor -> error valor
+Rule 38    relacional -> aritmetica relacional1
+Rule 39    relacional1 -> operador aritmetica
+Rule 40    relacional1 -> empty
+Rule 41    operador -> SIM_EQ
+Rule 42    operador -> SIM_DIF
+Rule 43    operador -> <
+Rule 44    operador -> SIM_LE
+Rule 45    operador -> >
+Rule 46    operador -> SIM_GE
+Rule 47    operador -> error
+Rule 48    aritmetica -> termo aritmetica1
+Rule 49    aritmetica1 -> empty
+Rule 50    aritmetica1 -> + termo aritmetica1
+Rule 51    aritmetica1 -> - termo aritmetica1
+Rule 52    termo -> fator termo1
+Rule 53    termo1 -> empty
+Rule 54    termo1 -> * fator termo1
+Rule 55    termo1 -> / fator termo1
+Rule 56    termo1 -> % fator termo1
+Rule 57    fator -> elemento fator1
+Rule 58    fator1 -> empty
+Rule 59    fator1 -> SIM_POT elemento fator1
+Rule 60    elemento -> ID
+Rule 61    elemento -> INTEIRO
+Rule 62    elemento -> REAL
+Rule 63    elemento -> LITERAL
+Rule 64    elemento -> ( expressao )
+Rule 65    elemento -> + elemento
+Rule 66    elemento -> - elemento
+Rule 67    elemento -> error
+Rule 68    elemento -> error expressao error
+Rule 69    elemento -> error elemento
+
+Terminals, with rules where they appear
+
+%                    : 56
+(                    : 18 19 20 64
+)                    : 18 19 64
+*                    : 54
++                    : 50 65
+,                    : 13 15
+-                    : 51 66
+/                    : 55
+:                    : 1 21 23 25 26
+;                    : 17 18 19 20 21 26
+<                    : 43
+>                    : 45
+AND                  : 30
+BINARIO              : 
+DEF                  : 1
+ELIF                 : 23
+ELSE                 : 25
+FALSE                : 34
+HEXADECIMAL          : 
+ID                   : 1 11 60
+IF                   : 21
+INPUT                : 18
+INTEIRO              : 61
+LITERAL              : 63
+NOT                  : 35
+OCTAL                : 
+OR                   : 29
+OUTPUT               : 19 20
+REAL                 : 62
+RESERVADO            : 
+SIMBOLO              : 
+SIM_ATTR             : 17
+SIM_DIF              : 42
+SIM_EQ               : 41
+SIM_GE               : 46
+SIM_LE               : 44
+SIM_POT              : 59
+TRUE                 : 33
+WHILE                : 26
+[                    : 1 21 23 25 26
+]                    : 1 21 23 25 26
+error                : 20 31 36 37 47 67 68 68 69
+
+Nonterminals, with rules where they appear
+
+aritmetica           : 38 39
+aritmetica1          : 48 50 51
+cmdatribui           : 6
+cmdentrada           : 7
+cmdrepeticao         : 10
+cmdsaida             : 8
+cmdselecao           : 9
+comando              : 3
+elemento             : 57 59 65 66 69
+elif                 : 21 23
+else                 : 21 26
+empty                : 4 12 16 22 24 28 40 49 53 58
+expressao            : 14 17 21 23 26 64 68
+expressao1           : 27 29 30 31
+fator                : 52 54 55 56
+fator1               : 57 59
+listacmd             : 1 5 21 23 25 26
+listacmd1            : 3
+listaexp             : 15 19 20
+listaexp1            : 14
+listaidenti          : 13 17 18
+listaindenti1        : 11
+operador             : 39
+programa             : 0
+relacional           : 32
+relacional1          : 38
+termo                : 48 50 51
+termo1               : 52 54 55 56
+valor                : 27 29 30 31 35 37
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . programa
+    (1) programa -> . DEF ID : [ listacmd ]
+
+    DEF             shift and go to state 2
+
+    programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> programa .
+
+
+
+state 2
+
+    (1) programa -> DEF . ID : [ listacmd ]
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) programa -> DEF ID . : [ listacmd ]
+
+    :               shift and go to state 4
+
+
+state 4
+
+    (1) programa -> DEF ID : . [ listacmd ]
+
+    [               shift and go to state 5
+
+
+state 5
+
+    (1) programa -> DEF ID : [ . listacmd ]
+    (3) listacmd -> . comando listacmd1
+    (6) comando -> . cmdatribui
+    (7) comando -> . cmdentrada
+    (8) comando -> . cmdsaida
+    (9) comando -> . cmdselecao
+    (10) comando -> . cmdrepeticao
+    (17) cmdatribui -> . listaidenti SIM_ATTR expressao ;
+    (18) cmdentrada -> . INPUT ( listaidenti ) ;
+    (19) cmdsaida -> . OUTPUT ( listaexp ) ;
+    (20) cmdsaida -> . OUTPUT ( listaexp error ;
+    (21) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
+    (26) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
+    (11) listaidenti -> . ID listaindenti1
+
+    INPUT           shift and go to state 13
+    OUTPUT          shift and go to state 18
+    IF              shift and go to state 15
+    WHILE           shift and go to state 8
+    ID              shift and go to state 14
+
+    listaidenti                    shift and go to state 12
+    cmdrepeticao                   shift and go to state 16
+    cmdselecao                     shift and go to state 6
+    cmdentrada                     shift and go to state 7
+    listacmd                       shift and go to state 9
+    cmdsaida                       shift and go to state 11
+    comando                        shift and go to state 17
+    cmdatribui                     shift and go to state 10
+
+state 6
+
+    (9) comando -> cmdselecao .
+
+    INPUT           reduce using rule 9 (comando -> cmdselecao .)
+    OUTPUT          reduce using rule 9 (comando -> cmdselecao .)
+    IF              reduce using rule 9 (comando -> cmdselecao .)
+    WHILE           reduce using rule 9 (comando -> cmdselecao .)
+    ID              reduce using rule 9 (comando -> cmdselecao .)
+    ]               reduce using rule 9 (comando -> cmdselecao .)
+
+
+state 7
+
+    (7) comando -> cmdentrada .
+
+    INPUT           reduce using rule 7 (comando -> cmdentrada .)
+    OUTPUT          reduce using rule 7 (comando -> cmdentrada .)
+    IF              reduce using rule 7 (comando -> cmdentrada .)
+    WHILE           reduce using rule 7 (comando -> cmdentrada .)
+    ID              reduce using rule 7 (comando -> cmdentrada .)
+    ]               reduce using rule 7 (comando -> cmdentrada .)
+
+
+state 8
+
+    (26) cmdrepeticao -> WHILE . expressao : [ listacmd ] else ;
+    (27) expressao -> . valor expressao1
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    aritmetica                     shift and go to state 26
+    expressao                      shift and go to state 23
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    valor                          shift and go to state 28
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 9
+
+    (1) programa -> DEF ID : [ listacmd . ]
+
+    ]               shift and go to state 37
+
+
+state 10
+
+    (6) comando -> cmdatribui .
+
+    INPUT           reduce using rule 6 (comando -> cmdatribui .)
+    OUTPUT          reduce using rule 6 (comando -> cmdatribui .)
+    IF              reduce using rule 6 (comando -> cmdatribui .)
+    WHILE           reduce using rule 6 (comando -> cmdatribui .)
+    ID              reduce using rule 6 (comando -> cmdatribui .)
+    ]               reduce using rule 6 (comando -> cmdatribui .)
+
+
+state 11
+
+    (8) comando -> cmdsaida .
+
+    INPUT           reduce using rule 8 (comando -> cmdsaida .)
+    OUTPUT          reduce using rule 8 (comando -> cmdsaida .)
+    IF              reduce using rule 8 (comando -> cmdsaida .)
+    WHILE           reduce using rule 8 (comando -> cmdsaida .)
+    ID              reduce using rule 8 (comando -> cmdsaida .)
+    ]               reduce using rule 8 (comando -> cmdsaida .)
+
+
+state 12
+
+    (17) cmdatribui -> listaidenti . SIM_ATTR expressao ;
+
+    SIM_ATTR        shift and go to state 38
+
+
+state 13
+
+    (18) cmdentrada -> INPUT . ( listaidenti ) ;
+
+    (               shift and go to state 39
+
+
+state 14
+
+    (11) listaidenti -> ID . listaindenti1
+    (12) listaindenti1 -> . empty
+    (13) listaindenti1 -> . , listaidenti
+    (2) empty -> .
+
+    ,               shift and go to state 42
+    SIM_ATTR        reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+
+    listaindenti1                  shift and go to state 40
+    empty                          shift and go to state 41
+
+state 15
+
+    (21) cmdselecao -> IF . expressao : [ listacmd ] elif else ;
+    (27) expressao -> . valor expressao1
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    aritmetica                     shift and go to state 26
+    expressao                      shift and go to state 43
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    valor                          shift and go to state 28
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 16
+
+    (10) comando -> cmdrepeticao .
+
+    INPUT           reduce using rule 10 (comando -> cmdrepeticao .)
+    OUTPUT          reduce using rule 10 (comando -> cmdrepeticao .)
+    IF              reduce using rule 10 (comando -> cmdrepeticao .)
+    WHILE           reduce using rule 10 (comando -> cmdrepeticao .)
+    ID              reduce using rule 10 (comando -> cmdrepeticao .)
+    ]               reduce using rule 10 (comando -> cmdrepeticao .)
+
+
+state 17
+
+    (3) listacmd -> comando . listacmd1
+    (4) listacmd1 -> . empty
+    (5) listacmd1 -> . listacmd
+    (2) empty -> .
+    (3) listacmd -> . comando listacmd1
+    (6) comando -> . cmdatribui
+    (7) comando -> . cmdentrada
+    (8) comando -> . cmdsaida
+    (9) comando -> . cmdselecao
+    (10) comando -> . cmdrepeticao
+    (17) cmdatribui -> . listaidenti SIM_ATTR expressao ;
+    (18) cmdentrada -> . INPUT ( listaidenti ) ;
+    (19) cmdsaida -> . OUTPUT ( listaexp ) ;
+    (20) cmdsaida -> . OUTPUT ( listaexp error ;
+    (21) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
+    (26) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
+    (11) listaidenti -> . ID listaindenti1
+
+    ]               reduce using rule 2 (empty -> .)
+    INPUT           shift and go to state 13
+    OUTPUT          shift and go to state 18
+    IF              shift and go to state 15
+    WHILE           shift and go to state 8
+    ID              shift and go to state 14
+
+    listaidenti                    shift and go to state 12
+    cmdrepeticao                   shift and go to state 16
+    listacmd1                      shift and go to state 45
+    cmdselecao                     shift and go to state 6
+    cmdentrada                     shift and go to state 7
+    listacmd                       shift and go to state 44
+    cmdsaida                       shift and go to state 11
+    empty                          shift and go to state 46
+    comando                        shift and go to state 17
+    cmdatribui                     shift and go to state 10
+
+state 18
+
+    (19) cmdsaida -> OUTPUT . ( listaexp ) ;
+    (20) cmdsaida -> OUTPUT . ( listaexp error ;
+
+    (               shift and go to state 47
+
+
+state 19
+
+    (62) elemento -> REAL .
+
+    SIM_POT         reduce using rule 62 (elemento -> REAL .)
+    *               reduce using rule 62 (elemento -> REAL .)
+    /               reduce using rule 62 (elemento -> REAL .)
+    %               reduce using rule 62 (elemento -> REAL .)
+    +               reduce using rule 62 (elemento -> REAL .)
+    -               reduce using rule 62 (elemento -> REAL .)
+    SIM_EQ          reduce using rule 62 (elemento -> REAL .)
+    SIM_DIF         reduce using rule 62 (elemento -> REAL .)
+    <               reduce using rule 62 (elemento -> REAL .)
+    SIM_LE          reduce using rule 62 (elemento -> REAL .)
+    >               reduce using rule 62 (elemento -> REAL .)
+    SIM_GE          reduce using rule 62 (elemento -> REAL .)
+    error           reduce using rule 62 (elemento -> REAL .)
+    OR              reduce using rule 62 (elemento -> REAL .)
+    AND             reduce using rule 62 (elemento -> REAL .)
+    :               reduce using rule 62 (elemento -> REAL .)
+    )               reduce using rule 62 (elemento -> REAL .)
+    ;               reduce using rule 62 (elemento -> REAL .)
+    ,               reduce using rule 62 (elemento -> REAL .)
+
+
+state 20
+
+    (66) elemento -> - . elemento
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 48
+
+    elemento                       shift and go to state 49
+
+state 21
+
+    (33) valor -> TRUE .
+
+    OR              reduce using rule 33 (valor -> TRUE .)
+    AND             reduce using rule 33 (valor -> TRUE .)
+    error           reduce using rule 33 (valor -> TRUE .)
+    )               reduce using rule 33 (valor -> TRUE .)
+    ,               reduce using rule 33 (valor -> TRUE .)
+    :               reduce using rule 33 (valor -> TRUE .)
+    ;               reduce using rule 33 (valor -> TRUE .)
+
+
+state 22
+
+    (61) elemento -> INTEIRO .
+
+    SIM_POT         reduce using rule 61 (elemento -> INTEIRO .)
+    *               reduce using rule 61 (elemento -> INTEIRO .)
+    /               reduce using rule 61 (elemento -> INTEIRO .)
+    %               reduce using rule 61 (elemento -> INTEIRO .)
+    +               reduce using rule 61 (elemento -> INTEIRO .)
+    -               reduce using rule 61 (elemento -> INTEIRO .)
+    SIM_EQ          reduce using rule 61 (elemento -> INTEIRO .)
+    SIM_DIF         reduce using rule 61 (elemento -> INTEIRO .)
+    <               reduce using rule 61 (elemento -> INTEIRO .)
+    SIM_LE          reduce using rule 61 (elemento -> INTEIRO .)
+    >               reduce using rule 61 (elemento -> INTEIRO .)
+    SIM_GE          reduce using rule 61 (elemento -> INTEIRO .)
+    error           reduce using rule 61 (elemento -> INTEIRO .)
+    OR              reduce using rule 61 (elemento -> INTEIRO .)
+    AND             reduce using rule 61 (elemento -> INTEIRO .)
+    :               reduce using rule 61 (elemento -> INTEIRO .)
+    )               reduce using rule 61 (elemento -> INTEIRO .)
+    ;               reduce using rule 61 (elemento -> INTEIRO .)
+    ,               reduce using rule 61 (elemento -> INTEIRO .)
+
+
+state 23
+
+    (26) cmdrepeticao -> WHILE expressao . : [ listacmd ] else ;
+
+    :               shift and go to state 50
+
+
+state 24
+
+    (65) elemento -> + . elemento
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 48
+
+    elemento                       shift and go to state 51
+
+state 25
+
+    (52) termo -> fator . termo1
+    (53) termo1 -> . empty
+    (54) termo1 -> . * fator termo1
+    (55) termo1 -> . / fator termo1
+    (56) termo1 -> . % fator termo1
+    (2) empty -> .
+
+    *               shift and go to state 54
+    /               shift and go to state 55
+    %               shift and go to state 53
+    +               reduce using rule 2 (empty -> .)
+    -               reduce using rule 2 (empty -> .)
+    SIM_EQ          reduce using rule 2 (empty -> .)
+    SIM_DIF         reduce using rule 2 (empty -> .)
+    <               reduce using rule 2 (empty -> .)
+    SIM_LE          reduce using rule 2 (empty -> .)
+    >               reduce using rule 2 (empty -> .)
+    SIM_GE          reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+    termo1                         shift and go to state 52
+    empty                          shift and go to state 56
+
+state 26
+
+    (38) relacional -> aritmetica . relacional1
+    (39) relacional1 -> . operador aritmetica
+    (40) relacional1 -> . empty
+    (41) operador -> . SIM_EQ
+    (42) operador -> . SIM_DIF
+    (43) operador -> . <
+    (44) operador -> . SIM_LE
+    (45) operador -> . >
+    (46) operador -> . SIM_GE
+    (47) operador -> . error
+    (2) empty -> .
+
+  ! shift/reduce conflict for error resolved as shift
+    SIM_EQ          shift and go to state 57
+    SIM_DIF         shift and go to state 60
+    <               shift and go to state 64
+    SIM_LE          shift and go to state 66
+    >               shift and go to state 63
+    SIM_GE          shift and go to state 59
+    error           shift and go to state 61
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+  ! error           [ reduce using rule 2 (empty -> .) ]
+
+    relacional1                    shift and go to state 62
+    operador                       shift and go to state 58
+    empty                          shift and go to state 65
+
+state 27
+
+    (64) elemento -> ( . expressao )
+    (27) expressao -> . valor expressao1
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    expressao                      shift and go to state 67
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 28
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 28
+
+    (27) expressao -> valor . expressao1
+    (28) expressao1 -> . empty
+    (29) expressao1 -> . OR valor expressao1
+    (30) expressao1 -> . AND valor expressao1
+    (31) expressao1 -> . error valor expressao1
+    (2) empty -> .
+
+  ! shift/reduce conflict for error resolved as shift
+    OR              shift and go to state 71
+    AND             shift and go to state 68
+    error           shift and go to state 69
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+  ! error           [ reduce using rule 2 (empty -> .) ]
+
+    expressao1                     shift and go to state 70
+    empty                          shift and go to state 72
+
+state 29
+
+    (63) elemento -> LITERAL .
+
+    SIM_POT         reduce using rule 63 (elemento -> LITERAL .)
+    *               reduce using rule 63 (elemento -> LITERAL .)
+    /               reduce using rule 63 (elemento -> LITERAL .)
+    %               reduce using rule 63 (elemento -> LITERAL .)
+    +               reduce using rule 63 (elemento -> LITERAL .)
+    -               reduce using rule 63 (elemento -> LITERAL .)
+    SIM_EQ          reduce using rule 63 (elemento -> LITERAL .)
+    SIM_DIF         reduce using rule 63 (elemento -> LITERAL .)
+    <               reduce using rule 63 (elemento -> LITERAL .)
+    SIM_LE          reduce using rule 63 (elemento -> LITERAL .)
+    >               reduce using rule 63 (elemento -> LITERAL .)
+    SIM_GE          reduce using rule 63 (elemento -> LITERAL .)
+    error           reduce using rule 63 (elemento -> LITERAL .)
+    OR              reduce using rule 63 (elemento -> LITERAL .)
+    AND             reduce using rule 63 (elemento -> LITERAL .)
+    :               reduce using rule 63 (elemento -> LITERAL .)
+    )               reduce using rule 63 (elemento -> LITERAL .)
+    ;               reduce using rule 63 (elemento -> LITERAL .)
+    ,               reduce using rule 63 (elemento -> LITERAL .)
+
+
+state 30
+
+    (48) aritmetica -> termo . aritmetica1
+    (49) aritmetica1 -> . empty
+    (50) aritmetica1 -> . + termo aritmetica1
+    (51) aritmetica1 -> . - termo aritmetica1
+    (2) empty -> .
+
+    +               shift and go to state 74
+    -               shift and go to state 75
+    SIM_EQ          reduce using rule 2 (empty -> .)
+    SIM_DIF         reduce using rule 2 (empty -> .)
+    <               reduce using rule 2 (empty -> .)
+    SIM_LE          reduce using rule 2 (empty -> .)
+    >               reduce using rule 2 (empty -> .)
+    SIM_GE          reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+    aritmetica1                    shift and go to state 73
+    empty                          shift and go to state 76
+
+state 31
+
+    (32) valor -> relacional .
+
+    OR              reduce using rule 32 (valor -> relacional .)
+    AND             reduce using rule 32 (valor -> relacional .)
+    error           reduce using rule 32 (valor -> relacional .)
+    )               reduce using rule 32 (valor -> relacional .)
+    ,               reduce using rule 32 (valor -> relacional .)
+    :               reduce using rule 32 (valor -> relacional .)
+    ;               reduce using rule 32 (valor -> relacional .)
+
+
+state 32
+
+    (60) elemento -> ID .
+
+    SIM_POT         reduce using rule 60 (elemento -> ID .)
+    *               reduce using rule 60 (elemento -> ID .)
+    /               reduce using rule 60 (elemento -> ID .)
+    %               reduce using rule 60 (elemento -> ID .)
+    +               reduce using rule 60 (elemento -> ID .)
+    -               reduce using rule 60 (elemento -> ID .)
+    SIM_EQ          reduce using rule 60 (elemento -> ID .)
+    SIM_DIF         reduce using rule 60 (elemento -> ID .)
+    <               reduce using rule 60 (elemento -> ID .)
+    SIM_LE          reduce using rule 60 (elemento -> ID .)
+    >               reduce using rule 60 (elemento -> ID .)
+    SIM_GE          reduce using rule 60 (elemento -> ID .)
+    error           reduce using rule 60 (elemento -> ID .)
+    OR              reduce using rule 60 (elemento -> ID .)
+    AND             reduce using rule 60 (elemento -> ID .)
+    :               reduce using rule 60 (elemento -> ID .)
+    )               reduce using rule 60 (elemento -> ID .)
+    ;               reduce using rule 60 (elemento -> ID .)
+    ,               reduce using rule 60 (elemento -> ID .)
+
+
+state 33
+
+    (57) fator -> elemento . fator1
+    (58) fator1 -> . empty
+    (59) fator1 -> . SIM_POT elemento fator1
+    (2) empty -> .
+
+    SIM_POT         shift and go to state 78
+    *               reduce using rule 2 (empty -> .)
+    /               reduce using rule 2 (empty -> .)
+    %               reduce using rule 2 (empty -> .)
+    +               reduce using rule 2 (empty -> .)
+    -               reduce using rule 2 (empty -> .)
+    SIM_EQ          reduce using rule 2 (empty -> .)
+    SIM_DIF         reduce using rule 2 (empty -> .)
+    <               reduce using rule 2 (empty -> .)
+    SIM_LE          reduce using rule 2 (empty -> .)
+    >               reduce using rule 2 (empty -> .)
+    SIM_GE          reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+    fator1                         shift and go to state 77
+    empty                          shift and go to state 79
+
+state 34
+
+    (34) valor -> FALSE .
+
+    OR              reduce using rule 34 (valor -> FALSE .)
+    AND             reduce using rule 34 (valor -> FALSE .)
+    error           reduce using rule 34 (valor -> FALSE .)
+    )               reduce using rule 34 (valor -> FALSE .)
+    ,               reduce using rule 34 (valor -> FALSE .)
+    :               reduce using rule 34 (valor -> FALSE .)
+    ;               reduce using rule 34 (valor -> FALSE .)
+
+
+state 35
+
+    (36) valor -> error .
+    (37) valor -> error . valor
+    (67) elemento -> error .
+    (68) elemento -> error . expressao error
+    (69) elemento -> error . elemento
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (27) expressao -> . valor expressao1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+
+  ! reduce/reduce conflict for error resolved using rule 36 (valor -> error .)
+  ! reduce/reduce conflict for OR resolved using rule 36 (valor -> error .)
+  ! reduce/reduce conflict for AND resolved using rule 36 (valor -> error .)
+  ! reduce/reduce conflict for ) resolved using rule 36 (valor -> error .)
+  ! reduce/reduce conflict for ; resolved using rule 36 (valor -> error .)
+  ! reduce/reduce conflict for : resolved using rule 36 (valor -> error .)
+  ! reduce/reduce conflict for , resolved using rule 36 (valor -> error .)
+  ! shift/reduce conflict for error resolved as shift
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+    OR              reduce using rule 36 (valor -> error .)
+    AND             reduce using rule 36 (valor -> error .)
+    )               reduce using rule 36 (valor -> error .)
+    ,               reduce using rule 36 (valor -> error .)
+    :               reduce using rule 36 (valor -> error .)
+    ;               reduce using rule 36 (valor -> error .)
+    SIM_POT         reduce using rule 67 (elemento -> error .)
+    *               reduce using rule 67 (elemento -> error .)
+    /               reduce using rule 67 (elemento -> error .)
+    %               reduce using rule 67 (elemento -> error .)
+    SIM_EQ          reduce using rule 67 (elemento -> error .)
+    SIM_DIF         reduce using rule 67 (elemento -> error .)
+    <               reduce using rule 67 (elemento -> error .)
+    SIM_LE          reduce using rule 67 (elemento -> error .)
+    >               reduce using rule 67 (elemento -> error .)
+    SIM_GE          reduce using rule 67 (elemento -> error .)
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+  ! error           [ reduce using rule 36 (valor -> error .) ]
+  ! +               [ reduce using rule 67 (elemento -> error .) ]
+  ! -               [ reduce using rule 67 (elemento -> error .) ]
+  ! error           [ reduce using rule 67 (elemento -> error .) ]
+  ! OR              [ reduce using rule 67 (elemento -> error .) ]
+  ! AND             [ reduce using rule 67 (elemento -> error .) ]
+  ! )               [ reduce using rule 67 (elemento -> error .) ]
+  ! ;               [ reduce using rule 67 (elemento -> error .) ]
+  ! :               [ reduce using rule 67 (elemento -> error .) ]
+  ! ,               [ reduce using rule 67 (elemento -> error .) ]
+
+    expressao                      shift and go to state 80
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 81
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 82
+
+state 36
+
+    (35) valor -> NOT . valor
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 83
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 37
+
+    (1) programa -> DEF ID : [ listacmd ] .
+
+    $end            reduce using rule 1 (programa -> DEF ID : [ listacmd ] .)
+
+
+state 38
+
+    (17) cmdatribui -> listaidenti SIM_ATTR . expressao ;
+    (27) expressao -> . valor expressao1
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    expressao                      shift and go to state 84
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 28
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 39
+
+    (18) cmdentrada -> INPUT ( . listaidenti ) ;
+    (11) listaidenti -> . ID listaindenti1
+
+    ID              shift and go to state 14
+
+    listaidenti                    shift and go to state 85
+
+state 40
+
+    (11) listaidenti -> ID listaindenti1 .
+
+    SIM_ATTR        reduce using rule 11 (listaidenti -> ID listaindenti1 .)
+    )               reduce using rule 11 (listaidenti -> ID listaindenti1 .)
+
+
+state 41
+
+    (12) listaindenti1 -> empty .
+
+    SIM_ATTR        reduce using rule 12 (listaindenti1 -> empty .)
+    )               reduce using rule 12 (listaindenti1 -> empty .)
+
+
+state 42
+
+    (13) listaindenti1 -> , . listaidenti
+    (11) listaidenti -> . ID listaindenti1
+
+    ID              shift and go to state 14
+
+    listaidenti                    shift and go to state 86
+
+state 43
+
+    (21) cmdselecao -> IF expressao . : [ listacmd ] elif else ;
+
+    :               shift and go to state 87
+
+
+state 44
+
+    (5) listacmd1 -> listacmd .
+
+    ]               reduce using rule 5 (listacmd1 -> listacmd .)
+
+
+state 45
+
+    (3) listacmd -> comando listacmd1 .
+
+    ]               reduce using rule 3 (listacmd -> comando listacmd1 .)
+
+
+state 46
+
+    (4) listacmd1 -> empty .
+
+    ]               reduce using rule 4 (listacmd1 -> empty .)
+
+
+state 47
+
+    (19) cmdsaida -> OUTPUT ( . listaexp ) ;
+    (20) cmdsaida -> OUTPUT ( . listaexp error ;
+    (14) listaexp -> . expressao listaexp1
+    (27) expressao -> . valor expressao1
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    expressao                      shift and go to state 88
+    listaexp                       shift and go to state 89
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 28
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 48
+
+    (67) elemento -> error .
+    (68) elemento -> error . expressao error
+    (69) elemento -> error . elemento
+    (27) expressao -> . valor expressao1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for error resolved as shift
+    SIM_POT         reduce using rule 67 (elemento -> error .)
+    *               reduce using rule 67 (elemento -> error .)
+    /               reduce using rule 67 (elemento -> error .)
+    %               reduce using rule 67 (elemento -> error .)
+    SIM_EQ          reduce using rule 67 (elemento -> error .)
+    SIM_DIF         reduce using rule 67 (elemento -> error .)
+    <               reduce using rule 67 (elemento -> error .)
+    SIM_LE          reduce using rule 67 (elemento -> error .)
+    >               reduce using rule 67 (elemento -> error .)
+    SIM_GE          reduce using rule 67 (elemento -> error .)
+    OR              reduce using rule 67 (elemento -> error .)
+    AND             reduce using rule 67 (elemento -> error .)
+    :               reduce using rule 67 (elemento -> error .)
+    )               reduce using rule 67 (elemento -> error .)
+    ;               reduce using rule 67 (elemento -> error .)
+    ,               reduce using rule 67 (elemento -> error .)
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 90
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+
+  ! +               [ reduce using rule 67 (elemento -> error .) ]
+  ! -               [ reduce using rule 67 (elemento -> error .) ]
+  ! error           [ reduce using rule 67 (elemento -> error .) ]
+
+    expressao                      shift and go to state 80
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 28
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 82
+
+state 49
+
+    (66) elemento -> - elemento .
+
+    SIM_POT         reduce using rule 66 (elemento -> - elemento .)
+    *               reduce using rule 66 (elemento -> - elemento .)
+    /               reduce using rule 66 (elemento -> - elemento .)
+    %               reduce using rule 66 (elemento -> - elemento .)
+    +               reduce using rule 66 (elemento -> - elemento .)
+    -               reduce using rule 66 (elemento -> - elemento .)
+    SIM_EQ          reduce using rule 66 (elemento -> - elemento .)
+    SIM_DIF         reduce using rule 66 (elemento -> - elemento .)
+    <               reduce using rule 66 (elemento -> - elemento .)
+    SIM_LE          reduce using rule 66 (elemento -> - elemento .)
+    >               reduce using rule 66 (elemento -> - elemento .)
+    SIM_GE          reduce using rule 66 (elemento -> - elemento .)
+    error           reduce using rule 66 (elemento -> - elemento .)
+    OR              reduce using rule 66 (elemento -> - elemento .)
+    AND             reduce using rule 66 (elemento -> - elemento .)
+    :               reduce using rule 66 (elemento -> - elemento .)
+    )               reduce using rule 66 (elemento -> - elemento .)
+    ;               reduce using rule 66 (elemento -> - elemento .)
+    ,               reduce using rule 66 (elemento -> - elemento .)
+
+
+state 50
+
+    (26) cmdrepeticao -> WHILE expressao : . [ listacmd ] else ;
+
+    [               shift and go to state 91
+
+
+state 51
+
+    (65) elemento -> + elemento .
+
+    SIM_POT         reduce using rule 65 (elemento -> + elemento .)
+    *               reduce using rule 65 (elemento -> + elemento .)
+    /               reduce using rule 65 (elemento -> + elemento .)
+    %               reduce using rule 65 (elemento -> + elemento .)
+    +               reduce using rule 65 (elemento -> + elemento .)
+    -               reduce using rule 65 (elemento -> + elemento .)
+    SIM_EQ          reduce using rule 65 (elemento -> + elemento .)
+    SIM_DIF         reduce using rule 65 (elemento -> + elemento .)
+    <               reduce using rule 65 (elemento -> + elemento .)
+    SIM_LE          reduce using rule 65 (elemento -> + elemento .)
+    >               reduce using rule 65 (elemento -> + elemento .)
+    SIM_GE          reduce using rule 65 (elemento -> + elemento .)
+    error           reduce using rule 65 (elemento -> + elemento .)
+    OR              reduce using rule 65 (elemento -> + elemento .)
+    AND             reduce using rule 65 (elemento -> + elemento .)
+    :               reduce using rule 65 (elemento -> + elemento .)
+    )               reduce using rule 65 (elemento -> + elemento .)
+    ;               reduce using rule 65 (elemento -> + elemento .)
+    ,               reduce using rule 65 (elemento -> + elemento .)
+
+
+state 52
+
+    (52) termo -> fator termo1 .
+
+    +               reduce using rule 52 (termo -> fator termo1 .)
+    -               reduce using rule 52 (termo -> fator termo1 .)
+    SIM_EQ          reduce using rule 52 (termo -> fator termo1 .)
+    SIM_DIF         reduce using rule 52 (termo -> fator termo1 .)
+    <               reduce using rule 52 (termo -> fator termo1 .)
+    SIM_LE          reduce using rule 52 (termo -> fator termo1 .)
+    >               reduce using rule 52 (termo -> fator termo1 .)
+    SIM_GE          reduce using rule 52 (termo -> fator termo1 .)
+    error           reduce using rule 52 (termo -> fator termo1 .)
+    OR              reduce using rule 52 (termo -> fator termo1 .)
+    AND             reduce using rule 52 (termo -> fator termo1 .)
+    )               reduce using rule 52 (termo -> fator termo1 .)
+    :               reduce using rule 52 (termo -> fator termo1 .)
+    ;               reduce using rule 52 (termo -> fator termo1 .)
+    ,               reduce using rule 52 (termo -> fator termo1 .)
+
+
+state 53
+
+    (56) termo1 -> % . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 48
+
+    elemento                       shift and go to state 33
+    fator                          shift and go to state 92
+
+state 54
+
+    (54) termo1 -> * . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 48
+
+    elemento                       shift and go to state 33
+    fator                          shift and go to state 93
+
+state 55
+
+    (55) termo1 -> / . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 48
+
+    elemento                       shift and go to state 33
+    fator                          shift and go to state 94
+
+state 56
+
+    (53) termo1 -> empty .
+
+    +               reduce using rule 53 (termo1 -> empty .)
+    -               reduce using rule 53 (termo1 -> empty .)
+    SIM_EQ          reduce using rule 53 (termo1 -> empty .)
+    SIM_DIF         reduce using rule 53 (termo1 -> empty .)
+    <               reduce using rule 53 (termo1 -> empty .)
+    SIM_LE          reduce using rule 53 (termo1 -> empty .)
+    >               reduce using rule 53 (termo1 -> empty .)
+    SIM_GE          reduce using rule 53 (termo1 -> empty .)
+    error           reduce using rule 53 (termo1 -> empty .)
+    OR              reduce using rule 53 (termo1 -> empty .)
+    AND             reduce using rule 53 (termo1 -> empty .)
+    :               reduce using rule 53 (termo1 -> empty .)
+    )               reduce using rule 53 (termo1 -> empty .)
+    ;               reduce using rule 53 (termo1 -> empty .)
+    ,               reduce using rule 53 (termo1 -> empty .)
+
+
+state 57
+
+    (41) operador -> SIM_EQ .
+
+    ID              reduce using rule 41 (operador -> SIM_EQ .)
+    INTEIRO         reduce using rule 41 (operador -> SIM_EQ .)
+    REAL            reduce using rule 41 (operador -> SIM_EQ .)
+    LITERAL         reduce using rule 41 (operador -> SIM_EQ .)
+    (               reduce using rule 41 (operador -> SIM_EQ .)
+    +               reduce using rule 41 (operador -> SIM_EQ .)
+    -               reduce using rule 41 (operador -> SIM_EQ .)
+    error           reduce using rule 41 (operador -> SIM_EQ .)
+
+
+state 58
+
+    (39) relacional1 -> operador . aritmetica
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 48
+
+    fator                          shift and go to state 25
+    aritmetica                     shift and go to state 95
+    termo                          shift and go to state 30
+    elemento                       shift and go to state 33
+
+state 59
+
+    (46) operador -> SIM_GE .
+
+    ID              reduce using rule 46 (operador -> SIM_GE .)
+    INTEIRO         reduce using rule 46 (operador -> SIM_GE .)
+    REAL            reduce using rule 46 (operador -> SIM_GE .)
+    LITERAL         reduce using rule 46 (operador -> SIM_GE .)
+    (               reduce using rule 46 (operador -> SIM_GE .)
+    +               reduce using rule 46 (operador -> SIM_GE .)
+    -               reduce using rule 46 (operador -> SIM_GE .)
+    error           reduce using rule 46 (operador -> SIM_GE .)
+
+
+state 60
+
+    (42) operador -> SIM_DIF .
+
+    ID              reduce using rule 42 (operador -> SIM_DIF .)
+    INTEIRO         reduce using rule 42 (operador -> SIM_DIF .)
+    REAL            reduce using rule 42 (operador -> SIM_DIF .)
+    LITERAL         reduce using rule 42 (operador -> SIM_DIF .)
+    (               reduce using rule 42 (operador -> SIM_DIF .)
+    +               reduce using rule 42 (operador -> SIM_DIF .)
+    -               reduce using rule 42 (operador -> SIM_DIF .)
+    error           reduce using rule 42 (operador -> SIM_DIF .)
+
+
+state 61
+
+    (47) operador -> error .
+
+    ID              reduce using rule 47 (operador -> error .)
+    INTEIRO         reduce using rule 47 (operador -> error .)
+    REAL            reduce using rule 47 (operador -> error .)
+    LITERAL         reduce using rule 47 (operador -> error .)
+    (               reduce using rule 47 (operador -> error .)
+    +               reduce using rule 47 (operador -> error .)
+    -               reduce using rule 47 (operador -> error .)
+    error           reduce using rule 47 (operador -> error .)
+
+
+state 62
+
+    (38) relacional -> aritmetica relacional1 .
+
+    OR              reduce using rule 38 (relacional -> aritmetica relacional1 .)
+    AND             reduce using rule 38 (relacional -> aritmetica relacional1 .)
+    error           reduce using rule 38 (relacional -> aritmetica relacional1 .)
+    :               reduce using rule 38 (relacional -> aritmetica relacional1 .)
+    )               reduce using rule 38 (relacional -> aritmetica relacional1 .)
+    ;               reduce using rule 38 (relacional -> aritmetica relacional1 .)
+    ,               reduce using rule 38 (relacional -> aritmetica relacional1 .)
+
+
+state 63
+
+    (45) operador -> > .
+
+    ID              reduce using rule 45 (operador -> > .)
+    INTEIRO         reduce using rule 45 (operador -> > .)
+    REAL            reduce using rule 45 (operador -> > .)
+    LITERAL         reduce using rule 45 (operador -> > .)
+    (               reduce using rule 45 (operador -> > .)
+    +               reduce using rule 45 (operador -> > .)
+    -               reduce using rule 45 (operador -> > .)
+    error           reduce using rule 45 (operador -> > .)
+
+
+state 64
+
+    (43) operador -> < .
+
+    ID              reduce using rule 43 (operador -> < .)
+    INTEIRO         reduce using rule 43 (operador -> < .)
+    REAL            reduce using rule 43 (operador -> < .)
+    LITERAL         reduce using rule 43 (operador -> < .)
+    (               reduce using rule 43 (operador -> < .)
+    +               reduce using rule 43 (operador -> < .)
+    -               reduce using rule 43 (operador -> < .)
+    error           reduce using rule 43 (operador -> < .)
+
+
+state 65
+
+    (40) relacional1 -> empty .
+
+    OR              reduce using rule 40 (relacional1 -> empty .)
+    AND             reduce using rule 40 (relacional1 -> empty .)
+    error           reduce using rule 40 (relacional1 -> empty .)
+    :               reduce using rule 40 (relacional1 -> empty .)
+    )               reduce using rule 40 (relacional1 -> empty .)
+    ;               reduce using rule 40 (relacional1 -> empty .)
+    ,               reduce using rule 40 (relacional1 -> empty .)
+
+
+state 66
+
+    (44) operador -> SIM_LE .
+
+    ID              reduce using rule 44 (operador -> SIM_LE .)
+    INTEIRO         reduce using rule 44 (operador -> SIM_LE .)
+    REAL            reduce using rule 44 (operador -> SIM_LE .)
+    LITERAL         reduce using rule 44 (operador -> SIM_LE .)
+    (               reduce using rule 44 (operador -> SIM_LE .)
+    +               reduce using rule 44 (operador -> SIM_LE .)
+    -               reduce using rule 44 (operador -> SIM_LE .)
+    error           reduce using rule 44 (operador -> SIM_LE .)
+
+
+state 67
+
+    (64) elemento -> ( expressao . )
+
+    )               shift and go to state 96
+
+
+state 68
+
+    (30) expressao1 -> AND . valor expressao1
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 97
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 69
+
+    (31) expressao1 -> error . valor expressao1
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 98
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 70
+
+    (27) expressao -> valor expressao1 .
+
+    ,               reduce using rule 27 (expressao -> valor expressao1 .)
+    )               reduce using rule 27 (expressao -> valor expressao1 .)
+    error           reduce using rule 27 (expressao -> valor expressao1 .)
+    :               reduce using rule 27 (expressao -> valor expressao1 .)
+    ;               reduce using rule 27 (expressao -> valor expressao1 .)
+
+
+state 71
+
+    (29) expressao1 -> OR . valor expressao1
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 99
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 72
+
+    (28) expressao1 -> empty .
+
+    :               reduce using rule 28 (expressao1 -> empty .)
+    )               reduce using rule 28 (expressao1 -> empty .)
+    ;               reduce using rule 28 (expressao1 -> empty .)
+    ,               reduce using rule 28 (expressao1 -> empty .)
+    error           reduce using rule 28 (expressao1 -> empty .)
+
+
+state 73
+
+    (48) aritmetica -> termo aritmetica1 .
+
+    SIM_EQ          reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    SIM_DIF         reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    <               reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    SIM_LE          reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    >               reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    SIM_GE          reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    error           reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    OR              reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    AND             reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    :               reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    )               reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    ;               reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+    ,               reduce using rule 48 (aritmetica -> termo aritmetica1 .)
+
+
+state 74
+
+    (50) aritmetica1 -> + . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 48
+
+    fator                          shift and go to state 25
+    termo                          shift and go to state 100
+    elemento                       shift and go to state 33
+
+state 75
+
+    (51) aritmetica1 -> - . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 48
+
+    fator                          shift and go to state 25
+    termo                          shift and go to state 101
+    elemento                       shift and go to state 33
+
+state 76
+
+    (49) aritmetica1 -> empty .
+
+    SIM_EQ          reduce using rule 49 (aritmetica1 -> empty .)
+    SIM_DIF         reduce using rule 49 (aritmetica1 -> empty .)
+    <               reduce using rule 49 (aritmetica1 -> empty .)
+    SIM_LE          reduce using rule 49 (aritmetica1 -> empty .)
+    >               reduce using rule 49 (aritmetica1 -> empty .)
+    SIM_GE          reduce using rule 49 (aritmetica1 -> empty .)
+    error           reduce using rule 49 (aritmetica1 -> empty .)
+    OR              reduce using rule 49 (aritmetica1 -> empty .)
+    AND             reduce using rule 49 (aritmetica1 -> empty .)
+    :               reduce using rule 49 (aritmetica1 -> empty .)
+    )               reduce using rule 49 (aritmetica1 -> empty .)
+    ;               reduce using rule 49 (aritmetica1 -> empty .)
+    ,               reduce using rule 49 (aritmetica1 -> empty .)
+
+
+state 77
+
+    (57) fator -> elemento fator1 .
+
+    *               reduce using rule 57 (fator -> elemento fator1 .)
+    /               reduce using rule 57 (fator -> elemento fator1 .)
+    %               reduce using rule 57 (fator -> elemento fator1 .)
+    +               reduce using rule 57 (fator -> elemento fator1 .)
+    -               reduce using rule 57 (fator -> elemento fator1 .)
+    SIM_EQ          reduce using rule 57 (fator -> elemento fator1 .)
+    SIM_DIF         reduce using rule 57 (fator -> elemento fator1 .)
+    <               reduce using rule 57 (fator -> elemento fator1 .)
+    SIM_LE          reduce using rule 57 (fator -> elemento fator1 .)
+    >               reduce using rule 57 (fator -> elemento fator1 .)
+    SIM_GE          reduce using rule 57 (fator -> elemento fator1 .)
+    error           reduce using rule 57 (fator -> elemento fator1 .)
+    OR              reduce using rule 57 (fator -> elemento fator1 .)
+    AND             reduce using rule 57 (fator -> elemento fator1 .)
+    :               reduce using rule 57 (fator -> elemento fator1 .)
+    )               reduce using rule 57 (fator -> elemento fator1 .)
+    ;               reduce using rule 57 (fator -> elemento fator1 .)
+    ,               reduce using rule 57 (fator -> elemento fator1 .)
+
+
+state 78
+
+    (59) fator1 -> SIM_POT . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 48
+
+    elemento                       shift and go to state 102
+
+state 79
+
+    (58) fator1 -> empty .
+
+    *               reduce using rule 58 (fator1 -> empty .)
+    /               reduce using rule 58 (fator1 -> empty .)
+    %               reduce using rule 58 (fator1 -> empty .)
+    +               reduce using rule 58 (fator1 -> empty .)
+    -               reduce using rule 58 (fator1 -> empty .)
+    SIM_EQ          reduce using rule 58 (fator1 -> empty .)
+    SIM_DIF         reduce using rule 58 (fator1 -> empty .)
+    <               reduce using rule 58 (fator1 -> empty .)
+    SIM_LE          reduce using rule 58 (fator1 -> empty .)
+    >               reduce using rule 58 (fator1 -> empty .)
+    SIM_GE          reduce using rule 58 (fator1 -> empty .)
+    error           reduce using rule 58 (fator1 -> empty .)
+    OR              reduce using rule 58 (fator1 -> empty .)
+    AND             reduce using rule 58 (fator1 -> empty .)
+    :               reduce using rule 58 (fator1 -> empty .)
+    )               reduce using rule 58 (fator1 -> empty .)
+    ;               reduce using rule 58 (fator1 -> empty .)
+    ,               reduce using rule 58 (fator1 -> empty .)
+
+
+state 80
+
+    (68) elemento -> error expressao . error
+
+    error           shift and go to state 103
+
+
+state 81
+
+    (37) valor -> error valor .
+    (27) expressao -> valor . expressao1
+    (28) expressao1 -> . empty
+    (29) expressao1 -> . OR valor expressao1
+    (30) expressao1 -> . AND valor expressao1
+    (31) expressao1 -> . error valor expressao1
+    (2) empty -> .
+
+  ! shift/reduce conflict for OR resolved as shift
+  ! shift/reduce conflict for AND resolved as shift
+  ! shift/reduce conflict for error resolved as shift
+  ! shift/reduce conflict for error resolved as shift
+    )               reduce using rule 37 (valor -> error valor .)
+    ,               reduce using rule 37 (valor -> error valor .)
+    :               reduce using rule 37 (valor -> error valor .)
+    ;               reduce using rule 37 (valor -> error valor .)
+    OR              shift and go to state 71
+    AND             shift and go to state 68
+    error           shift and go to state 69
+
+  ! OR              [ reduce using rule 37 (valor -> error valor .) ]
+  ! AND             [ reduce using rule 37 (valor -> error valor .) ]
+  ! error           [ reduce using rule 37 (valor -> error valor .) ]
+  ! error           [ reduce using rule 2 (empty -> .) ]
+
+    expressao1                     shift and go to state 70
+    empty                          shift and go to state 72
+
+state 82
+
+    (69) elemento -> error elemento .
+    (57) fator -> elemento . fator1
+    (58) fator1 -> . empty
+    (59) fator1 -> . SIM_POT elemento fator1
+    (2) empty -> .
+
+  ! shift/reduce conflict for SIM_POT resolved as shift
+  ! reduce/reduce conflict for * resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for / resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for % resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for + resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for - resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for SIM_EQ resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for SIM_DIF resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for < resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for SIM_LE resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for > resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for SIM_GE resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for error resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for OR resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for AND resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for : resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for ) resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for ; resolved using rule 2 (empty -> .)
+  ! reduce/reduce conflict for , resolved using rule 2 (empty -> .)
+    SIM_POT         shift and go to state 78
+    *               reduce using rule 2 (empty -> .)
+    /               reduce using rule 2 (empty -> .)
+    %               reduce using rule 2 (empty -> .)
+    +               reduce using rule 2 (empty -> .)
+    -               reduce using rule 2 (empty -> .)
+    SIM_EQ          reduce using rule 2 (empty -> .)
+    SIM_DIF         reduce using rule 2 (empty -> .)
+    <               reduce using rule 2 (empty -> .)
+    SIM_LE          reduce using rule 2 (empty -> .)
+    >               reduce using rule 2 (empty -> .)
+    SIM_GE          reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+  ! SIM_POT         [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! *               [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! /               [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! %               [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! +               [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! -               [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! SIM_EQ          [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! SIM_DIF         [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! <               [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! SIM_LE          [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! >               [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! SIM_GE          [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! error           [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! OR              [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! AND             [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! :               [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! )               [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! ;               [ reduce using rule 69 (elemento -> error elemento .) ]
+  ! ,               [ reduce using rule 69 (elemento -> error elemento .) ]
+
+    fator1                         shift and go to state 77
+    empty                          shift and go to state 79
+
+state 83
+
+    (35) valor -> NOT valor .
+
+    OR              reduce using rule 35 (valor -> NOT valor .)
+    AND             reduce using rule 35 (valor -> NOT valor .)
+    error           reduce using rule 35 (valor -> NOT valor .)
+    )               reduce using rule 35 (valor -> NOT valor .)
+    ,               reduce using rule 35 (valor -> NOT valor .)
+    :               reduce using rule 35 (valor -> NOT valor .)
+    ;               reduce using rule 35 (valor -> NOT valor .)
+
+
+state 84
+
+    (17) cmdatribui -> listaidenti SIM_ATTR expressao . ;
+
+    ;               shift and go to state 104
+
+
+state 85
+
+    (18) cmdentrada -> INPUT ( listaidenti . ) ;
+
+    )               shift and go to state 105
+
+
+state 86
+
+    (13) listaindenti1 -> , listaidenti .
+
+    SIM_ATTR        reduce using rule 13 (listaindenti1 -> , listaidenti .)
+    )               reduce using rule 13 (listaindenti1 -> , listaidenti .)
+
+
+state 87
+
+    (21) cmdselecao -> IF expressao : . [ listacmd ] elif else ;
+
+    [               shift and go to state 106
+
+
+state 88
+
+    (14) listaexp -> expressao . listaexp1
+    (15) listaexp1 -> . , listaexp
+    (16) listaexp1 -> . empty
+    (2) empty -> .
+
+    ,               shift and go to state 109
+    )               reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+
+    listaexp1                      shift and go to state 107
+    empty                          shift and go to state 108
+
+state 89
+
+    (19) cmdsaida -> OUTPUT ( listaexp . ) ;
+    (20) cmdsaida -> OUTPUT ( listaexp . error ;
+
+    )               shift and go to state 110
+    error           shift and go to state 111
+
+
+state 90
+
+    (67) elemento -> error .
+    (68) elemento -> error . expressao error
+    (69) elemento -> error . elemento
+    (36) valor -> error .
+    (37) valor -> error . valor
+    (27) expressao -> . valor expressao1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+
+  ! reduce/reduce conflict for OR resolved using rule 36 (valor -> error .)
+  ! reduce/reduce conflict for AND resolved using rule 36 (valor -> error .)
+  ! reduce/reduce conflict for error resolved using rule 36 (valor -> error .)
+  ! shift/reduce conflict for + resolved as shift
+  ! shift/reduce conflict for - resolved as shift
+  ! shift/reduce conflict for error resolved as shift
+    SIM_POT         reduce using rule 67 (elemento -> error .)
+    *               reduce using rule 67 (elemento -> error .)
+    /               reduce using rule 67 (elemento -> error .)
+    %               reduce using rule 67 (elemento -> error .)
+    SIM_EQ          reduce using rule 67 (elemento -> error .)
+    SIM_DIF         reduce using rule 67 (elemento -> error .)
+    <               reduce using rule 67 (elemento -> error .)
+    SIM_LE          reduce using rule 67 (elemento -> error .)
+    >               reduce using rule 67 (elemento -> error .)
+    SIM_GE          reduce using rule 67 (elemento -> error .)
+    :               reduce using rule 67 (elemento -> error .)
+    )               reduce using rule 67 (elemento -> error .)
+    ;               reduce using rule 67 (elemento -> error .)
+    ,               reduce using rule 67 (elemento -> error .)
+    OR              reduce using rule 36 (valor -> error .)
+    AND             reduce using rule 36 (valor -> error .)
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+    error           shift and go to state 90
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+
+  ! +               [ reduce using rule 67 (elemento -> error .) ]
+  ! -               [ reduce using rule 67 (elemento -> error .) ]
+  ! error           [ reduce using rule 67 (elemento -> error .) ]
+  ! OR              [ reduce using rule 67 (elemento -> error .) ]
+  ! AND             [ reduce using rule 67 (elemento -> error .) ]
+  ! error           [ reduce using rule 36 (valor -> error .) ]
+
+    expressao                      shift and go to state 80
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 81
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 82
+
+state 91
+
+    (26) cmdrepeticao -> WHILE expressao : [ . listacmd ] else ;
+    (3) listacmd -> . comando listacmd1
+    (6) comando -> . cmdatribui
+    (7) comando -> . cmdentrada
+    (8) comando -> . cmdsaida
+    (9) comando -> . cmdselecao
+    (10) comando -> . cmdrepeticao
+    (17) cmdatribui -> . listaidenti SIM_ATTR expressao ;
+    (18) cmdentrada -> . INPUT ( listaidenti ) ;
+    (19) cmdsaida -> . OUTPUT ( listaexp ) ;
+    (20) cmdsaida -> . OUTPUT ( listaexp error ;
+    (21) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
+    (26) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
+    (11) listaidenti -> . ID listaindenti1
+
+    INPUT           shift and go to state 13
+    OUTPUT          shift and go to state 18
+    IF              shift and go to state 15
+    WHILE           shift and go to state 8
+    ID              shift and go to state 14
+
+    listaidenti                    shift and go to state 12
+    cmdrepeticao                   shift and go to state 16
+    cmdselecao                     shift and go to state 6
+    cmdentrada                     shift and go to state 7
+    listacmd                       shift and go to state 112
+    cmdsaida                       shift and go to state 11
+    comando                        shift and go to state 17
+    cmdatribui                     shift and go to state 10
+
+state 92
+
+    (56) termo1 -> % fator . termo1
+    (53) termo1 -> . empty
+    (54) termo1 -> . * fator termo1
+    (55) termo1 -> . / fator termo1
+    (56) termo1 -> . % fator termo1
+    (2) empty -> .
+
+    *               shift and go to state 54
+    /               shift and go to state 55
+    %               shift and go to state 53
+    +               reduce using rule 2 (empty -> .)
+    -               reduce using rule 2 (empty -> .)
+    SIM_EQ          reduce using rule 2 (empty -> .)
+    SIM_DIF         reduce using rule 2 (empty -> .)
+    <               reduce using rule 2 (empty -> .)
+    SIM_LE          reduce using rule 2 (empty -> .)
+    >               reduce using rule 2 (empty -> .)
+    SIM_GE          reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+    termo1                         shift and go to state 113
+    empty                          shift and go to state 56
+
+state 93
+
+    (54) termo1 -> * fator . termo1
+    (53) termo1 -> . empty
+    (54) termo1 -> . * fator termo1
+    (55) termo1 -> . / fator termo1
+    (56) termo1 -> . % fator termo1
+    (2) empty -> .
+
+    *               shift and go to state 54
+    /               shift and go to state 55
+    %               shift and go to state 53
+    +               reduce using rule 2 (empty -> .)
+    -               reduce using rule 2 (empty -> .)
+    SIM_EQ          reduce using rule 2 (empty -> .)
+    SIM_DIF         reduce using rule 2 (empty -> .)
+    <               reduce using rule 2 (empty -> .)
+    SIM_LE          reduce using rule 2 (empty -> .)
+    >               reduce using rule 2 (empty -> .)
+    SIM_GE          reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+    termo1                         shift and go to state 114
+    empty                          shift and go to state 56
+
+state 94
+
+    (55) termo1 -> / fator . termo1
+    (53) termo1 -> . empty
+    (54) termo1 -> . * fator termo1
+    (55) termo1 -> . / fator termo1
+    (56) termo1 -> . % fator termo1
+    (2) empty -> .
+
+    *               shift and go to state 54
+    /               shift and go to state 55
+    %               shift and go to state 53
+    +               reduce using rule 2 (empty -> .)
+    -               reduce using rule 2 (empty -> .)
+    SIM_EQ          reduce using rule 2 (empty -> .)
+    SIM_DIF         reduce using rule 2 (empty -> .)
+    <               reduce using rule 2 (empty -> .)
+    SIM_LE          reduce using rule 2 (empty -> .)
+    >               reduce using rule 2 (empty -> .)
+    SIM_GE          reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+    termo1                         shift and go to state 115
+    empty                          shift and go to state 56
+
+state 95
+
+    (39) relacional1 -> operador aritmetica .
+
+    OR              reduce using rule 39 (relacional1 -> operador aritmetica .)
+    AND             reduce using rule 39 (relacional1 -> operador aritmetica .)
+    error           reduce using rule 39 (relacional1 -> operador aritmetica .)
+    :               reduce using rule 39 (relacional1 -> operador aritmetica .)
+    )               reduce using rule 39 (relacional1 -> operador aritmetica .)
+    ;               reduce using rule 39 (relacional1 -> operador aritmetica .)
+    ,               reduce using rule 39 (relacional1 -> operador aritmetica .)
+
+
+state 96
+
+    (64) elemento -> ( expressao ) .
+
+    SIM_POT         reduce using rule 64 (elemento -> ( expressao ) .)
+    *               reduce using rule 64 (elemento -> ( expressao ) .)
+    /               reduce using rule 64 (elemento -> ( expressao ) .)
+    %               reduce using rule 64 (elemento -> ( expressao ) .)
+    +               reduce using rule 64 (elemento -> ( expressao ) .)
+    -               reduce using rule 64 (elemento -> ( expressao ) .)
+    SIM_EQ          reduce using rule 64 (elemento -> ( expressao ) .)
+    SIM_DIF         reduce using rule 64 (elemento -> ( expressao ) .)
+    <               reduce using rule 64 (elemento -> ( expressao ) .)
+    SIM_LE          reduce using rule 64 (elemento -> ( expressao ) .)
+    >               reduce using rule 64 (elemento -> ( expressao ) .)
+    SIM_GE          reduce using rule 64 (elemento -> ( expressao ) .)
+    error           reduce using rule 64 (elemento -> ( expressao ) .)
+    OR              reduce using rule 64 (elemento -> ( expressao ) .)
+    AND             reduce using rule 64 (elemento -> ( expressao ) .)
+    :               reduce using rule 64 (elemento -> ( expressao ) .)
+    )               reduce using rule 64 (elemento -> ( expressao ) .)
+    ;               reduce using rule 64 (elemento -> ( expressao ) .)
+    ,               reduce using rule 64 (elemento -> ( expressao ) .)
+
+
+state 97
+
+    (30) expressao1 -> AND valor . expressao1
+    (28) expressao1 -> . empty
+    (29) expressao1 -> . OR valor expressao1
+    (30) expressao1 -> . AND valor expressao1
+    (31) expressao1 -> . error valor expressao1
+    (2) empty -> .
+
+  ! shift/reduce conflict for error resolved as shift
+    OR              shift and go to state 71
+    AND             shift and go to state 68
+    error           shift and go to state 69
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+  ! error           [ reduce using rule 2 (empty -> .) ]
+
+    expressao1                     shift and go to state 116
+    empty                          shift and go to state 72
+
+state 98
+
+    (31) expressao1 -> error valor . expressao1
+    (28) expressao1 -> . empty
+    (29) expressao1 -> . OR valor expressao1
+    (30) expressao1 -> . AND valor expressao1
+    (31) expressao1 -> . error valor expressao1
+    (2) empty -> .
+
+  ! shift/reduce conflict for error resolved as shift
+    OR              shift and go to state 71
+    AND             shift and go to state 68
+    error           shift and go to state 69
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+  ! error           [ reduce using rule 2 (empty -> .) ]
+
+    expressao1                     shift and go to state 117
+    empty                          shift and go to state 72
+
+state 99
+
+    (29) expressao1 -> OR valor . expressao1
+    (28) expressao1 -> . empty
+    (29) expressao1 -> . OR valor expressao1
+    (30) expressao1 -> . AND valor expressao1
+    (31) expressao1 -> . error valor expressao1
+    (2) empty -> .
+
+  ! shift/reduce conflict for error resolved as shift
+    OR              shift and go to state 71
+    AND             shift and go to state 68
+    error           shift and go to state 69
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+  ! error           [ reduce using rule 2 (empty -> .) ]
+
+    expressao1                     shift and go to state 118
+    empty                          shift and go to state 72
+
+state 100
+
+    (50) aritmetica1 -> + termo . aritmetica1
+    (49) aritmetica1 -> . empty
+    (50) aritmetica1 -> . + termo aritmetica1
+    (51) aritmetica1 -> . - termo aritmetica1
+    (2) empty -> .
+
+    +               shift and go to state 74
+    -               shift and go to state 75
+    SIM_EQ          reduce using rule 2 (empty -> .)
+    SIM_DIF         reduce using rule 2 (empty -> .)
+    <               reduce using rule 2 (empty -> .)
+    SIM_LE          reduce using rule 2 (empty -> .)
+    >               reduce using rule 2 (empty -> .)
+    SIM_GE          reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+    aritmetica1                    shift and go to state 119
+    empty                          shift and go to state 76
+
+state 101
+
+    (51) aritmetica1 -> - termo . aritmetica1
+    (49) aritmetica1 -> . empty
+    (50) aritmetica1 -> . + termo aritmetica1
+    (51) aritmetica1 -> . - termo aritmetica1
+    (2) empty -> .
+
+    +               shift and go to state 74
+    -               shift and go to state 75
+    SIM_EQ          reduce using rule 2 (empty -> .)
+    SIM_DIF         reduce using rule 2 (empty -> .)
+    <               reduce using rule 2 (empty -> .)
+    SIM_LE          reduce using rule 2 (empty -> .)
+    >               reduce using rule 2 (empty -> .)
+    SIM_GE          reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+    aritmetica1                    shift and go to state 120
+    empty                          shift and go to state 76
+
+state 102
+
+    (59) fator1 -> SIM_POT elemento . fator1
+    (58) fator1 -> . empty
+    (59) fator1 -> . SIM_POT elemento fator1
+    (2) empty -> .
+
+    SIM_POT         shift and go to state 78
+    *               reduce using rule 2 (empty -> .)
+    /               reduce using rule 2 (empty -> .)
+    %               reduce using rule 2 (empty -> .)
+    +               reduce using rule 2 (empty -> .)
+    -               reduce using rule 2 (empty -> .)
+    SIM_EQ          reduce using rule 2 (empty -> .)
+    SIM_DIF         reduce using rule 2 (empty -> .)
+    <               reduce using rule 2 (empty -> .)
+    SIM_LE          reduce using rule 2 (empty -> .)
+    >               reduce using rule 2 (empty -> .)
+    SIM_GE          reduce using rule 2 (empty -> .)
+    error           reduce using rule 2 (empty -> .)
+    OR              reduce using rule 2 (empty -> .)
+    AND             reduce using rule 2 (empty -> .)
+    :               reduce using rule 2 (empty -> .)
+    )               reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+    ,               reduce using rule 2 (empty -> .)
+
+    fator1                         shift and go to state 121
+    empty                          shift and go to state 79
+
+state 103
+
+    (68) elemento -> error expressao error .
+
+    SIM_POT         reduce using rule 68 (elemento -> error expressao error .)
+    *               reduce using rule 68 (elemento -> error expressao error .)
+    /               reduce using rule 68 (elemento -> error expressao error .)
+    %               reduce using rule 68 (elemento -> error expressao error .)
+    +               reduce using rule 68 (elemento -> error expressao error .)
+    -               reduce using rule 68 (elemento -> error expressao error .)
+    SIM_EQ          reduce using rule 68 (elemento -> error expressao error .)
+    SIM_DIF         reduce using rule 68 (elemento -> error expressao error .)
+    <               reduce using rule 68 (elemento -> error expressao error .)
+    SIM_LE          reduce using rule 68 (elemento -> error expressao error .)
+    >               reduce using rule 68 (elemento -> error expressao error .)
+    SIM_GE          reduce using rule 68 (elemento -> error expressao error .)
+    error           reduce using rule 68 (elemento -> error expressao error .)
+    OR              reduce using rule 68 (elemento -> error expressao error .)
+    AND             reduce using rule 68 (elemento -> error expressao error .)
+    :               reduce using rule 68 (elemento -> error expressao error .)
+    )               reduce using rule 68 (elemento -> error expressao error .)
+    ;               reduce using rule 68 (elemento -> error expressao error .)
+    ,               reduce using rule 68 (elemento -> error expressao error .)
+
+
+state 104
+
+    (17) cmdatribui -> listaidenti SIM_ATTR expressao ; .
+
+    INPUT           reduce using rule 17 (cmdatribui -> listaidenti SIM_ATTR expressao ; .)
+    OUTPUT          reduce using rule 17 (cmdatribui -> listaidenti SIM_ATTR expressao ; .)
+    IF              reduce using rule 17 (cmdatribui -> listaidenti SIM_ATTR expressao ; .)
+    WHILE           reduce using rule 17 (cmdatribui -> listaidenti SIM_ATTR expressao ; .)
+    ID              reduce using rule 17 (cmdatribui -> listaidenti SIM_ATTR expressao ; .)
+    ]               reduce using rule 17 (cmdatribui -> listaidenti SIM_ATTR expressao ; .)
+
+
+state 105
+
+    (18) cmdentrada -> INPUT ( listaidenti ) . ;
+
+    ;               shift and go to state 122
+
+
+state 106
+
+    (21) cmdselecao -> IF expressao : [ . listacmd ] elif else ;
+    (3) listacmd -> . comando listacmd1
+    (6) comando -> . cmdatribui
+    (7) comando -> . cmdentrada
+    (8) comando -> . cmdsaida
+    (9) comando -> . cmdselecao
+    (10) comando -> . cmdrepeticao
+    (17) cmdatribui -> . listaidenti SIM_ATTR expressao ;
+    (18) cmdentrada -> . INPUT ( listaidenti ) ;
+    (19) cmdsaida -> . OUTPUT ( listaexp ) ;
+    (20) cmdsaida -> . OUTPUT ( listaexp error ;
+    (21) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
+    (26) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
+    (11) listaidenti -> . ID listaindenti1
+
+    INPUT           shift and go to state 13
+    OUTPUT          shift and go to state 18
+    IF              shift and go to state 15
+    WHILE           shift and go to state 8
+    ID              shift and go to state 14
+
+    listaidenti                    shift and go to state 12
+    cmdrepeticao                   shift and go to state 16
+    cmdselecao                     shift and go to state 6
+    cmdentrada                     shift and go to state 7
+    listacmd                       shift and go to state 123
+    cmdsaida                       shift and go to state 11
+    comando                        shift and go to state 17
+    cmdatribui                     shift and go to state 10
+
+state 107
+
+    (14) listaexp -> expressao listaexp1 .
+
+    )               reduce using rule 14 (listaexp -> expressao listaexp1 .)
+    error           reduce using rule 14 (listaexp -> expressao listaexp1 .)
+
+
+state 108
+
+    (16) listaexp1 -> empty .
+
+    )               reduce using rule 16 (listaexp1 -> empty .)
+    error           reduce using rule 16 (listaexp1 -> empty .)
+
+
+state 109
+
+    (15) listaexp1 -> , . listaexp
+    (14) listaexp -> . expressao listaexp1
+    (27) expressao -> . valor expressao1
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    expressao                      shift and go to state 88
+    listaexp                       shift and go to state 124
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    aritmetica                     shift and go to state 26
+    valor                          shift and go to state 28
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 110
+
+    (19) cmdsaida -> OUTPUT ( listaexp ) . ;
+
+    ;               shift and go to state 125
+
+
+state 111
+
+    (20) cmdsaida -> OUTPUT ( listaexp error . ;
+
+    ;               shift and go to state 126
+
+
+state 112
+
+    (26) cmdrepeticao -> WHILE expressao : [ listacmd . ] else ;
+
+    ]               shift and go to state 127
+
+
+state 113
+
+    (56) termo1 -> % fator termo1 .
+
+    +               reduce using rule 56 (termo1 -> % fator termo1 .)
+    -               reduce using rule 56 (termo1 -> % fator termo1 .)
+    SIM_EQ          reduce using rule 56 (termo1 -> % fator termo1 .)
+    SIM_DIF         reduce using rule 56 (termo1 -> % fator termo1 .)
+    <               reduce using rule 56 (termo1 -> % fator termo1 .)
+    SIM_LE          reduce using rule 56 (termo1 -> % fator termo1 .)
+    >               reduce using rule 56 (termo1 -> % fator termo1 .)
+    SIM_GE          reduce using rule 56 (termo1 -> % fator termo1 .)
+    error           reduce using rule 56 (termo1 -> % fator termo1 .)
+    OR              reduce using rule 56 (termo1 -> % fator termo1 .)
+    AND             reduce using rule 56 (termo1 -> % fator termo1 .)
+    :               reduce using rule 56 (termo1 -> % fator termo1 .)
+    )               reduce using rule 56 (termo1 -> % fator termo1 .)
+    ;               reduce using rule 56 (termo1 -> % fator termo1 .)
+    ,               reduce using rule 56 (termo1 -> % fator termo1 .)
+
+
+state 114
+
+    (54) termo1 -> * fator termo1 .
+
+    +               reduce using rule 54 (termo1 -> * fator termo1 .)
+    -               reduce using rule 54 (termo1 -> * fator termo1 .)
+    SIM_EQ          reduce using rule 54 (termo1 -> * fator termo1 .)
+    SIM_DIF         reduce using rule 54 (termo1 -> * fator termo1 .)
+    <               reduce using rule 54 (termo1 -> * fator termo1 .)
+    SIM_LE          reduce using rule 54 (termo1 -> * fator termo1 .)
+    >               reduce using rule 54 (termo1 -> * fator termo1 .)
+    SIM_GE          reduce using rule 54 (termo1 -> * fator termo1 .)
+    error           reduce using rule 54 (termo1 -> * fator termo1 .)
+    OR              reduce using rule 54 (termo1 -> * fator termo1 .)
+    AND             reduce using rule 54 (termo1 -> * fator termo1 .)
+    :               reduce using rule 54 (termo1 -> * fator termo1 .)
+    )               reduce using rule 54 (termo1 -> * fator termo1 .)
+    ;               reduce using rule 54 (termo1 -> * fator termo1 .)
+    ,               reduce using rule 54 (termo1 -> * fator termo1 .)
+
+
+state 115
+
+    (55) termo1 -> / fator termo1 .
+
+    +               reduce using rule 55 (termo1 -> / fator termo1 .)
+    -               reduce using rule 55 (termo1 -> / fator termo1 .)
+    SIM_EQ          reduce using rule 55 (termo1 -> / fator termo1 .)
+    SIM_DIF         reduce using rule 55 (termo1 -> / fator termo1 .)
+    <               reduce using rule 55 (termo1 -> / fator termo1 .)
+    SIM_LE          reduce using rule 55 (termo1 -> / fator termo1 .)
+    >               reduce using rule 55 (termo1 -> / fator termo1 .)
+    SIM_GE          reduce using rule 55 (termo1 -> / fator termo1 .)
+    error           reduce using rule 55 (termo1 -> / fator termo1 .)
+    OR              reduce using rule 55 (termo1 -> / fator termo1 .)
+    AND             reduce using rule 55 (termo1 -> / fator termo1 .)
+    :               reduce using rule 55 (termo1 -> / fator termo1 .)
+    )               reduce using rule 55 (termo1 -> / fator termo1 .)
+    ;               reduce using rule 55 (termo1 -> / fator termo1 .)
+    ,               reduce using rule 55 (termo1 -> / fator termo1 .)
+
+
+state 116
+
+    (30) expressao1 -> AND valor expressao1 .
+
+    :               reduce using rule 30 (expressao1 -> AND valor expressao1 .)
+    )               reduce using rule 30 (expressao1 -> AND valor expressao1 .)
+    ;               reduce using rule 30 (expressao1 -> AND valor expressao1 .)
+    ,               reduce using rule 30 (expressao1 -> AND valor expressao1 .)
+    error           reduce using rule 30 (expressao1 -> AND valor expressao1 .)
+
+
+state 117
+
+    (31) expressao1 -> error valor expressao1 .
+
+    :               reduce using rule 31 (expressao1 -> error valor expressao1 .)
+    )               reduce using rule 31 (expressao1 -> error valor expressao1 .)
+    ;               reduce using rule 31 (expressao1 -> error valor expressao1 .)
+    ,               reduce using rule 31 (expressao1 -> error valor expressao1 .)
+    error           reduce using rule 31 (expressao1 -> error valor expressao1 .)
+
+
+state 118
+
+    (29) expressao1 -> OR valor expressao1 .
+
+    :               reduce using rule 29 (expressao1 -> OR valor expressao1 .)
+    )               reduce using rule 29 (expressao1 -> OR valor expressao1 .)
+    ;               reduce using rule 29 (expressao1 -> OR valor expressao1 .)
+    ,               reduce using rule 29 (expressao1 -> OR valor expressao1 .)
+    error           reduce using rule 29 (expressao1 -> OR valor expressao1 .)
+
+
+state 119
+
+    (50) aritmetica1 -> + termo aritmetica1 .
+
+    SIM_EQ          reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    SIM_DIF         reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    <               reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    SIM_LE          reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    >               reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    SIM_GE          reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    error           reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    OR              reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    AND             reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    :               reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    )               reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    ;               reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+    ,               reduce using rule 50 (aritmetica1 -> + termo aritmetica1 .)
+
+
+state 120
+
+    (51) aritmetica1 -> - termo aritmetica1 .
+
+    SIM_EQ          reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    SIM_DIF         reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    <               reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    SIM_LE          reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    >               reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    SIM_GE          reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    error           reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    OR              reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    AND             reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    :               reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    )               reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    ;               reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+    ,               reduce using rule 51 (aritmetica1 -> - termo aritmetica1 .)
+
+
+state 121
+
+    (59) fator1 -> SIM_POT elemento fator1 .
+
+    *               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    /               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    %               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    +               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    -               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    SIM_EQ          reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    SIM_DIF         reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    <               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    SIM_LE          reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    >               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    SIM_GE          reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    error           reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    OR              reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    AND             reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    :               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    )               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    ;               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+    ,               reduce using rule 59 (fator1 -> SIM_POT elemento fator1 .)
+
+
+state 122
+
+    (18) cmdentrada -> INPUT ( listaidenti ) ; .
+
+    INPUT           reduce using rule 18 (cmdentrada -> INPUT ( listaidenti ) ; .)
+    OUTPUT          reduce using rule 18 (cmdentrada -> INPUT ( listaidenti ) ; .)
+    IF              reduce using rule 18 (cmdentrada -> INPUT ( listaidenti ) ; .)
+    WHILE           reduce using rule 18 (cmdentrada -> INPUT ( listaidenti ) ; .)
+    ID              reduce using rule 18 (cmdentrada -> INPUT ( listaidenti ) ; .)
+    ]               reduce using rule 18 (cmdentrada -> INPUT ( listaidenti ) ; .)
+
+
+state 123
+
+    (21) cmdselecao -> IF expressao : [ listacmd . ] elif else ;
+
+    ]               shift and go to state 128
+
+
+state 124
+
+    (15) listaexp1 -> , listaexp .
+
+    )               reduce using rule 15 (listaexp1 -> , listaexp .)
+    error           reduce using rule 15 (listaexp1 -> , listaexp .)
+
+
+state 125
+
+    (19) cmdsaida -> OUTPUT ( listaexp ) ; .
+
+    INPUT           reduce using rule 19 (cmdsaida -> OUTPUT ( listaexp ) ; .)
+    OUTPUT          reduce using rule 19 (cmdsaida -> OUTPUT ( listaexp ) ; .)
+    IF              reduce using rule 19 (cmdsaida -> OUTPUT ( listaexp ) ; .)
+    WHILE           reduce using rule 19 (cmdsaida -> OUTPUT ( listaexp ) ; .)
+    ID              reduce using rule 19 (cmdsaida -> OUTPUT ( listaexp ) ; .)
+    ]               reduce using rule 19 (cmdsaida -> OUTPUT ( listaexp ) ; .)
+
+
+state 126
+
+    (20) cmdsaida -> OUTPUT ( listaexp error ; .
+
+    INPUT           reduce using rule 20 (cmdsaida -> OUTPUT ( listaexp error ; .)
+    OUTPUT          reduce using rule 20 (cmdsaida -> OUTPUT ( listaexp error ; .)
+    IF              reduce using rule 20 (cmdsaida -> OUTPUT ( listaexp error ; .)
+    WHILE           reduce using rule 20 (cmdsaida -> OUTPUT ( listaexp error ; .)
+    ID              reduce using rule 20 (cmdsaida -> OUTPUT ( listaexp error ; .)
+    ]               reduce using rule 20 (cmdsaida -> OUTPUT ( listaexp error ; .)
+
+
+state 127
+
+    (26) cmdrepeticao -> WHILE expressao : [ listacmd ] . else ;
+    (24) else -> . empty
+    (25) else -> . ELSE : [ listacmd ]
+    (2) empty -> .
+
+    ELSE            shift and go to state 129
+    ;               reduce using rule 2 (empty -> .)
+
+    empty                          shift and go to state 131
+    else                           shift and go to state 130
+
+state 128
+
+    (21) cmdselecao -> IF expressao : [ listacmd ] . elif else ;
+    (22) elif -> . empty
+    (23) elif -> . ELIF expressao : [ listacmd ] elif
+    (2) empty -> .
+
+    ELIF            shift and go to state 133
+    ELSE            reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+
+    elif                           shift and go to state 132
+    empty                          shift and go to state 134
+
+state 129
+
+    (25) else -> ELSE . : [ listacmd ]
+
+    :               shift and go to state 135
+
+
+state 130
+
+    (26) cmdrepeticao -> WHILE expressao : [ listacmd ] else . ;
+
+    ;               shift and go to state 136
+
+
+state 131
+
+    (24) else -> empty .
+
+    ;               reduce using rule 24 (else -> empty .)
+
+
+state 132
+
+    (21) cmdselecao -> IF expressao : [ listacmd ] elif . else ;
+    (24) else -> . empty
+    (25) else -> . ELSE : [ listacmd ]
+    (2) empty -> .
+
+    ELSE            shift and go to state 129
+    ;               reduce using rule 2 (empty -> .)
+
+    empty                          shift and go to state 131
+    else                           shift and go to state 137
+
+state 133
+
+    (23) elif -> ELIF . expressao : [ listacmd ] elif
+    (27) expressao -> . valor expressao1
+    (32) valor -> . relacional
+    (33) valor -> . TRUE
+    (34) valor -> . FALSE
+    (35) valor -> . NOT valor
+    (36) valor -> . error
+    (37) valor -> . error valor
+    (38) relacional -> . aritmetica relacional1
+    (48) aritmetica -> . termo aritmetica1
+    (52) termo -> . fator termo1
+    (57) fator -> . elemento fator1
+    (60) elemento -> . ID
+    (61) elemento -> . INTEIRO
+    (62) elemento -> . REAL
+    (63) elemento -> . LITERAL
+    (64) elemento -> . ( expressao )
+    (65) elemento -> . + elemento
+    (66) elemento -> . - elemento
+    (67) elemento -> . error
+    (68) elemento -> . error expressao error
+    (69) elemento -> . error elemento
+
+    TRUE            shift and go to state 21
+    FALSE           shift and go to state 34
+    NOT             shift and go to state 36
+    error           shift and go to state 35
+    ID              shift and go to state 32
+    INTEIRO         shift and go to state 22
+    REAL            shift and go to state 19
+    LITERAL         shift and go to state 29
+    (               shift and go to state 27
+    +               shift and go to state 24
+    -               shift and go to state 20
+
+    aritmetica                     shift and go to state 26
+    expressao                      shift and go to state 138
+    fator                          shift and go to state 25
+    termo                          shift and go to state 30
+    valor                          shift and go to state 28
+    relacional                     shift and go to state 31
+    elemento                       shift and go to state 33
+
+state 134
+
+    (22) elif -> empty .
+
+    ELSE            reduce using rule 22 (elif -> empty .)
+    ;               reduce using rule 22 (elif -> empty .)
+
+
+state 135
+
+    (25) else -> ELSE : . [ listacmd ]
+
+    [               shift and go to state 139
+
+
+state 136
+
+    (26) cmdrepeticao -> WHILE expressao : [ listacmd ] else ; .
+
+    INPUT           reduce using rule 26 (cmdrepeticao -> WHILE expressao : [ listacmd ] else ; .)
+    OUTPUT          reduce using rule 26 (cmdrepeticao -> WHILE expressao : [ listacmd ] else ; .)
+    IF              reduce using rule 26 (cmdrepeticao -> WHILE expressao : [ listacmd ] else ; .)
+    WHILE           reduce using rule 26 (cmdrepeticao -> WHILE expressao : [ listacmd ] else ; .)
+    ID              reduce using rule 26 (cmdrepeticao -> WHILE expressao : [ listacmd ] else ; .)
+    ]               reduce using rule 26 (cmdrepeticao -> WHILE expressao : [ listacmd ] else ; .)
+
+
+state 137
+
+    (21) cmdselecao -> IF expressao : [ listacmd ] elif else . ;
+
+    ;               shift and go to state 140
+
+
+state 138
+
+    (23) elif -> ELIF expressao . : [ listacmd ] elif
+
+    :               shift and go to state 141
+
+
+state 139
+
+    (25) else -> ELSE : [ . listacmd ]
+    (3) listacmd -> . comando listacmd1
+    (6) comando -> . cmdatribui
+    (7) comando -> . cmdentrada
+    (8) comando -> . cmdsaida
+    (9) comando -> . cmdselecao
+    (10) comando -> . cmdrepeticao
+    (17) cmdatribui -> . listaidenti SIM_ATTR expressao ;
+    (18) cmdentrada -> . INPUT ( listaidenti ) ;
+    (19) cmdsaida -> . OUTPUT ( listaexp ) ;
+    (20) cmdsaida -> . OUTPUT ( listaexp error ;
+    (21) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
+    (26) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
+    (11) listaidenti -> . ID listaindenti1
+
+    INPUT           shift and go to state 13
+    OUTPUT          shift and go to state 18
+    IF              shift and go to state 15
+    WHILE           shift and go to state 8
+    ID              shift and go to state 14
+
+    listaidenti                    shift and go to state 12
+    cmdrepeticao                   shift and go to state 16
+    cmdselecao                     shift and go to state 6
+    cmdentrada                     shift and go to state 7
+    listacmd                       shift and go to state 142
+    cmdsaida                       shift and go to state 11
+    comando                        shift and go to state 17
+    cmdatribui                     shift and go to state 10
+
+state 140
+
+    (21) cmdselecao -> IF expressao : [ listacmd ] elif else ; .
+
+    INPUT           reduce using rule 21 (cmdselecao -> IF expressao : [ listacmd ] elif else ; .)
+    OUTPUT          reduce using rule 21 (cmdselecao -> IF expressao : [ listacmd ] elif else ; .)
+    IF              reduce using rule 21 (cmdselecao -> IF expressao : [ listacmd ] elif else ; .)
+    WHILE           reduce using rule 21 (cmdselecao -> IF expressao : [ listacmd ] elif else ; .)
+    ID              reduce using rule 21 (cmdselecao -> IF expressao : [ listacmd ] elif else ; .)
+    ]               reduce using rule 21 (cmdselecao -> IF expressao : [ listacmd ] elif else ; .)
+
+
+state 141
+
+    (23) elif -> ELIF expressao : . [ listacmd ] elif
+
+    [               shift and go to state 143
+
+
+state 142
+
+    (25) else -> ELSE : [ listacmd . ]
+
+    ]               shift and go to state 144
+
+
+state 143
+
+    (23) elif -> ELIF expressao : [ . listacmd ] elif
+    (3) listacmd -> . comando listacmd1
+    (6) comando -> . cmdatribui
+    (7) comando -> . cmdentrada
+    (8) comando -> . cmdsaida
+    (9) comando -> . cmdselecao
+    (10) comando -> . cmdrepeticao
+    (17) cmdatribui -> . listaidenti SIM_ATTR expressao ;
+    (18) cmdentrada -> . INPUT ( listaidenti ) ;
+    (19) cmdsaida -> . OUTPUT ( listaexp ) ;
+    (20) cmdsaida -> . OUTPUT ( listaexp error ;
+    (21) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
+    (26) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
+    (11) listaidenti -> . ID listaindenti1
+
+    INPUT           shift and go to state 13
+    OUTPUT          shift and go to state 18
+    IF              shift and go to state 15
+    WHILE           shift and go to state 8
+    ID              shift and go to state 14
+
+    listaidenti                    shift and go to state 12
+    cmdrepeticao                   shift and go to state 16
+    cmdselecao                     shift and go to state 6
+    cmdentrada                     shift and go to state 7
+    listacmd                       shift and go to state 145
+    cmdsaida                       shift and go to state 11
+    comando                        shift and go to state 17
+    cmdatribui                     shift and go to state 10
+
+state 144
+
+    (25) else -> ELSE : [ listacmd ] .
+
+    ;               reduce using rule 25 (else -> ELSE : [ listacmd ] .)
+
+
+state 145
+
+    (23) elif -> ELIF expressao : [ listacmd . ] elif
+
+    ]               shift and go to state 146
+
+
+state 146
+
+    (23) elif -> ELIF expressao : [ listacmd ] . elif
+    (22) elif -> . empty
+    (23) elif -> . ELIF expressao : [ listacmd ] elif
+    (2) empty -> .
+
+    ELIF            shift and go to state 133
+    ELSE            reduce using rule 2 (empty -> .)
+    ;               reduce using rule 2 (empty -> .)
+
+    elif                           shift and go to state 147
+    empty                          shift and go to state 134
+
+state 147
+
+    (23) elif -> ELIF expressao : [ listacmd ] elif .
+
+    ELSE            reduce using rule 23 (elif -> ELIF expressao : [ listacmd ] elif .)
+    ;               reduce using rule 23 (elif -> ELIF expressao : [ listacmd ] elif .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for error in state 26 resolved as shift
+WARNING: shift/reduce conflict for error in state 28 resolved as shift
+WARNING: shift/reduce conflict for error in state 35 resolved as shift
+WARNING: shift/reduce conflict for + in state 35 resolved as shift
+WARNING: shift/reduce conflict for - in state 35 resolved as shift
+WARNING: shift/reduce conflict for + in state 48 resolved as shift
+WARNING: shift/reduce conflict for - in state 48 resolved as shift
+WARNING: shift/reduce conflict for error in state 48 resolved as shift
+WARNING: shift/reduce conflict for OR in state 81 resolved as shift
+WARNING: shift/reduce conflict for AND in state 81 resolved as shift
+WARNING: shift/reduce conflict for error in state 81 resolved as shift
+WARNING: shift/reduce conflict for error in state 81 resolved as shift
+WARNING: shift/reduce conflict for SIM_POT in state 82 resolved as shift
+WARNING: shift/reduce conflict for + in state 90 resolved as shift
+WARNING: shift/reduce conflict for - in state 90 resolved as shift
+WARNING: shift/reduce conflict for error in state 90 resolved as shift
+WARNING: shift/reduce conflict for error in state 97 resolved as shift
+WARNING: shift/reduce conflict for error in state 98 resolved as shift
+WARNING: shift/reduce conflict for error in state 99 resolved as shift
+WARNING: reduce/reduce conflict in state 35 resolved using rule (valor -> error)
+WARNING: rejected rule (elemento -> error) in state 35
+WARNING: reduce/reduce conflict in state 82 resolved using rule (empty -> <empty>)
+WARNING: rejected rule (elemento -> error elemento) in state 82
+WARNING: reduce/reduce conflict in state 90 resolved using rule (valor -> error)
+WARNING: rejected rule (elemento -> error) in state 90
+WARNING: Rule (elemento -> error elemento) is never reduced

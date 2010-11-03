@@ -57,6 +57,10 @@ def p_cmdsaida(p):
     "cmdsaida : OUTPUT '(' listaexp ')' ';'"
     pass
 
+def p_cmdsaida_error(t):
+    "cmdsaida : OUTPUT '(' listaexp error ';'"
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado )" % (t.lineno(4), t[4].value))
+
 def p_cmdselecao(p):
     "cmdselecao : IF expressao ':' '[' listacmd ']' elif else ';'"
     pass
@@ -86,8 +90,7 @@ def p_expressao1(p):
     pass
 
 def p_expressao1_error(t):
-    """expressao1 : empty
-                | error valor expressao1"""    
+    """expressao1 : error valor expressao1"""    
     raise Exception(u"Erro na linha %s - encontrado %s, esperado AND ou OR" % (t.lineno, t.value))
 
 def p_valor(p):
@@ -106,19 +109,10 @@ def p_relacional(p):
     "relacional : aritmetica relacional1"
     pass
 
-def p_relacional_error(t):
-    "relacional : aritmetica relacional1"
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
-
 def p_relacional1(p):
     """relacional1 : operador aritmetica
                  | empty"""
     pass
-
-def p_relacional1_error(t):
-    """relacional1 : operador aritmetica
-                 | empty"""
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
 def p_operador(p):
     """operador : SIM_EQ
@@ -137,29 +131,15 @@ def p_aritmetica(p):
     "aritmetica : termo aritmetica1"
     pass
     
-def p_aritmetica_error(t):
-    "aritmetica : termo aritmetica1"  
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
-
 def p_aritmetica1(p):
     """aritmetica1 : empty
                    | '+' termo aritmetica1
                    | '-' termo aritmetica1"""
     pass
 
-def p_aritmetica1_error(t):
-    """aritmetica1 : empty
-                   | '+' termo aritmetica1
-                   | '-' termo aritmetica1"""
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
-
 def p_termo(p):
     "termo : fator termo1"
     pass
-
-def p_termo_error(t):
-    "termo : fator termo1"
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
 def p_termo1(p):
     """termo1 : empty
@@ -168,30 +148,14 @@ def p_termo1(p):
               | '%' fator termo1"""
     pass
 
-def p_termo1_error(t):
-    """termo1 : empty
-            | '*' fator termo1
-            | '/' fator termo1
-            | '%' fator termo1"""
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
-
 def p_fator(p):
     "fator : elemento fator1"
     pass
     
-def p_fator_error(t):
-    "fator : elemento fator1"
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
-
 def p_fator1(p):
     """fator1 : empty
               | SIM_POT elemento fator1"""
     pass
-
-def p_fator1_error(t):
-    """fator1 : empty
-            | SIM_POT elemento fator1"""
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
 def p_elemento(p):
     """elemento : ID
@@ -206,12 +170,8 @@ def p_elemento(p):
 def p_elemento_error(t):
   """elemento : error
               | error expressao error
-              | error elemento
               | error elemento"""
   raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
-
-def p_error(t):
-    raise Exception(u"Erro na linha %s - encontrado %s" % (t.lineno, t.value))
 
 parser = yacc.yacc()
 
