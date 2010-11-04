@@ -67,8 +67,8 @@ def p_cmdatribui(p):
 
 def p_cmdatribui_error(t):
     "cmdatribui : listaidenti SIM_ATTR expressao error"
+    # TODO - Não funcionando
     _generateError(t, {4:";"})
-
 
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti ')' ';'"
@@ -88,13 +88,20 @@ def p_cmdsaida_error(t):
     """cmdsaida : OUTPUT '(' listaexp error ';' 
     | OUTPUT error listaexp ')' ';' 
     | OUTPUT '(' listaexp ')' error    """
-    erros = {2:"(",4:")", 5:";"}
-    
-
+    _generateError(t, {2:"(",4:")", 5:";"})
+        
 def p_cmdselecao(p):
     "cmdselecao : IF expressao ':' '[' listacmd ']' elif else ';'"
     pass
     
+def p_cmdselecao_error(t):
+    """cmdselecao : error expressao ':' '[' listacmd ']' elif else ';'
+    | IF expressao error '[' listacmd ']' elif else ';'
+    | IF expressao ':' error listacmd ']' elif else ';'
+    | IF expressao ':' '[' listacmd error elif else ';' 
+    | IF expressao ':' '[' listacmd ']' elif else error """
+    _generateError(t, {1:"if", 3:":", 4:"[", 6:']', 9:';'})
+
 def p_elif(p):
     """elif : empty 
             | ELIF expressao ':' '[' listacmd ']' elif"""
