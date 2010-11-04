@@ -2,14 +2,15 @@
 import ply.yacc as yacc
 from lexer import tokens, lexer
 
+class MacGyver:
+  bool = False
+
 def p_programa(p):
     "programa : DEF ID ':' '[' listacmd ']'"
     pass
 
-# TODO : não reconhece pro def e pro ]
 def p_programa_error(t):
-    """programa : error ID ':' '[' listacmd ']'
-    | DEF ID error '[' listacmd ']' 
+    """programa : DEF ID error '[' listacmd ']' 
     | DEF ID ':' error listacmd ']' 
     | DEF ID ':' '[' listacmd error """
     _generateError(t, {1:"def",3:":", 4:"[", 6:']'})
@@ -43,11 +44,7 @@ def p_listaindenti1(p):
     """listaindenti1 : empty
                      | ',' listaidenti"""
     pass
-    
-def p_listaindenti1_error(t):
-    """listaindenti1 : error listaidenti"""
-    _generateError(t, {1:","})
-    
+        
 def p_listaexp(p):
     "listaexp : expressao listaexp1"
     pass
@@ -64,11 +61,6 @@ def p_listaexp1_error(t):
 def p_cmdatribui(p):
     "cmdatribui : listaidenti SIM_ATTR expressao ';'"
     pass
-
-def p_cmdatribui_error(t):
-    "cmdatribui : listaidenti SIM_ATTR expressao error"
-    # TODO - Não funcionando
-    _generateError(t, {4:";"})
 
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti ')' ';'"
@@ -95,12 +87,11 @@ def p_cmdselecao(p):
     pass
     
 def p_cmdselecao_error(t):
-    """cmdselecao : error expressao ':' '[' listacmd ']' elif else ';'
-    | IF expressao error '[' listacmd ']' elif else ';'
+    """cmdselecao : IF expressao error '[' listacmd ']' elif else ';'
     | IF expressao ':' error listacmd ']' elif else ';'
     | IF expressao ':' '[' listacmd error elif else ';' 
     | IF expressao ':' '[' listacmd ']' elif else error """
-    _generateError(t, {1:"if", 3:":", 4:"[", 6:']', 9:';'})
+    _generateError(t, {3:":", 4:"[", 6:']', 9:';'})
 
 def p_elif(p):
     """elif : empty 
@@ -108,11 +99,10 @@ def p_elif(p):
     pass
     
 def p_elif_error(t):
-  """elif : error expressao ':' '[' listacmd ']' elif 
-     | ELIF expressao error '[' listacmd ']' elif
+  """elif : ELIF expressao error '[' listacmd ']' elif
      | ELIF expressao ':' error listacmd ']' elif
      | ELIF expressao ':' '[' listacmd error elif"""
-  _generateError(t, {1:"elif", 3:":", 4:"[", 6:']'})
+  _generateError(t, {3:":", 4:"[", 6:']'})
   
 def p_else(p):
     """else : empty
@@ -120,23 +110,21 @@ def p_else(p):
     pass
 
 def p_else_error(t):
-  """else : error ':' '[' listacmd ']'
-  | ELSE error '[' listacmd ']' 
+  """else : ELSE error '[' listacmd ']' 
   | ELSE ':' error listacmd ']' 
   | ELSE ':' '[' listacmd error """
-  _generateError(t, {1:"else", 2:":", 3:"[", 5:']'})
+  _generateError(t, {2:":", 3:"[", 5:']'})
   
 def p_cmdrepeticao(p):
     "cmdrepeticao : WHILE expressao ':' '[' listacmd ']' else ';'"
     pass
 
 def p_cmdrepeticao_error(t):
-  """cmdrepeticao : error expressao ':' '[' listacmd ']' else ';' 
-  | WHILE expressao error '[' listacmd ']' else ';' 
+  """cmdrepeticao : WHILE expressao error '[' listacmd ']' else ';' 
   | WHILE expressao ':' error listacmd ']' else ';'
   | WHILE expressao ':' '[' listacmd error else ';'
   | WHILE expressao ':' '[' listacmd ']' else error"""
-  _generateError(t, {1:"while", 3:":", 4:"[", 6:']', 8:';'})
+  _generateError(t, {3:":", 4:"[", 6:']', 8:';'})
   
 def p_expressao(p):
     "expressao : valor expressao1"
@@ -150,7 +138,7 @@ def p_expressao1(p):
 
 def p_expressao1_error(t):
     """expressao1 : error valor expressao1"""
-    _generateError(t, {1:"AND ou OR"})
+    _generateError(t, {1:"Expressão"})
 
 def p_valor(p):
     """valor : relacional
@@ -159,10 +147,6 @@ def p_valor(p):
            | NOT valor"""
     pass
 
-def p_valor_error(t):
-    """valor : error
-           | error valor"""
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado TRUE, FALSE ou NOT" % (t.lineno, t.value))
 
 def p_relacional(p):
     "relacional : aritmetica relacional1"
@@ -182,9 +166,6 @@ def p_operador(p):
               | SIM_GE"""
     pass
 
-def p_operador_error(t):
-    """operador : error"""
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado operador lógico" % (t.lineno, t.value))
 
 def p_aritmetica(p):
     "aritmetica : termo aritmetica1"
@@ -225,13 +206,14 @@ def p_elemento(p):
                 | '+' elemento
                 | '-' elemento"""
     pass
-
-def p_elemento_error(t):
-  """elemento : error
-              | error expressao error
-              | error elemento"""
-  raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
-
+    
+    
+def p_error(t):
+    if not MacGyver.bool:
+      MacGyver.bool = True
+      raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % ('1', 'a', 'a'))
+    
+  
 def _getTokenValue(t):
     if not t:
         return "EOF"
@@ -246,5 +228,4 @@ def _generateError(t, dictionary):
         if _getTokenValue(t[k]) != v:
             raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % ('1', _getTokenValue(t[k]), v))
   
-
 parser = yacc.yacc()
