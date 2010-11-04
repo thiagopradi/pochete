@@ -6,6 +6,7 @@ def p_programa(p):
     "programa : DEF ID ':' '[' listacmd ']'"
     pass
 
+# TODO : não reconhece pro def e pro ]
 def p_programa_error(t):
     """programa : error ID ':' '[' listacmd ']'
     | DEF ID error '[' listacmd ']' 
@@ -42,7 +43,11 @@ def p_listaindenti1(p):
     """listaindenti1 : empty
                      | ',' listaidenti"""
     pass
-
+    
+def p_listaindenti1_error(t):
+    """listaindenti1 : error listaidenti"""
+    _generateError(t, {1:","})
+    
 def p_listaexp(p):
     "listaexp : expressao listaexp1"
     pass
@@ -52,6 +57,10 @@ def p_listaexp1(p):
                  | empty """
     pass
 
+def p_listaexp1_error(t):
+    """listaexp1 : error listaexp"""
+    _generateError(t, {1:","})
+    
 def p_cmdatribui(p):
     "cmdatribui : listaidenti SIM_ATTR expressao ';'"
     pass
