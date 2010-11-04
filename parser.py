@@ -5,7 +5,14 @@ from lexer import tokens, lexer
 def p_programa(p):
     "programa : DEF ID ':' '[' listacmd ']'"
     pass
-    
+
+def p_programa_error(t):
+    """programa : error ID ':' '[' listacmd ']'
+    | DEF ID error '[' listacmd ']' 
+    | DEF ID ':' error listacmd ']' 
+    | DEF ID ':' '[' listacmd error """
+    _generateError(t, {1:"def",3:":", 4:"[", 6:']'})
+        
 def p_empty(p):
     "empty :"
     pass
@@ -52,6 +59,12 @@ def p_cmdatribui(p):
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti ')' ';'"
     pass
+    
+def p_cmdentrada_error(t):
+    """cmdentrada : INPUT '(' listaidenti error ';' 
+    | INPUT error listaidenti ')' ';' 
+    | INPUT '(' listaidenti ')' error """
+    _generateError(t, {2:"(",4:")", 5:";"})
 
 def p_cmdsaida(p):
     "cmdsaida : OUTPUT '(' listaexp ')' ';'"
@@ -62,9 +75,7 @@ def p_cmdsaida_error(t):
     | OUTPUT error listaexp ')' ';' 
     | OUTPUT '(' listaexp ')' error    """
     erros = {2:"(",4:")", 5:";"}
-    for k, v in erros.items():
-        if _getTokenValue(t[k]) != v:
-            raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % ('1', _getTokenValue(t[k]), v))
+    
 
 def p_cmdselecao(p):
     "cmdselecao : IF expressao ':' '[' listacmd ']' elif else ';'"
@@ -186,11 +197,11 @@ def _getTokenValue(t):
             return t
         else:
             return t.value
+            
+def _generateError(t, dictionary):
+    for k, v in dictionary.items():
+        if _getTokenValue(t[k]) != v:
+            raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % ('1', _getTokenValue(t[k]), v))
+  
 
 parser = yacc.yacc()
-
-if __name__ == '__main__':
-    s = """def teste: [
-            output(1)
-                    ]"""
-    print parser.parse(s, lexer=lexer())
