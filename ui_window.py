@@ -11,7 +11,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4 import Qsci
 import icons_rc
 from lexer import lexer
-from pochete_parser import parser, MacGyver
+from pochete_parser import parser
 tokens = {"ID":"identificador", "RESERVADO":"palavra reservada", "INTEIRO":"constante inteira", 
           "BINARIO":"constante binária", "OCTAL":"constante octal", "HEXADECIMAL":"constante hexadecimal",
            "REAL":"constante real", "LITERAL":"constante literal", "SIMBOLO":u"símbolo especial" }
@@ -193,15 +193,15 @@ class Ui_MainWindow(object):
         self.actionEquipe.setToolTip(QtGui.QApplication.translate("MainWindow", "Equipe", None, QtGui.QApplication.UnicodeUTF8))
         self.actionEquipe.setShortcut(QtGui.QApplication.translate("MainWindow", "F1", None, QtGui.QApplication.UnicodeUTF8))
         
-        MainWindow.connect(self.actionNovo, QtCore.SIGNAL("activated()"), self._novo)
-        MainWindow.connect(self.actionColar, QtCore.SIGNAL("activated()"), self._paste)
-        MainWindow.connect(self.actionCopiar, QtCore.SIGNAL("activated()"), self._copy)
-        MainWindow.connect(self.actionRecortar, QtCore.SIGNAL("activated()"), self._cut)
-        MainWindow.connect(self.actionAbri, QtCore.SIGNAL("activated()"), self._open)
-        MainWindow.connect(self.actionEquipe, QtCore.SIGNAL("activated()"), self._about)
-        MainWindow.connect(self.actionSalvar, QtCore.SIGNAL("activated()"), self._save)
-        MainWindow.connect(self.actionCompilar, QtCore.SIGNAL("activated()"), self._compile)
-        MainWindow.connect(self.actionGerar_Codigo, QtCore.SIGNAL("activated()"), self._generate)
+        self.actionNovo.pyqtConfigure(triggered=self._novo)
+        self.actionColar.pyqtConfigure(triggered=self._paste)
+        self.actionCopiar.pyqtConfigure(triggered=self._copy)
+        self.actionRecortar.pyqtConfigure(triggered=self._cut)
+        self.actionAbri.pyqtConfigure(triggered=self._open)
+        self.actionEquipe.pyqtConfigure(triggered=self._about)
+        self.actionSalvar.pyqtConfigure(triggered=self._save)
+        self.actionCompilar.pyqtConfigure(triggered=self._compile)
+        self.actionGerar_Codigo.pyqtConfigure(triggered=self._generate)
 
         MainWindow.connect(self.editor, QtCore.SIGNAL("textChanged()"), self._onChange)
 
@@ -257,14 +257,8 @@ class Ui_MainWindow(object):
           parser.parse(str(self.editor.text()), var_lex)
           self.plainTextEdit.appendPlainText("Programa compilado com sucesso")
         except Exception, e:
+          # TODO: testar no windows e mac
           self.plainTextEdit.setPlainText(unicode(e.message))
-
-        try:
-          parser.parse(str(self.editor.text()), var_lex)
-        except Exception, e:
-          self.plainTextEdit.clear()
-          self.plainTextEdit.setPlainText(unicode(e.message))
-        MacGyver.bool = False
     
     def _generate(self):
         QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
