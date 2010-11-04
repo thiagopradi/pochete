@@ -106,16 +106,38 @@ def p_elif(p):
     """elif : empty 
             | ELIF expressao ':' '[' listacmd ']' elif"""
     pass
-
+    
+def p_elif_error(t):
+  """elif : error expressao ':' '[' listacmd ']' elif 
+     | ELIF expressao error '[' listacmd ']' elif
+     | ELIF expressao ':' error listacmd ']' elif
+     | ELIF expressao ':' '[' listacmd error elif"""
+  _generateError(t, {1:"elif", 3:":", 4:"[", 6:']'})
+  
 def p_else(p):
     """else : empty
             | ELSE ':' '[' listacmd ']'"""
     pass
 
+def p_else_error(t):
+  """else : error ':' '[' listacmd ']'
+  | ELSE error '[' listacmd ']' 
+  | ELSE ':' error listacmd ']' 
+  | ELSE ':' '[' listacmd error """
+  _generateError(t, {1:"else", 2:":", 3:"[", 5:']'})
+  
 def p_cmdrepeticao(p):
     "cmdrepeticao : WHILE expressao ':' '[' listacmd ']' else ';'"
     pass
 
+def p_cmdrepeticao_error():
+  """cmdrepeticao : error expressao ':' '[' listacmd ']' else ';' 
+  | WHILE expressao error '[' listacmd ']' else ';' 
+  | WHILE expressao ':' error listacmd ']' else ';'
+  | WHILE expressao ':' '[' listacmd error else ';'
+  | WHILE expressao ':' '[' listacmd ']' else error"""
+  _generateError(t, {1:"while", 3:":", 4:"[", 6:']', 8:';'})
+  
 def p_expressao(p):
     "expressao : valor expressao1"
     pass
@@ -127,8 +149,8 @@ def p_expressao1(p):
     pass
 
 def p_expressao1_error(t):
-    """expressao1 : error valor expressao1"""    
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado AND ou OR" % (t.lineno, t.value))
+    """expressao1 : error valor expressao1"""
+    _generateError(t, {1:"AND ou OR"})
 
 def p_valor(p):
     """valor : relacional
