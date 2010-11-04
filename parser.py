@@ -62,10 +62,9 @@ def p_cmdsaida_error(t):
     | OUTPUT error listaexp ')' ';' 
     | OUTPUT '(' listaexp ')' error    """
     erros = {2:"(",4:")", 5:";"}
-    for token in t[1:]:
-      print token
-      if token == "error":
-        raise Exception(u"Erro na linha %s - encontrado %s, esperado )" % ('1', token.value))
+    for k, v in erros.items():
+        if _getTokenValue(t[k]) != v:
+            raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % ('1', _getTokenValue(t[k]), v))
 
 def p_cmdselecao(p):
     "cmdselecao : IF expressao ':' '[' listacmd ']' elif else ';'"
@@ -179,34 +178,19 @@ def p_elemento_error(t):
               | error elemento"""
   raise Exception(u"Erro na linha %s - encontrado %s, esperado expressão" % (t.lineno, t.value))
 
+def _getTokenValue(t):
+    if not t:
+        return "EOF"
+    else:
+        if type(t) is str:
+            return t
+        else:
+            return t.value
+
 parser = yacc.yacc()
 
 if __name__ == '__main__':
     s = """def teste: [
-		    output(1);
-		    input(a, b);
-		    output(a);
-		    y := 1 + 2;
-		    ba := 32 * 33;
-		    if a : [
-		    ba := ba + 3;
-		    ] elif a : [
-		    ba := ba+3;
-		    ] else: [
-		    ba := ba+3;
-		    ];
-		    
-		    while a: [
-		    ba:= ba+3;
-		    ] else : [
-		    ba := ba+3;
-		    ];
-	    
-		    ba := ((1+2) * 3);
-		    ba := 3.0 / 2.0;
-		    
-		    #else: [
-		    #  bff := ff+2;
-		    #];
-	    ]"""
+            output(1)
+                    ]"""
     print parser.parse(s, lexer=lexer())
