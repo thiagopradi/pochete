@@ -65,6 +65,11 @@ def p_cmdatribui(p):
     "cmdatribui : listaidenti SIM_ATTR expressao ';'"
     pass
 
+def p_cmdatribui_error(t):
+    "cmdatribui : listaidenti SIM_ATTR expressao error"
+    _generateError(t, {4:";"})
+
+
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti ')' ';'"
     pass
