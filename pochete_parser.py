@@ -130,7 +130,7 @@ def p_cmdrepeticao(p):
     "cmdrepeticao : WHILE expressao ':' '[' listacmd ']' else ';'"
     pass
 
-def p_cmdrepeticao_error():
+def p_cmdrepeticao_error(t):
   """cmdrepeticao : error expressao ':' '[' listacmd ']' else ';' 
   | WHILE expressao error '[' listacmd ']' else ';' 
   | WHILE expressao ':' error listacmd ']' else ';'
