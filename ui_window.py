@@ -259,6 +259,12 @@ class Ui_MainWindow(object):
         except Exception, e:
           # TODO: testar no windows e mac
           self.plainTextEdit.setPlainText(unicode(e.message))
+        try:
+          parser.parse(str(self.editor.text()), var_lex)
+        except Exception, e:
+          self.plainTextEdit.clear()
+          self.plainTextEdit.setPlainText(unicode(e.message))
+        MacGyver.bool = False
     
     def _generate(self):
         QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
