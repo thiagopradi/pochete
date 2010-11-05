@@ -211,7 +211,7 @@ def p_elemento(p):
 def p_error(t):
     if not MacGyver.bool:
       MacGyver.bool = True
-      raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % ('1', 'a', 'a'))
+      raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (t.lineno, str(t), ''))
     
   
 def _getTokenValue(t):
@@ -226,6 +226,6 @@ def _getTokenValue(t):
 def _generateError(t, dictionary):
     for k, v in dictionary.items():
         if _getTokenValue(t[k]) != v:
-            raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % ('1', _getTokenValue(t[k]), v))
+            raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (t.lineno, _getTokenValue(t[k]), v))
   
 parser = yacc.yacc()
