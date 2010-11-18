@@ -17,7 +17,7 @@ digito = r'[0-9]'
 positivo = r'[1-9]'
 aux_id = r'%s(%s %s?)*|%s(%s?%s)*%s?' % (maiuscula, minuscula_digito, maiuscula, minuscula, maiuscula,minuscula_digito, maiuscula)
 aux_literal = r'"[^"]*"' + r"|'[^\r\n]*'"
-new_line = (r"\r\n" if os.name == 'posix' else r"\r\n")
+new_line = r"\r\n|\n+"
 
 #t_SIMBOLO = r'\(|\)|\[|\]|,|;|:=|==|:|!=|<|<=|>|>=|\+|-|\*\*|\*|/|&|%'  
 t_SIM_EQ = r'=='
@@ -27,7 +27,7 @@ t_SIM_GE = r'>='
 t_SIM_LE = r'<='
 t_SIM_DIF = r'=!'
 t_INTEIRO = r'0|%s%s*' % (positivo, digito)
-t_ignore = ' \t\n'
+t_ignore = ' \t'
 
 literals = [';', ':', ',', '[', ']', '(', ')', '+', '-', '*', '/', '%']
 
@@ -72,14 +72,13 @@ def t_error(t):
   if(t.value.strip() and t.value.strip()[0] in ['"', "'"]):
     raise Exception(u"Erro na linha %s - constante literal não finalizada" % t.lexer.lineno)
   else:
-    print t
     raise Exception(u"Erro na linha %s - %s - símbolo inválido" % (t.lexer.lineno, t.value[0]))
   
   
 @TOKEN(new_line)
 def t_newline(t):
   r'new_line'
-  t.lexer.lineno += 1
+  t.lexer.lineno += 1 
   
 def lexer():
   return lex.lex()
