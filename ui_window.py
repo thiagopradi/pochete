@@ -23,7 +23,8 @@ class Ui_MainWindow(object):
 
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(762, 529)
+        MainWindow.resize(970, 529)
+        MainWindow.setMinimumSize(QtCore.QSize(970, 0))
         #MainWindow.setInputMethodHints(QtCore.Qt.ImhNone)
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.centralwidget = QtGui.QWidget(MainWindow)
@@ -80,6 +81,8 @@ class Ui_MainWindow(object):
         self.plainTextEdit.setSizePolicy(sizePolicy)
         self.plainTextEdit.setObjectName("plainTextEdit")
         self.verticalLayout.addWidget(self.plainTextEdit)
+        self.plainTextEdit.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.plainTextEdit.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -162,36 +165,64 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Pochete Compiler", None, QtGui.QApplication.UnicodeUTF8))
-        self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionNovo.setText(QtGui.QApplication.translate("MainWindow", "Novo", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionNovo.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
+        MainWindow.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Pochete Compiler", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.toolBar.setWindowTitle(QtGui.QApplication.translate("MainWindow", "toolBar", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNovo.setText(QtGui.QApplication.translate("MainWindow", "Novo[Ctrl+N]", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionNovo.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+N", 
+            None, QtGui.QApplication.UnicodeUTF8))
         
         
-        self.actionAbri.setText(QtGui.QApplication.translate("MainWindow", "Abrir", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionAbri.setToolTip(QtGui.QApplication.translate("MainWindow", "Abrir", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionAbri.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+A", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSalvar.setText(QtGui.QApplication.translate("MainWindow", "Salvar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSalvar.setToolTip(QtGui.QApplication.translate("MainWindow", "Salvar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionSalvar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+S", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionCopiar.setText(QtGui.QApplication.translate("MainWindow", "Copiar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionCopiar.setToolTip(QtGui.QApplication.translate("MainWindow", "Copiar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionCopiar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Shift+C", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionColar.setText(QtGui.QApplication.translate("MainWindow", "Colar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionColar.setToolTip(QtGui.QApplication.translate("MainWindow", "Colar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionColar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+V", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionRecortar.setText(QtGui.QApplication.translate("MainWindow", "Recortar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionRecortar.setToolTip(QtGui.QApplication.translate("MainWindow", "Recortar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionRecortar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Shift+X", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionCompilar.setText(QtGui.QApplication.translate("MainWindow", "Compilar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionCompilar.setToolTip(QtGui.QApplication.translate("MainWindow", "Compilar", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionCompilar.setShortcut(QtGui.QApplication.translate("MainWindow", "F8", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionGerar_Codigo.setText(QtGui.QApplication.translate("MainWindow", "Gerar Código", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionGerar_Codigo.setToolTip(QtGui.QApplication.translate("MainWindow", "Gerar Código", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionGerar_Codigo.setShortcut(QtGui.QApplication.translate("MainWindow", "F9", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEquipe.setText(QtGui.QApplication.translate("MainWindow", "Equipe", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEquipe.setToolTip(QtGui.QApplication.translate("MainWindow", "Equipe", None, QtGui.QApplication.UnicodeUTF8))
-        self.actionEquipe.setShortcut(QtGui.QApplication.translate("MainWindow", "F1", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAbri.setText(QtGui.QApplication.translate("MainWindow", "Abrir[Ctrl+A]", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAbri.setToolTip(QtGui.QApplication.translate("MainWindow", "Abrir", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAbri.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+A", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSalvar.setText(QtGui.QApplication.translate("MainWindow", "Salvar[Ctrl+S]", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSalvar.setToolTip(QtGui.QApplication.translate("MainWindow", "Salvar", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSalvar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+S", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCopiar.setText(QtGui.QApplication.translate("MainWindow", "Copiar[Ctrl+C]", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCopiar.setToolTip(QtGui.QApplication.translate("MainWindow", "Copiar", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCopiar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Shift+C", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionColar.setText(QtGui.QApplication.translate("MainWindow", "Colar[Ctrl+V]", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionColar.setToolTip(QtGui.QApplication.translate("MainWindow", "Colar", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionColar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+V", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRecortar.setText(QtGui.QApplication.translate("MainWindow", "Recortar[Ctrl+X]", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRecortar.setToolTip(QtGui.QApplication.translate("MainWindow", "Recortar", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionRecortar.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Shift+X", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCompilar.setText(QtGui.QApplication.translate("MainWindow", "Compilar[F8]", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCompilar.setToolTip(QtGui.QApplication.translate("MainWindow", "Compilar", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCompilar.setShortcut(QtGui.QApplication.translate("MainWindow", "F8", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionGerar_Codigo.setText(QtGui.QApplication.translate("MainWindow", "Gerar Código[F9]", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionGerar_Codigo.setToolTip(QtGui.QApplication.translate("MainWindow", "Gerar Código", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionGerar_Codigo.setShortcut(QtGui.QApplication.translate("MainWindow", "F9", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionEquipe.setText(QtGui.QApplication.translate("MainWindow", "Equipe[F1]", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionEquipe.setToolTip(QtGui.QApplication.translate("MainWindow", "Equipe", 
+            None, QtGui.QApplication.UnicodeUTF8))
+        self.actionEquipe.setShortcut(QtGui.QApplication.translate("MainWindow", "F1", 
+            None, QtGui.QApplication.UnicodeUTF8))
         
         self.actionNovo.pyqtConfigure(triggered=self._novo)
         self.actionColar.pyqtConfigure(triggered=self._paste)
