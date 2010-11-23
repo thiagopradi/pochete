@@ -19,7 +19,7 @@ aux_id = r'%s(%s %s?)*|%s(%s?%s)*%s?' % (maiuscula, minuscula_digito, maiuscula,
 aux_literal = r'"[^"]*"' + r"|'[^\r\n]*'"
 new_line = r"\r\n|\n+"
 
-#t_SIMBOLO = r'\(|\)|\[|\]|,|;|:=|==|:|!=|<|<=|>|>=|\+|-|\*\*|\*|/|&|%'  
+
 t_SIM_EQ = r'=='
 t_SIM_ATTR = r':='
 t_SIM_POT = r'\*\*'
