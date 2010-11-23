@@ -11,7 +11,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4 import Qsci
 import icons_rc
 from lexer import lexer
-from pochete_parser import parser
+from pochete_parser import parser, CompilerFlag
 tokens = {"ID":"identificador", "RESERVADO":"palavra reservada", "INTEIRO":"constante inteira", 
           "BINARIO":"constante binária", "OCTAL":"constante octal", "HEXADECIMAL":"constante hexadecimal",
            "REAL":"constante real", "LITERAL":"constante literal", "SIMBOLO":u"símbolo especial" }
@@ -283,19 +283,19 @@ class Ui_MainWindow(object):
     
     def _compile(self):
         self.plainTextEdit.clear()
-        var_lex = lexer()
         try:
-          parser.parse(str(self.editor.text()), var_lex)
+          parser.parse(str(self.editor.text()), lexer())
           self.plainTextEdit.appendPlainText("Programa compilado com sucesso")
         except Exception, e:
-          # TODO: testar no windows e mac
           self.plainTextEdit.setPlainText(unicode(e.message))
+
         try:
-          parser.parse(str(self.editor.text()), var_lex)
+          parser.parse(str(self.editor.text()), lexer())
         except Exception, e:
           self.plainTextEdit.clear()
           self.plainTextEdit.setPlainText(unicode(e.message))
-        MacGyver.bool = False
+
+        CompilerFlag.bool = False
     
     def _generate(self):
         QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")

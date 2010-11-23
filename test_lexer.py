@@ -43,7 +43,26 @@ class TestLexer(unittest.TestCase):
         parser.parse(u"def abc : [ a := 1; \n a := 2; ? ]", self.var_lex)
       except Exception, e:
         self.assertEqual(u"Erro na linha 2 - ? - símbolo inválido", e.message)    
-      
+        
+    def test_sintatic_exception(self):
+      try: 
+        parser.parse(u"def teste a [ a := 1; \n a := 2;  ]", lexer())
+      except Exception, e:
+        pass
+      try: 
+        parser.parse(u"def teste a [ a := 1; \n a := 2;  ]", lexer())
+      except Exception, e:
+        self.assertEqual(u"Erro na linha 1 - encontrado a, esperado :", e.message)
+    
+    def test_sintatic_exception_with_line_number(self):
+      try: 
+        parser.parse(u"def teste : \n := a := 1; \n a := 2;  ]", lexer())
+      except Exception, e:
+        pass
+      try: 
+        parser.parse(u"def teste : \n := a := 1; \n a := 2;  ]", lexer())
+      except Exception, e:
+        self.assertEqual(u"Erro na linha 2 - encontrado :=, esperado [", e.message)
 
 if __name__ == '__main__':
     unittest.main()
