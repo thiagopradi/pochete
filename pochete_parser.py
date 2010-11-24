@@ -4,6 +4,10 @@ from lexer import tokens, lexer
 
 class CompilerFlag:
   bool = False
+  
+class SemanticTools:
+  defined_variables = {}
+  context = ""
 
 def p_programa(p):
     """programa : DEF ID ':' '[' listacmd ']' 
@@ -40,7 +44,8 @@ def p_comando(p):
 
 def p_listaidenti(p):
     "listaidenti : ID listaindenti1"
-    pass
+    if(p.stack[len(p.stack)-2].value == 'input' and not SemanticTools.defined_variables.get(p[1])):
+      raise Exception(u"Erro na linha %s - identificador (%s) não declarado" % (p.lineno(1), p[1]))    
 
 def p_listaindenti1(p):
     """listaindenti1 : empty
@@ -50,11 +55,10 @@ def p_listaindenti1(p):
 def p_listaexp(p):
     "listaexp : expressao listaexp1"
     pass
-
+    
 def p_listaexp1(p):
     """listaexp1 : ',' listaexp
                  | empty """
-    pass
 
 def p_listaexp1_error(t):
     """listaexp1 : error listaexp"""
@@ -62,11 +66,12 @@ def p_listaexp1_error(t):
     
 def p_cmdatribui(p):
     "cmdatribui : listaidenti SIM_ATTR expressao ';'"
-    pass
-
+    # TODO
+    # if(p[2] == ":="):
+    #   SemanticTools.defined_variables["lado"] = True
+    
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti ')' ';'"
-    pass
     
 def p_cmdentrada_error(t):
     """cmdentrada : INPUT '(' listaidenti error ';' 
