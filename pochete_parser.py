@@ -6,8 +6,10 @@ class CompilerFlag:
   bool = False
 
 def p_programa(p):
-    "programa : DEF ID ':' '[' listacmd ']'"
-    pass
+    """programa : DEF ID ':' '[' listacmd ']' 
+    | empty"""
+    if len(p) < 2:
+      raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
 
 def p_programa_error(t):
     """programa : DEF ID error '[' listacmd ']' 

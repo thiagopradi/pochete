@@ -91,6 +91,21 @@ class TestLexer(unittest.TestCase):
         parser.parse(u"def teste : \n := a := 1; \n a := 2;  ]", lexer())
       except Exception, e:
         self.assertEqual(u"Erro na linha 2 - encontrado :=, esperado [", e.message)
+        
+    def test_semantic_error(self):
+      try: 
+        parser.parse(u"def teste : \n [ input(lado);  ]", lexer())
+        raise Exception("Error")
+      except Exception, e:
+        self.assertEqual(u"Erro na linha 2 - identificador (lado) não declarado", e.message)
+        
+    def test_empty_string_parse(self):
+      try: 
+        parser.parse(u"", lexer())
+      except Exception, e:
+        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado def", e.message)
+        
 
 if __name__ == '__main__':
     unittest.main()
+    
