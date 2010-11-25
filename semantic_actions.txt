@@ -1,0 +1,2 @@
+- Ação 1 - Gerar código inicio programa LLVM
+- Ação 3 - Gerar código fim programa LLVM
