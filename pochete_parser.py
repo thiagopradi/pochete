@@ -22,12 +22,16 @@ class SemanticTools:
   #g_named_values = {}
 
 def p_programa(p):
-    """programa : DEF ID ':' '[' listacmd ']' 
+    """programa : DEF ID action_2 ':' '[' listacmd ']' 
     | empty"""
     if len(p) <= 2:
       raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
     
     SemanticTools.defined_variables[p[2]] = True
+
+def p_action_2(p):
+  "action_2: empty"
+  pass
 
 def p_programa_error(t):
     """programa : DEF ID error '[' listacmd ']' 
@@ -57,11 +61,15 @@ def p_comando(p):
     pass
 
 def p_listaidenti(p):
-    "listaidenti : ID listaindenti1"
+    "listaidenti : ID listaindenti1"    
+    print "LAST"
+    if(SemanticTools.context == 'atribui' and SemanticTools.defined_variables.get(p[1])):
+      raise Exception(u"Erro na linha %s - identificador já declarado anteriormente" % (p.lineno(1)))
+    
     if(SemanticTools.context == 'atribui'):
       SemanticTools.defined_variables[p[1]] = True
-      SemanticTools.context = ""
     
+    SemanticTools.context = ""
     if(p.stack[len(p.stack)-2].value == 'input' and not SemanticTools.defined_variables.get(p[1])):
       raise Exception(u"Erro na linha %s - identificador (%s) não declarado" % (p.lineno(1), p[1]))    
     
