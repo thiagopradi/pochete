@@ -8,6 +8,13 @@ class CompilerFlag:
 class SemanticTools:
   defined_variables = {}
   context = ""
+  # The LLVM module, which holds all the IR code.
+  #g_llvm_module = Module.new('Pochete Module')
+  # The LLVM instruction builder. Created whenever a new function is entered.
+  #g_llvm_builder = None
+  # A dictionary that keeps track of which values are defined in the current scope
+  # and what their LLVM representation is.
+  #g_named_values = {}
 
 def p_programa(p):
     """programa : DEF ID ':' '[' listacmd ']' 
@@ -44,9 +51,14 @@ def p_comando(p):
 
 def p_listaidenti(p):
     "listaidenti : ID listaindenti1"
+    if(SemanticTools.context == 'atribui'):
+      SemanticTools.defined_variables[p[1]] = True
+      SemanticTools.context = ""
+    
     if(p.stack[len(p.stack)-2].value == 'input' and not SemanticTools.defined_variables.get(p[1])):
       raise Exception(u"Erro na linha %s - identificador (%s) não declarado" % (p.lineno(1), p[1]))    
-
+    
+    
 def p_listaindenti1(p):
     """listaindenti1 : empty
                      | ',' listaidenti"""
@@ -66,9 +78,8 @@ def p_listaexp1_error(t):
     
 def p_cmdatribui(p):
     "cmdatribui : listaidenti SIM_ATTR expressao ';'"
-    # TODO
-    # if(p[2] == ":="):
-    #   SemanticTools.defined_variables["lado"] = True
+    if(p[2] == ":="):
+      SemanticTools.context = "atribui"
     
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti ')' ';'"
