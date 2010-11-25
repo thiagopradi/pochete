@@ -2,13 +2,12 @@
 import unittest
 from mocker import MockerTestCase
 from lexer import lexer
-from pochete_parser import parser
+from pochete_parser import parser, SemanticTools
 
 class TestSintatic(MockerTestCase):  
     def setUp(self):
       self.var_lex = lexer()
       SemanticTools.reset()
-      
       
     def test_sintatic_exception(self):
       try: 

@@ -2,7 +2,7 @@
 import unittest
 from mocker import MockerTestCase
 from lexer import lexer
-from pochete_parser import parser
+from pochete_parser import parser, SemanticTools
 
 class TestLexer(MockerTestCase):  
     def setUp(self):
