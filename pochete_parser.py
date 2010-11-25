@@ -8,6 +8,11 @@ class CompilerFlag:
 class SemanticTools:
   defined_variables = {}
   context = ""
+
+  @staticmethod
+  def reset():
+    defined_variables = {}
+    context = ""
   # The LLVM module, which holds all the IR code.
   #g_llvm_module = Module.new('Pochete Module')
   # The LLVM instruction builder. Created whenever a new function is entered.
@@ -21,6 +26,8 @@ def p_programa(p):
     | empty"""
     if len(p) < 2:
       raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
+    
+    SemanticTools.defined_variables[p[2]] = True
 
 def p_programa_error(t):
     """programa : DEF ID error '[' listacmd ']' 
@@ -245,5 +252,10 @@ def _generateError(t, dictionary):
     for k, v in dictionary.items():
         if _getTokenValue(t[k]) != v:
             raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (t.lineno(k), _getTokenValue(t[k]), v))
+
+
+def pochete_parser(input, lexer):
+  SemanticTools.reset()
+  parser.parse(input, lexer)
   
 parser = yacc.yacc()
