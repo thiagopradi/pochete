@@ -7,7 +7,9 @@ from pochete_parser import parser
 class TestSintatic(MockerTestCase):  
     def setUp(self):
       self.var_lex = lexer()
-    
+      SemanticTools.reset()
+      
+      
     def test_sintatic_exception(self):
       try: 
         parser.parse(u"def teste a [ a := 1; \n a := 2;  ]", lexer())

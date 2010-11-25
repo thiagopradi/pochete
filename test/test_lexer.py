@@ -7,6 +7,8 @@ from pochete_parser import parser
 class TestLexer(MockerTestCase):  
     def setUp(self):
       self.var_lex = lexer()
+      SemanticTools.reset()
+      
       
     def test_tokens(self):
       self.var_lex.input("a := 1")

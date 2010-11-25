@@ -9,10 +9,10 @@ class SemanticTools:
   defined_variables = {}
   context = ""
 
-  @staticmethod
-  def reset():
-    defined_variables = {}
-    context = ""
+  @classmethod
+  def reset(cls):
+    cls.defined_variables = {}
+    cls.context = ""
   # The LLVM module, which holds all the IR code.
   #g_llvm_module = Module.new('Pochete Module')
   # The LLVM instruction builder. Created whenever a new function is entered.
@@ -253,9 +253,5 @@ def _generateError(t, dictionary):
         if _getTokenValue(t[k]) != v:
             raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (t.lineno(k), _getTokenValue(t[k]), v))
 
-
-def pochete_parser(input, lexer):
-  SemanticTools.reset()
-  parser.parse(input, lexer)
   
 parser = yacc.yacc()
