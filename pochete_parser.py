@@ -24,7 +24,7 @@ class SemanticTools:
 def p_programa(p):
     """programa : DEF ID ':' '[' listacmd ']' 
     | empty"""
-    if len(p) < 2:
+    if len(p) <= 2:
       raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
     
     SemanticTools.defined_variables[p[2]] = True
