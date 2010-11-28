@@ -22,7 +22,7 @@ class SemanticTools:
       #g_named_values = {}
 
 def p_programa(p):
-    """programa : DEF ID action ':' '[' listacmd ']' 
+    """programa : DEF ID action2 ':' '[' listacmd ']' 
     | empty"""
     if len(p) <= 2:
       raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
@@ -30,14 +30,14 @@ def p_programa(p):
     SemanticTools.defined_variables[p[2]] = True
 
 def p_action(p):
-    "action :"
+    "action2 :"
     print "OK", p[-1]
     SemanticTools.defined_variables[p[-1]] = True
 
 def p_programa_error(t):
-    """programa : DEF ID action error '[' listacmd ']' 
-    | DEF ID action ':' error listacmd ']' 
-    | DEF ID action ':' '[' listacmd error """
+    """programa : DEF ID action2 error '[' listacmd ']' 
+    | DEF ID action2 ':' error listacmd ']' 
+    | DEF ID action2 ':' '[' listacmd error """
     _generateError(t, {1:"def",3:":", 4:"[", 6:']'})
         
 def p_empty(p):

@@ -11,12 +11,12 @@ Unused terminals:
 Grammar
 
 Rule 0     S' -> programa
-Rule 1     programa -> DEF ID action : [ listacmd ]
+Rule 1     programa -> DEF ID action2 : [ listacmd ]
 Rule 2     programa -> empty
-Rule 3     action -> <empty>
-Rule 4     programa -> DEF ID action error [ listacmd ]
-Rule 5     programa -> DEF ID action : error listacmd ]
-Rule 6     programa -> DEF ID action : [ listacmd error
+Rule 3     action2 -> <empty>
+Rule 4     programa -> DEF ID action2 error [ listacmd ]
+Rule 5     programa -> DEF ID action2 : error listacmd ]
+Rule 6     programa -> DEF ID action2 : [ listacmd error
 Rule 7     empty -> <empty>
 Rule 8     listacmd -> comando listacmd1
 Rule 9     listacmd1 -> empty
@@ -147,7 +147,7 @@ error                : 4 5 6 22 25 26 27 29 30 31 33 34 35 36 39 40 41 44 45 46 
 
 Nonterminals, with rules where they appear
 
-action               : 1 4 5 6
+action2              : 1 4 5 6
 aritmetica           : 61 62
 aritmetica1          : 70 72 73
 cmdatribui           : 11
@@ -183,11 +183,11 @@ Parsing method: LALR
 state 0
 
     (0) S' -> . programa
-    (1) programa -> . DEF ID action : [ listacmd ]
+    (1) programa -> . DEF ID action2 : [ listacmd ]
     (2) programa -> . empty
-    (4) programa -> . DEF ID action error [ listacmd ]
-    (5) programa -> . DEF ID action : error listacmd ]
-    (6) programa -> . DEF ID action : [ listacmd error
+    (4) programa -> . DEF ID action2 error [ listacmd ]
+    (5) programa -> . DEF ID action2 : error listacmd ]
+    (6) programa -> . DEF ID action2 : [ listacmd error
     (7) empty -> .
 
     DEF             shift and go to state 3
@@ -211,33 +211,33 @@ state 2
 
 state 3
 
-    (1) programa -> DEF . ID action : [ listacmd ]
-    (4) programa -> DEF . ID action error [ listacmd ]
-    (5) programa -> DEF . ID action : error listacmd ]
-    (6) programa -> DEF . ID action : [ listacmd error
+    (1) programa -> DEF . ID action2 : [ listacmd ]
+    (4) programa -> DEF . ID action2 error [ listacmd ]
+    (5) programa -> DEF . ID action2 : error listacmd ]
+    (6) programa -> DEF . ID action2 : [ listacmd error
 
     ID              shift and go to state 4
 
 
 state 4
 
-    (1) programa -> DEF ID . action : [ listacmd ]
-    (4) programa -> DEF ID . action error [ listacmd ]
-    (5) programa -> DEF ID . action : error listacmd ]
-    (6) programa -> DEF ID . action : [ listacmd error
-    (3) action -> .
+    (1) programa -> DEF ID . action2 : [ listacmd ]
+    (4) programa -> DEF ID . action2 error [ listacmd ]
+    (5) programa -> DEF ID . action2 : error listacmd ]
+    (6) programa -> DEF ID . action2 : [ listacmd error
+    (3) action2 -> .
 
-    :               reduce using rule 3 (action -> .)
-    error           reduce using rule 3 (action -> .)
+    :               reduce using rule 3 (action2 -> .)
+    error           reduce using rule 3 (action2 -> .)
 
-    action                         shift and go to state 5
+    action2                        shift and go to state 5
 
 state 5
 
-    (1) programa -> DEF ID action . : [ listacmd ]
-    (4) programa -> DEF ID action . error [ listacmd ]
-    (5) programa -> DEF ID action . : error listacmd ]
-    (6) programa -> DEF ID action . : [ listacmd error
+    (1) programa -> DEF ID action2 . : [ listacmd ]
+    (4) programa -> DEF ID action2 . error [ listacmd ]
+    (5) programa -> DEF ID action2 . : error listacmd ]
+    (6) programa -> DEF ID action2 . : [ listacmd error
 
     :               shift and go to state 7
     error           shift and go to state 6
@@ -245,16 +245,16 @@ state 5
 
 state 6
 
-    (4) programa -> DEF ID action error . [ listacmd ]
+    (4) programa -> DEF ID action2 error . [ listacmd ]
 
     [               shift and go to state 8
 
 
 state 7
 
-    (1) programa -> DEF ID action : . [ listacmd ]
-    (5) programa -> DEF ID action : . error listacmd ]
-    (6) programa -> DEF ID action : . [ listacmd error
+    (1) programa -> DEF ID action2 : . [ listacmd ]
+    (5) programa -> DEF ID action2 : . error listacmd ]
+    (6) programa -> DEF ID action2 : . [ listacmd error
 
     [               shift and go to state 10
     error           shift and go to state 9
@@ -262,7 +262,7 @@ state 7
 
 state 8
 
-    (4) programa -> DEF ID action error [ . listacmd ]
+    (4) programa -> DEF ID action2 error [ . listacmd ]
     (8) listacmd -> . comando listacmd1
     (11) comando -> . cmdatribui
     (12) comando -> . cmdentrada
@@ -307,7 +307,7 @@ state 8
 
 state 9
 
-    (5) programa -> DEF ID action : error . listacmd ]
+    (5) programa -> DEF ID action2 : error . listacmd ]
     (8) listacmd -> . comando listacmd1
     (11) comando -> . cmdatribui
     (12) comando -> . cmdentrada
@@ -352,8 +352,8 @@ state 9
 
 state 10
 
-    (1) programa -> DEF ID action : [ . listacmd ]
-    (6) programa -> DEF ID action : [ . listacmd error
+    (1) programa -> DEF ID action2 : [ . listacmd ]
+    (6) programa -> DEF ID action2 : [ . listacmd error
     (8) listacmd -> . comando listacmd1
     (11) comando -> . cmdatribui
     (12) comando -> . cmdentrada
@@ -467,7 +467,7 @@ state 13
 
 state 14
 
-    (4) programa -> DEF ID action error [ listacmd . ]
+    (4) programa -> DEF ID action2 error [ listacmd . ]
 
     ]               shift and go to state 43
 
@@ -652,15 +652,15 @@ state 23
 
 state 24
 
-    (5) programa -> DEF ID action : error listacmd . ]
+    (5) programa -> DEF ID action2 : error listacmd . ]
 
     ]               shift and go to state 56
 
 
 state 25
 
-    (1) programa -> DEF ID action : [ listacmd . ]
-    (6) programa -> DEF ID action : [ listacmd . error
+    (1) programa -> DEF ID action2 : [ listacmd . ]
+    (6) programa -> DEF ID action2 : [ listacmd . error
 
     ]               shift and go to state 58
     error           shift and go to state 57
@@ -1079,9 +1079,9 @@ state 42
 
 state 43
 
-    (4) programa -> DEF ID action error [ listacmd ] .
+    (4) programa -> DEF ID action2 error [ listacmd ] .
 
-    $end            reduce using rule 4 (programa -> DEF ID action error [ listacmd ] .)
+    $end            reduce using rule 4 (programa -> DEF ID action2 error [ listacmd ] .)
 
 
 state 44
@@ -1292,23 +1292,23 @@ state 55
 
 state 56
 
-    (5) programa -> DEF ID action : error listacmd ] .
+    (5) programa -> DEF ID action2 : error listacmd ] .
 
-    $end            reduce using rule 5 (programa -> DEF ID action : error listacmd ] .)
+    $end            reduce using rule 5 (programa -> DEF ID action2 : error listacmd ] .)
 
 
 state 57
 
-    (6) programa -> DEF ID action : [ listacmd error .
+    (6) programa -> DEF ID action2 : [ listacmd error .
 
-    $end            reduce using rule 6 (programa -> DEF ID action : [ listacmd error .)
+    $end            reduce using rule 6 (programa -> DEF ID action2 : [ listacmd error .)
 
 
 state 58
 
-    (1) programa -> DEF ID action : [ listacmd ] .
+    (1) programa -> DEF ID action2 : [ listacmd ] .
 
-    $end            reduce using rule 1 (programa -> DEF ID action : [ listacmd ] .)
+    $end            reduce using rule 1 (programa -> DEF ID action2 : [ listacmd ] .)
 
 
 state 59
