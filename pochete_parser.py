@@ -3,40 +3,41 @@ import ply.yacc as yacc
 from lexer import tokens, lexer
 
 class CompilerFlag:
-  bool = False
+    bool = False
   
 class SemanticTools:
-  defined_variables = {}
-  context = ""
+    defined_variables = {}
+    context = ""
 
-  @classmethod
-  def reset(cls):
-    cls.defined_variables = {}
-    cls.context = ""
-  # The LLVM module, which holds all the IR code.
-  #g_llvm_module = Module.new('Pochete Module')
-  # The LLVM instruction builder. Created whenever a new function is entered.
-  #g_llvm_builder = None
-  # A dictionary that keeps track of which values are defined in the current scope
-  # and what their LLVM representation is.
-  #g_named_values = {}
+    @classmethod
+    def reset(cls):
+        cls.defined_variables = {}
+        cls.context = ""
+      # The LLVM module, which holds all the IR code.
+      #g_llvm_module = Module.new('Pochete Module')
+      # The LLVM instruction builder. Created whenever a new function is entered.
+      #g_llvm_builder = None
+      # A dictionary that keeps track of which values are defined in the current scope
+      # and what their LLVM representation is.
+      #g_named_values = {}
 
 def p_programa(p):
-    """programa : DEF ID action_2 ':' '[' listacmd ']' 
+    """programa : DEF ID action ':' '[' listacmd ']' 
     | empty"""
     if len(p) <= 2:
       raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
     
     SemanticTools.defined_variables[p[2]] = True
 
-def p_action_2(p):
-  "action_2: empty"
-  pass
+def p_action(p):
+    "action :"
+    print "OK", p[-1]
+    SemanticTools.defined_variables[p[-1]] = True
 
 def p_programa_error(t):
-    """programa : DEF ID error '[' listacmd ']' 
-    | DEF ID ':' error listacmd ']' 
-    | DEF ID ':' '[' listacmd error """
+    """programa : DEF ID action error '[' listacmd ']' 
+    | DEF ID action ':' error listacmd ']' 
+    | DEF ID action ':' '[' listacmd error """
     _generateError(t, {1:"def",3:":", 4:"[", 6:']'})
         
 def p_empty(p):
@@ -143,21 +144,21 @@ def p_else(p):
     pass
 
 def p_else_error(t):
-  """else : ELSE error '[' listacmd ']' 
-  | ELSE ':' error listacmd ']' 
-  | ELSE ':' '[' listacmd error """
-  _generateError(t, {2:":", 3:"[", 5:']'})
+    """else : ELSE error '[' listacmd ']' 
+    | ELSE ':' error listacmd ']' 
+    | ELSE ':' '[' listacmd error """
+    _generateError(t, {2:":", 3:"[", 5:']'})
   
 def p_cmdrepeticao(p):
     "cmdrepeticao : WHILE expressao ':' '[' listacmd ']' else ';'"
     pass
 
 def p_cmdrepeticao_error(t):
-  """cmdrepeticao : WHILE expressao error '[' listacmd ']' else ';' 
-  | WHILE expressao ':' error listacmd ']' else ';'
-  | WHILE expressao ':' '[' listacmd error else ';'
-  | WHILE expressao ':' '[' listacmd ']' else error"""
-  _generateError(t, {3:":", 4:"[", 6:']', 8:';'})
+    """cmdrepeticao : WHILE expressao error '[' listacmd ']' else ';' 
+    | WHILE expressao ':' error listacmd ']' else ';'
+    | WHILE expressao ':' '[' listacmd error else ';'
+    | WHILE expressao ':' '[' listacmd ']' else error"""
+    _generateError(t, {3:":", 4:"[", 6:']', 8:';'})
   
 def p_expressao(p):
     "expressao : valor expressao1"
