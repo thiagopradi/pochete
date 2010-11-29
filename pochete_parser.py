@@ -63,13 +63,6 @@ def p_comando(p):
 
 def p_listaidenti(p):
     "listaidenti : ID listaindenti1"    
-    if(SemanticTools.context == 'atribui' and SemanticTools.defined_variables.get(p[1])):
-      raise Exception(u"Erro na linha %s - identificador já declarado anteriormente" % (p.lineno(1)))
-        
-    SemanticTools.context = ""
-    
-    if(p.stack[len(p.stack)-2].value == 'input' and not SemanticTools.defined_variables.get(p[1])):
-      raise Exception(u"Erro na linha %s - identificador (%s) não declarado" % (p.lineno(1), p[1]))    
     
     
 def p_listaindenti1(p):
@@ -91,8 +84,6 @@ def p_listaexp1_error(t):
     
 def p_cmdatribui(p):
     "cmdatribui : listaidenti SIM_ATTR expressao ';'"
-    if(p[2] == ":="):
-      SemanticTools.context = "atribui"
     
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti ')' ';'"
