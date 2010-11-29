@@ -1,6 +1,8 @@
 # coding: utf-8
 import ply.yacc as yacc
 from lexer import tokens, lexer
+from llvm import *
+from llvm.core import *
 
 class CompilerFlag:
     bool = False
@@ -8,30 +10,28 @@ class CompilerFlag:
 class SemanticTools:
     defined_variables = {}
     context = ""
-
+    # The LLVM module, which holds all the IR code.
+    g_llvm_module = Module.new('Pochete Module')
+    # The LLVM instruction builder. Created whenever a new function is entered.
+    g_llvm_builder = None
+    # A dictionary that keeps track of which values are defined in the current scope
+    # and what their LLVM representation is.
+    g_named_values = {}    
+    
     @classmethod
     def reset(cls):
         cls.defined_variables = {}
         cls.context = ""
-      # The LLVM module, which holds all the IR code.
-      #g_llvm_module = Module.new('Pochete Module')
-      # The LLVM instruction builder. Created whenever a new function is entered.
-      #g_llvm_builder = None
-      # A dictionary that keeps track of which values are defined in the current scope
-      # and what their LLVM representation is.
-      #g_named_values = {}
-
+        
+        
 def p_programa(p):
     """programa : DEF ID action2 ':' '[' listacmd ']' 
     | empty"""
     if len(p) <= 2:
       raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
     
-    SemanticTools.defined_variables[p[2]] = True
-
 def p_action(p):
     "action2 :"
-    print "OK", p[-1]
     SemanticTools.defined_variables[p[-1]] = True
 
 def p_programa_error(t):
@@ -63,21 +63,18 @@ def p_comando(p):
 
 def p_listaidenti(p):
     "listaidenti : ID listaindenti1"    
-    print "LAST"
     if(SemanticTools.context == 'atribui' and SemanticTools.defined_variables.get(p[1])):
       raise Exception(u"Erro na linha %s - identificador já declarado anteriormente" % (p.lineno(1)))
-    
-    if(SemanticTools.context == 'atribui'):
-      SemanticTools.defined_variables[p[1]] = True
-    
+        
     SemanticTools.context = ""
+    
     if(p.stack[len(p.stack)-2].value == 'input' and not SemanticTools.defined_variables.get(p[1])):
       raise Exception(u"Erro na linha %s - identificador (%s) não declarado" % (p.lineno(1), p[1]))    
     
     
 def p_listaindenti1(p):
     """listaindenti1 : empty
-                     | ',' listaidenti"""
+                     | ',' listaidenti"""    
     pass
         
 def p_listaexp(p):
