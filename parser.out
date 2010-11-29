@@ -14,9 +14,9 @@ Rule 0     S' -> programa
 Rule 1     programa -> DEF ID action2 : [ listacmd ]
 Rule 2     programa -> empty
 Rule 3     action2 -> <empty>
-Rule 4     programa -> DEF ID action2 error [ listacmd ]
-Rule 5     programa -> DEF ID action2 : error listacmd ]
-Rule 6     programa -> DEF ID action2 : [ listacmd error
+Rule 4     programa -> DEF ID error [ listacmd ]
+Rule 5     programa -> DEF ID empty : error listacmd ]
+Rule 6     programa -> DEF ID empty : [ listacmd error
 Rule 7     empty -> <empty>
 Rule 8     listacmd -> comando listacmd1
 Rule 9     listacmd1 -> empty
@@ -147,7 +147,7 @@ error                : 4 5 6 22 25 26 27 29 30 31 33 34 35 36 39 40 41 44 45 46 
 
 Nonterminals, with rules where they appear
 
-action2              : 1 4 5 6
+action2              : 1
 aritmetica           : 61 62
 aritmetica1          : 70 72 73
 cmdatribui           : 11
@@ -159,7 +159,7 @@ comando              : 8
 elemento             : 79 81 87 88
 elif                 : 32 33 34 35 36 38 39 40 41
 else                 : 32 33 34 35 36 47 48 49 50 51
-empty                : 2 9 17 21 37 42 53 63 71 75 80
+empty                : 2 5 6 9 17 21 37 42 53 63 71 75 80
 expressao            : 19 23 32 33 34 35 36 38 39 40 41 47 48 49 50 51 86
 expressao1           : 52 54 55 56
 fator                : 74 76 77 78
@@ -185,9 +185,9 @@ state 0
     (0) S' -> . programa
     (1) programa -> . DEF ID action2 : [ listacmd ]
     (2) programa -> . empty
-    (4) programa -> . DEF ID action2 error [ listacmd ]
-    (5) programa -> . DEF ID action2 : error listacmd ]
-    (6) programa -> . DEF ID action2 : [ listacmd error
+    (4) programa -> . DEF ID error [ listacmd ]
+    (5) programa -> . DEF ID empty : error listacmd ]
+    (6) programa -> . DEF ID empty : [ listacmd error
     (7) empty -> .
 
     DEF             shift and go to state 3
@@ -212,9 +212,9 @@ state 2
 state 3
 
     (1) programa -> DEF . ID action2 : [ listacmd ]
-    (4) programa -> DEF . ID action2 error [ listacmd ]
-    (5) programa -> DEF . ID action2 : error listacmd ]
-    (6) programa -> DEF . ID action2 : [ listacmd error
+    (4) programa -> DEF . ID error [ listacmd ]
+    (5) programa -> DEF . ID empty : error listacmd ]
+    (6) programa -> DEF . ID empty : [ listacmd error
 
     ID              shift and go to state 4
 
@@ -222,138 +222,62 @@ state 3
 state 4
 
     (1) programa -> DEF ID . action2 : [ listacmd ]
-    (4) programa -> DEF ID . action2 error [ listacmd ]
-    (5) programa -> DEF ID . action2 : error listacmd ]
-    (6) programa -> DEF ID . action2 : [ listacmd error
+    (4) programa -> DEF ID . error [ listacmd ]
+    (5) programa -> DEF ID . empty : error listacmd ]
+    (6) programa -> DEF ID . empty : [ listacmd error
     (3) action2 -> .
+    (7) empty -> .
 
+  ! reduce/reduce conflict for : resolved using rule 3 (action2 -> .)
+    error           shift and go to state 7
     :               reduce using rule 3 (action2 -> .)
-    error           reduce using rule 3 (action2 -> .)
 
+  ! :               [ reduce using rule 7 (empty -> .) ]
+
+    empty                          shift and go to state 6
     action2                        shift and go to state 5
 
 state 5
 
     (1) programa -> DEF ID action2 . : [ listacmd ]
-    (4) programa -> DEF ID action2 . error [ listacmd ]
-    (5) programa -> DEF ID action2 . : error listacmd ]
-    (6) programa -> DEF ID action2 . : [ listacmd error
 
-    :               shift and go to state 7
-    error           shift and go to state 6
+    :               shift and go to state 8
 
 
 state 6
 
-    (4) programa -> DEF ID action2 error . [ listacmd ]
+    (5) programa -> DEF ID empty . : error listacmd ]
+    (6) programa -> DEF ID empty . : [ listacmd error
 
-    [               shift and go to state 8
+    :               shift and go to state 9
 
 
 state 7
 
-    (1) programa -> DEF ID action2 : . [ listacmd ]
-    (5) programa -> DEF ID action2 : . error listacmd ]
-    (6) programa -> DEF ID action2 : . [ listacmd error
+    (4) programa -> DEF ID error . [ listacmd ]
 
     [               shift and go to state 10
-    error           shift and go to state 9
 
 
 state 8
 
-    (4) programa -> DEF ID action2 error [ . listacmd ]
-    (8) listacmd -> . comando listacmd1
-    (11) comando -> . cmdatribui
-    (12) comando -> . cmdentrada
-    (13) comando -> . cmdsaida
-    (14) comando -> . cmdselecao
-    (15) comando -> . cmdrepeticao
-    (23) cmdatribui -> . listaidenti SIM_ATTR expressao ;
-    (24) cmdentrada -> . INPUT ( listaidenti ) ;
-    (25) cmdentrada -> . INPUT ( listaidenti error ;
-    (26) cmdentrada -> . INPUT error listaidenti ) ;
-    (27) cmdentrada -> . INPUT ( listaidenti ) error
-    (28) cmdsaida -> . OUTPUT ( listaexp ) ;
-    (29) cmdsaida -> . OUTPUT ( listaexp error ;
-    (30) cmdsaida -> . OUTPUT error listaexp ) ;
-    (31) cmdsaida -> . OUTPUT ( listaexp ) error
-    (32) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
-    (33) cmdselecao -> . IF expressao error [ listacmd ] elif else ;
-    (34) cmdselecao -> . IF expressao : error listacmd ] elif else ;
-    (35) cmdselecao -> . IF expressao : [ listacmd error elif else ;
-    (36) cmdselecao -> . IF expressao : [ listacmd ] elif else error
-    (47) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
-    (48) cmdrepeticao -> . WHILE expressao error [ listacmd ] else ;
-    (49) cmdrepeticao -> . WHILE expressao : error listacmd ] else ;
-    (50) cmdrepeticao -> . WHILE expressao : [ listacmd error else ;
-    (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
-    (16) listaidenti -> . ID listaindenti1
+    (1) programa -> DEF ID action2 : . [ listacmd ]
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    [               shift and go to state 11
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 14
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
 
 state 9
 
-    (5) programa -> DEF ID action2 : error . listacmd ]
-    (8) listacmd -> . comando listacmd1
-    (11) comando -> . cmdatribui
-    (12) comando -> . cmdentrada
-    (13) comando -> . cmdsaida
-    (14) comando -> . cmdselecao
-    (15) comando -> . cmdrepeticao
-    (23) cmdatribui -> . listaidenti SIM_ATTR expressao ;
-    (24) cmdentrada -> . INPUT ( listaidenti ) ;
-    (25) cmdentrada -> . INPUT ( listaidenti error ;
-    (26) cmdentrada -> . INPUT error listaidenti ) ;
-    (27) cmdentrada -> . INPUT ( listaidenti ) error
-    (28) cmdsaida -> . OUTPUT ( listaexp ) ;
-    (29) cmdsaida -> . OUTPUT ( listaexp error ;
-    (30) cmdsaida -> . OUTPUT error listaexp ) ;
-    (31) cmdsaida -> . OUTPUT ( listaexp ) error
-    (32) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
-    (33) cmdselecao -> . IF expressao error [ listacmd ] elif else ;
-    (34) cmdselecao -> . IF expressao : error listacmd ] elif else ;
-    (35) cmdselecao -> . IF expressao : [ listacmd error elif else ;
-    (36) cmdselecao -> . IF expressao : [ listacmd ] elif else error
-    (47) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
-    (48) cmdrepeticao -> . WHILE expressao error [ listacmd ] else ;
-    (49) cmdrepeticao -> . WHILE expressao : error listacmd ] else ;
-    (50) cmdrepeticao -> . WHILE expressao : [ listacmd error else ;
-    (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
-    (16) listaidenti -> . ID listaindenti1
+    (5) programa -> DEF ID empty : . error listacmd ]
+    (6) programa -> DEF ID empty : . [ listacmd error
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    error           shift and go to state 12
+    [               shift and go to state 13
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 24
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
 
 state 10
 
-    (1) programa -> DEF ID action2 : [ . listacmd ]
-    (6) programa -> DEF ID action2 : [ . listacmd error
+    (4) programa -> DEF ID error [ . listacmd ]
     (8) listacmd -> . comando listacmd1
     (11) comando -> . cmdatribui
     (12) comando -> . cmdentrada
@@ -381,22 +305,157 @@ state 10
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 25
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 17
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
 state 11
+
+    (1) programa -> DEF ID action2 : [ . listacmd ]
+    (8) listacmd -> . comando listacmd1
+    (11) comando -> . cmdatribui
+    (12) comando -> . cmdentrada
+    (13) comando -> . cmdsaida
+    (14) comando -> . cmdselecao
+    (15) comando -> . cmdrepeticao
+    (23) cmdatribui -> . listaidenti SIM_ATTR expressao ;
+    (24) cmdentrada -> . INPUT ( listaidenti ) ;
+    (25) cmdentrada -> . INPUT ( listaidenti error ;
+    (26) cmdentrada -> . INPUT error listaidenti ) ;
+    (27) cmdentrada -> . INPUT ( listaidenti ) error
+    (28) cmdsaida -> . OUTPUT ( listaexp ) ;
+    (29) cmdsaida -> . OUTPUT ( listaexp error ;
+    (30) cmdsaida -> . OUTPUT error listaexp ) ;
+    (31) cmdsaida -> . OUTPUT ( listaexp ) error
+    (32) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
+    (33) cmdselecao -> . IF expressao error [ listacmd ] elif else ;
+    (34) cmdselecao -> . IF expressao : error listacmd ] elif else ;
+    (35) cmdselecao -> . IF expressao : [ listacmd error elif else ;
+    (36) cmdselecao -> . IF expressao : [ listacmd ] elif else error
+    (47) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
+    (48) cmdrepeticao -> . WHILE expressao error [ listacmd ] else ;
+    (49) cmdrepeticao -> . WHILE expressao : error listacmd ] else ;
+    (50) cmdrepeticao -> . WHILE expressao : [ listacmd error else ;
+    (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
+    (16) listaidenti -> . ID listaindenti1
+
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
+
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 27
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
+
+state 12
+
+    (5) programa -> DEF ID empty : error . listacmd ]
+    (8) listacmd -> . comando listacmd1
+    (11) comando -> . cmdatribui
+    (12) comando -> . cmdentrada
+    (13) comando -> . cmdsaida
+    (14) comando -> . cmdselecao
+    (15) comando -> . cmdrepeticao
+    (23) cmdatribui -> . listaidenti SIM_ATTR expressao ;
+    (24) cmdentrada -> . INPUT ( listaidenti ) ;
+    (25) cmdentrada -> . INPUT ( listaidenti error ;
+    (26) cmdentrada -> . INPUT error listaidenti ) ;
+    (27) cmdentrada -> . INPUT ( listaidenti ) error
+    (28) cmdsaida -> . OUTPUT ( listaexp ) ;
+    (29) cmdsaida -> . OUTPUT ( listaexp error ;
+    (30) cmdsaida -> . OUTPUT error listaexp ) ;
+    (31) cmdsaida -> . OUTPUT ( listaexp ) error
+    (32) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
+    (33) cmdselecao -> . IF expressao error [ listacmd ] elif else ;
+    (34) cmdselecao -> . IF expressao : error listacmd ] elif else ;
+    (35) cmdselecao -> . IF expressao : [ listacmd error elif else ;
+    (36) cmdselecao -> . IF expressao : [ listacmd ] elif else error
+    (47) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
+    (48) cmdrepeticao -> . WHILE expressao error [ listacmd ] else ;
+    (49) cmdrepeticao -> . WHILE expressao : error listacmd ] else ;
+    (50) cmdrepeticao -> . WHILE expressao : [ listacmd error else ;
+    (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
+    (16) listaidenti -> . ID listaindenti1
+
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
+
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 28
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
+
+state 13
+
+    (6) programa -> DEF ID empty : [ . listacmd error
+    (8) listacmd -> . comando listacmd1
+    (11) comando -> . cmdatribui
+    (12) comando -> . cmdentrada
+    (13) comando -> . cmdsaida
+    (14) comando -> . cmdselecao
+    (15) comando -> . cmdrepeticao
+    (23) cmdatribui -> . listaidenti SIM_ATTR expressao ;
+    (24) cmdentrada -> . INPUT ( listaidenti ) ;
+    (25) cmdentrada -> . INPUT ( listaidenti error ;
+    (26) cmdentrada -> . INPUT error listaidenti ) ;
+    (27) cmdentrada -> . INPUT ( listaidenti ) error
+    (28) cmdsaida -> . OUTPUT ( listaexp ) ;
+    (29) cmdsaida -> . OUTPUT ( listaexp error ;
+    (30) cmdsaida -> . OUTPUT error listaexp ) ;
+    (31) cmdsaida -> . OUTPUT ( listaexp ) error
+    (32) cmdselecao -> . IF expressao : [ listacmd ] elif else ;
+    (33) cmdselecao -> . IF expressao error [ listacmd ] elif else ;
+    (34) cmdselecao -> . IF expressao : error listacmd ] elif else ;
+    (35) cmdselecao -> . IF expressao : [ listacmd error elif else ;
+    (36) cmdselecao -> . IF expressao : [ listacmd ] elif else error
+    (47) cmdrepeticao -> . WHILE expressao : [ listacmd ] else ;
+    (48) cmdrepeticao -> . WHILE expressao error [ listacmd ] else ;
+    (49) cmdrepeticao -> . WHILE expressao : error listacmd ] else ;
+    (50) cmdrepeticao -> . WHILE expressao : [ listacmd error else ;
+    (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
+    (16) listaidenti -> . ID listaindenti1
+
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
+
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 29
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
+
+state 14
 
     (14) comando -> cmdselecao .
 
@@ -409,7 +468,7 @@ state 11
     error           reduce using rule 14 (comando -> cmdselecao .)
 
 
-state 12
+state 15
 
     (12) comando -> cmdentrada .
 
@@ -422,7 +481,7 @@ state 12
     error           reduce using rule 12 (comando -> cmdentrada .)
 
 
-state 13
+state 16
 
     (47) cmdrepeticao -> WHILE . expressao : [ listacmd ] else ;
     (48) cmdrepeticao -> WHILE . expressao error [ listacmd ] else ;
@@ -446,33 +505,33 @@ state 13
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    aritmetica                     shift and go to state 33
-    expressao                      shift and go to state 30
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    valor                          shift and go to state 35
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    aritmetica                     shift and go to state 37
+    expressao                      shift and go to state 34
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    valor                          shift and go to state 39
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 14
+state 17
 
-    (4) programa -> DEF ID action2 error [ listacmd . ]
+    (4) programa -> DEF ID error [ listacmd . ]
 
-    ]               shift and go to state 43
+    ]               shift and go to state 47
 
 
-state 15
+state 18
 
     (11) comando -> cmdatribui .
 
@@ -485,7 +544,7 @@ state 15
     error           reduce using rule 11 (comando -> cmdatribui .)
 
 
-state 16
+state 19
 
     (13) comando -> cmdsaida .
 
@@ -498,40 +557,40 @@ state 16
     error           reduce using rule 13 (comando -> cmdsaida .)
 
 
-state 17
+state 20
 
     (23) cmdatribui -> listaidenti . SIM_ATTR expressao ;
 
-    SIM_ATTR        shift and go to state 44
+    SIM_ATTR        shift and go to state 48
 
 
-state 18
+state 21
 
     (24) cmdentrada -> INPUT . ( listaidenti ) ;
     (25) cmdentrada -> INPUT . ( listaidenti error ;
     (26) cmdentrada -> INPUT . error listaidenti ) ;
     (27) cmdentrada -> INPUT . ( listaidenti ) error
 
-    (               shift and go to state 45
-    error           shift and go to state 46
+    (               shift and go to state 49
+    error           shift and go to state 50
 
 
-state 19
+state 22
 
     (16) listaidenti -> ID . listaindenti1
     (17) listaindenti1 -> . empty
     (18) listaindenti1 -> . , listaidenti
     (7) empty -> .
 
-    ,               shift and go to state 49
+    ,               shift and go to state 53
     SIM_ATTR        reduce using rule 7 (empty -> .)
     )               reduce using rule 7 (empty -> .)
     error           reduce using rule 7 (empty -> .)
 
-    listaindenti1                  shift and go to state 47
-    empty                          shift and go to state 48
+    listaindenti1                  shift and go to state 51
+    empty                          shift and go to state 52
 
-state 20
+state 23
 
     (32) cmdselecao -> IF . expressao : [ listacmd ] elif else ;
     (33) cmdselecao -> IF . expressao error [ listacmd ] elif else ;
@@ -555,26 +614,26 @@ state 20
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    aritmetica                     shift and go to state 33
-    expressao                      shift and go to state 50
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    valor                          shift and go to state 35
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    aritmetica                     shift and go to state 37
+    expressao                      shift and go to state 54
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    valor                          shift and go to state 39
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 21
+state 24
 
     (15) comando -> cmdrepeticao .
 
@@ -587,7 +646,7 @@ state 21
     error           reduce using rule 15 (comando -> cmdrepeticao .)
 
 
-state 22
+state 25
 
     (8) listacmd -> comando . listacmd1
     (9) listacmd1 -> . empty
@@ -622,51 +681,56 @@ state 22
 
     ]               reduce using rule 7 (empty -> .)
     error           reduce using rule 7 (empty -> .)
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    listacmd1                      shift and go to state 52
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 51
-    cmdsaida                       shift and go to state 16
-    empty                          shift and go to state 53
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    listacmd1                      shift and go to state 56
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 55
+    cmdsaida                       shift and go to state 19
+    empty                          shift and go to state 57
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 23
+state 26
 
     (28) cmdsaida -> OUTPUT . ( listaexp ) ;
     (29) cmdsaida -> OUTPUT . ( listaexp error ;
     (30) cmdsaida -> OUTPUT . error listaexp ) ;
     (31) cmdsaida -> OUTPUT . ( listaexp ) error
 
-    (               shift and go to state 54
-    error           shift and go to state 55
+    (               shift and go to state 58
+    error           shift and go to state 59
 
 
-state 24
-
-    (5) programa -> DEF ID action2 : error listacmd . ]
-
-    ]               shift and go to state 56
-
-
-state 25
+state 27
 
     (1) programa -> DEF ID action2 : [ listacmd . ]
-    (6) programa -> DEF ID action2 : [ listacmd . error
 
-    ]               shift and go to state 58
-    error           shift and go to state 57
+    ]               shift and go to state 60
 
 
-state 26
+state 28
+
+    (5) programa -> DEF ID empty : error listacmd . ]
+
+    ]               shift and go to state 61
+
+
+state 29
+
+    (6) programa -> DEF ID empty : [ listacmd . error
+
+    error           shift and go to state 62
+
+
+state 30
 
     (84) elemento -> REAL .
 
@@ -691,7 +755,7 @@ state 26
     ,               reduce using rule 84 (elemento -> REAL .)
 
 
-state 27
+state 31
 
     (88) elemento -> - . elemento
     (82) elemento -> . ID
@@ -702,30 +766,30 @@ state 27
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    elemento                       shift and go to state 59
+    elemento                       shift and go to state 63
 
-state 28
+state 32
 
     (58) valor -> TRUE .
 
     OR              reduce using rule 58 (valor -> TRUE .)
     AND             reduce using rule 58 (valor -> TRUE .)
     error           reduce using rule 58 (valor -> TRUE .)
-    :               reduce using rule 58 (valor -> TRUE .)
     ,               reduce using rule 58 (valor -> TRUE .)
     )               reduce using rule 58 (valor -> TRUE .)
+    :               reduce using rule 58 (valor -> TRUE .)
     ;               reduce using rule 58 (valor -> TRUE .)
 
 
-state 29
+state 33
 
     (83) elemento -> INTEIRO .
 
@@ -750,7 +814,7 @@ state 29
     ,               reduce using rule 83 (elemento -> INTEIRO .)
 
 
-state 30
+state 34
 
     (47) cmdrepeticao -> WHILE expressao . : [ listacmd ] else ;
     (48) cmdrepeticao -> WHILE expressao . error [ listacmd ] else ;
@@ -758,11 +822,11 @@ state 30
     (50) cmdrepeticao -> WHILE expressao . : [ listacmd error else ;
     (51) cmdrepeticao -> WHILE expressao . : [ listacmd ] else error
 
-    :               shift and go to state 61
-    error           shift and go to state 60
+    :               shift and go to state 65
+    error           shift and go to state 64
 
 
-state 31
+state 35
 
     (87) elemento -> + . elemento
     (82) elemento -> . ID
@@ -773,17 +837,17 @@ state 31
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    elemento                       shift and go to state 62
+    elemento                       shift and go to state 66
 
-state 32
+state 36
 
     (74) termo -> fator . termo1
     (75) termo1 -> . empty
@@ -792,9 +856,9 @@ state 32
     (78) termo1 -> . % fator termo1
     (7) empty -> .
 
-    *               shift and go to state 65
-    /               shift and go to state 66
-    %               shift and go to state 64
+    *               shift and go to state 69
+    /               shift and go to state 70
+    %               shift and go to state 68
     +               reduce using rule 7 (empty -> .)
     -               reduce using rule 7 (empty -> .)
     SIM_EQ          reduce using rule 7 (empty -> .)
@@ -811,10 +875,10 @@ state 32
     ;               reduce using rule 7 (empty -> .)
     ,               reduce using rule 7 (empty -> .)
 
-    termo1                         shift and go to state 63
-    empty                          shift and go to state 67
+    termo1                         shift and go to state 67
+    empty                          shift and go to state 71
 
-state 33
+state 37
 
     (61) relacional -> aritmetica . relacional1
     (62) relacional1 -> . operador aritmetica
@@ -827,12 +891,12 @@ state 33
     (69) operador -> . SIM_GE
     (7) empty -> .
 
-    SIM_EQ          shift and go to state 68
-    SIM_DIF         shift and go to state 71
-    <               shift and go to state 74
-    SIM_LE          shift and go to state 76
-    >               shift and go to state 73
-    SIM_GE          shift and go to state 70
+    SIM_EQ          shift and go to state 72
+    SIM_DIF         shift and go to state 75
+    <               shift and go to state 78
+    SIM_LE          shift and go to state 80
+    >               shift and go to state 77
+    SIM_GE          shift and go to state 74
     OR              reduce using rule 7 (empty -> .)
     AND             reduce using rule 7 (empty -> .)
     error           reduce using rule 7 (empty -> .)
@@ -841,11 +905,11 @@ state 33
     ;               reduce using rule 7 (empty -> .)
     ,               reduce using rule 7 (empty -> .)
 
-    relacional1                    shift and go to state 72
-    operador                       shift and go to state 69
-    empty                          shift and go to state 75
+    relacional1                    shift and go to state 76
+    operador                       shift and go to state 73
+    empty                          shift and go to state 79
 
-state 34
+state 38
 
     (86) elemento -> ( . expressao )
     (52) expressao -> . valor expressao1
@@ -865,26 +929,26 @@ state 34
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    expressao                      shift and go to state 77
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    aritmetica                     shift and go to state 33
-    valor                          shift and go to state 35
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    expressao                      shift and go to state 81
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    aritmetica                     shift and go to state 37
+    valor                          shift and go to state 39
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 35
+state 39
 
     (52) expressao -> valor . expressao1
     (53) expressao1 -> . empty
@@ -894,9 +958,9 @@ state 35
     (7) empty -> .
 
   ! shift/reduce conflict for error resolved as shift
-    OR              shift and go to state 81
-    AND             shift and go to state 78
-    error           shift and go to state 79
+    OR              shift and go to state 85
+    AND             shift and go to state 82
+    error           shift and go to state 83
     :               reduce using rule 7 (empty -> .)
     )               reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
@@ -904,10 +968,10 @@ state 35
 
   ! error           [ reduce using rule 7 (empty -> .) ]
 
-    expressao1                     shift and go to state 80
-    empty                          shift and go to state 82
+    expressao1                     shift and go to state 84
+    empty                          shift and go to state 86
 
-state 36
+state 40
 
     (85) elemento -> LITERAL .
 
@@ -932,7 +996,7 @@ state 36
     ,               reduce using rule 85 (elemento -> LITERAL .)
 
 
-state 37
+state 41
 
     (70) aritmetica -> termo . aritmetica1
     (71) aritmetica1 -> . empty
@@ -940,8 +1004,8 @@ state 37
     (73) aritmetica1 -> . - termo aritmetica1
     (7) empty -> .
 
-    +               shift and go to state 84
-    -               shift and go to state 85
+    +               shift and go to state 88
+    -               shift and go to state 89
     SIM_EQ          reduce using rule 7 (empty -> .)
     SIM_DIF         reduce using rule 7 (empty -> .)
     <               reduce using rule 7 (empty -> .)
@@ -956,23 +1020,23 @@ state 37
     ;               reduce using rule 7 (empty -> .)
     ,               reduce using rule 7 (empty -> .)
 
-    aritmetica1                    shift and go to state 83
-    empty                          shift and go to state 86
+    aritmetica1                    shift and go to state 87
+    empty                          shift and go to state 90
 
-state 38
+state 42
 
     (57) valor -> relacional .
 
     OR              reduce using rule 57 (valor -> relacional .)
     AND             reduce using rule 57 (valor -> relacional .)
     error           reduce using rule 57 (valor -> relacional .)
-    :               reduce using rule 57 (valor -> relacional .)
     ,               reduce using rule 57 (valor -> relacional .)
     )               reduce using rule 57 (valor -> relacional .)
+    :               reduce using rule 57 (valor -> relacional .)
     ;               reduce using rule 57 (valor -> relacional .)
 
 
-state 39
+state 43
 
     (82) elemento -> ID .
 
@@ -997,14 +1061,14 @@ state 39
     ,               reduce using rule 82 (elemento -> ID .)
 
 
-state 40
+state 44
 
     (79) fator -> elemento . fator1
     (80) fator1 -> . empty
     (81) fator1 -> . SIM_POT elemento fator1
     (7) empty -> .
 
-    SIM_POT         shift and go to state 88
+    SIM_POT         shift and go to state 92
     *               reduce using rule 7 (empty -> .)
     /               reduce using rule 7 (empty -> .)
     %               reduce using rule 7 (empty -> .)
@@ -1024,23 +1088,23 @@ state 40
     ;               reduce using rule 7 (empty -> .)
     ,               reduce using rule 7 (empty -> .)
 
-    fator1                         shift and go to state 87
-    empty                          shift and go to state 89
+    fator1                         shift and go to state 91
+    empty                          shift and go to state 93
 
-state 41
+state 45
 
     (59) valor -> FALSE .
 
     OR              reduce using rule 59 (valor -> FALSE .)
     AND             reduce using rule 59 (valor -> FALSE .)
     error           reduce using rule 59 (valor -> FALSE .)
-    :               reduce using rule 59 (valor -> FALSE .)
     ,               reduce using rule 59 (valor -> FALSE .)
     )               reduce using rule 59 (valor -> FALSE .)
+    :               reduce using rule 59 (valor -> FALSE .)
     ;               reduce using rule 59 (valor -> FALSE .)
 
 
-state 42
+state 46
 
     (60) valor -> NOT . valor
     (57) valor -> . relacional
@@ -1059,32 +1123,32 @@ state 42
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    aritmetica                     shift and go to state 33
-    valor                          shift and go to state 90
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    aritmetica                     shift and go to state 37
+    valor                          shift and go to state 94
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 43
+state 47
 
-    (4) programa -> DEF ID action2 error [ listacmd ] .
+    (4) programa -> DEF ID error [ listacmd ] .
 
-    $end            reduce using rule 4 (programa -> DEF ID action2 error [ listacmd ] .)
+    $end            reduce using rule 4 (programa -> DEF ID error [ listacmd ] .)
 
 
-state 44
+state 48
 
     (23) cmdatribui -> listaidenti SIM_ATTR . expressao ;
     (52) expressao -> . valor expressao1
@@ -1104,46 +1168,46 @@ state 44
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    expressao                      shift and go to state 91
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    aritmetica                     shift and go to state 33
-    valor                          shift and go to state 35
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    expressao                      shift and go to state 95
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    aritmetica                     shift and go to state 37
+    valor                          shift and go to state 39
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 45
+state 49
 
     (24) cmdentrada -> INPUT ( . listaidenti ) ;
     (25) cmdentrada -> INPUT ( . listaidenti error ;
     (27) cmdentrada -> INPUT ( . listaidenti ) error
     (16) listaidenti -> . ID listaindenti1
 
-    ID              shift and go to state 19
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 92
+    listaidenti                    shift and go to state 96
 
-state 46
+state 50
 
     (26) cmdentrada -> INPUT error . listaidenti ) ;
     (16) listaidenti -> . ID listaindenti1
 
-    ID              shift and go to state 19
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 93
+    listaidenti                    shift and go to state 97
 
-state 47
+state 51
 
     (16) listaidenti -> ID listaindenti1 .
 
@@ -1152,7 +1216,7 @@ state 47
     error           reduce using rule 16 (listaidenti -> ID listaindenti1 .)
 
 
-state 48
+state 52
 
     (17) listaindenti1 -> empty .
 
@@ -1161,16 +1225,16 @@ state 48
     error           reduce using rule 17 (listaindenti1 -> empty .)
 
 
-state 49
+state 53
 
     (18) listaindenti1 -> , . listaidenti
     (16) listaidenti -> . ID listaindenti1
 
-    ID              shift and go to state 19
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 94
+    listaidenti                    shift and go to state 98
 
-state 50
+state 54
 
     (32) cmdselecao -> IF expressao . : [ listacmd ] elif else ;
     (33) cmdselecao -> IF expressao . error [ listacmd ] elif else ;
@@ -1178,11 +1242,11 @@ state 50
     (35) cmdselecao -> IF expressao . : [ listacmd error elif else ;
     (36) cmdselecao -> IF expressao . : [ listacmd ] elif else error
 
-    :               shift and go to state 96
-    error           shift and go to state 95
+    :               shift and go to state 100
+    error           shift and go to state 99
 
 
-state 51
+state 55
 
     (10) listacmd1 -> listacmd .
 
@@ -1190,7 +1254,7 @@ state 51
     error           reduce using rule 10 (listacmd1 -> listacmd .)
 
 
-state 52
+state 56
 
     (8) listacmd -> comando listacmd1 .
 
@@ -1198,7 +1262,7 @@ state 52
     error           reduce using rule 8 (listacmd -> comando listacmd1 .)
 
 
-state 53
+state 57
 
     (9) listacmd1 -> empty .
 
@@ -1206,7 +1270,7 @@ state 53
     error           reduce using rule 9 (listacmd1 -> empty .)
 
 
-state 54
+state 58
 
     (28) cmdsaida -> OUTPUT ( . listaexp ) ;
     (29) cmdsaida -> OUTPUT ( . listaexp error ;
@@ -1229,27 +1293,27 @@ state 54
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    expressao                      shift and go to state 97
-    listaexp                       shift and go to state 98
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    aritmetica                     shift and go to state 33
-    valor                          shift and go to state 35
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    expressao                      shift and go to state 101
+    listaexp                       shift and go to state 102
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    aritmetica                     shift and go to state 37
+    valor                          shift and go to state 39
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 55
+state 59
 
     (30) cmdsaida -> OUTPUT error . listaexp ) ;
     (19) listaexp -> . expressao listaexp1
@@ -1270,48 +1334,48 @@ state 55
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    expressao                      shift and go to state 97
-    listaexp                       shift and go to state 99
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    aritmetica                     shift and go to state 33
-    valor                          shift and go to state 35
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    expressao                      shift and go to state 101
+    listaexp                       shift and go to state 103
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    aritmetica                     shift and go to state 37
+    valor                          shift and go to state 39
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 56
-
-    (5) programa -> DEF ID action2 : error listacmd ] .
-
-    $end            reduce using rule 5 (programa -> DEF ID action2 : error listacmd ] .)
-
-
-state 57
-
-    (6) programa -> DEF ID action2 : [ listacmd error .
-
-    $end            reduce using rule 6 (programa -> DEF ID action2 : [ listacmd error .)
-
-
-state 58
+state 60
 
     (1) programa -> DEF ID action2 : [ listacmd ] .
 
     $end            reduce using rule 1 (programa -> DEF ID action2 : [ listacmd ] .)
 
 
-state 59
+state 61
+
+    (5) programa -> DEF ID empty : error listacmd ] .
+
+    $end            reduce using rule 5 (programa -> DEF ID empty : error listacmd ] .)
+
+
+state 62
+
+    (6) programa -> DEF ID empty : [ listacmd error .
+
+    $end            reduce using rule 6 (programa -> DEF ID empty : [ listacmd error .)
+
+
+state 63
 
     (88) elemento -> - elemento .
 
@@ -1336,25 +1400,25 @@ state 59
     ,               reduce using rule 88 (elemento -> - elemento .)
 
 
-state 60
+state 64
 
     (48) cmdrepeticao -> WHILE expressao error . [ listacmd ] else ;
 
-    [               shift and go to state 100
+    [               shift and go to state 104
 
 
-state 61
+state 65
 
     (47) cmdrepeticao -> WHILE expressao : . [ listacmd ] else ;
     (49) cmdrepeticao -> WHILE expressao : . error listacmd ] else ;
     (50) cmdrepeticao -> WHILE expressao : . [ listacmd error else ;
     (51) cmdrepeticao -> WHILE expressao : . [ listacmd ] else error
 
-    [               shift and go to state 102
-    error           shift and go to state 101
+    [               shift and go to state 106
+    error           shift and go to state 105
 
 
-state 62
+state 66
 
     (87) elemento -> + elemento .
 
@@ -1379,7 +1443,7 @@ state 62
     ,               reduce using rule 87 (elemento -> + elemento .)
 
 
-state 63
+state 67
 
     (74) termo -> fator termo1 .
 
@@ -1394,13 +1458,13 @@ state 63
     OR              reduce using rule 74 (termo -> fator termo1 .)
     AND             reduce using rule 74 (termo -> fator termo1 .)
     error           reduce using rule 74 (termo -> fator termo1 .)
-    ;               reduce using rule 74 (termo -> fator termo1 .)
-    :               reduce using rule 74 (termo -> fator termo1 .)
     ,               reduce using rule 74 (termo -> fator termo1 .)
     )               reduce using rule 74 (termo -> fator termo1 .)
+    :               reduce using rule 74 (termo -> fator termo1 .)
+    ;               reduce using rule 74 (termo -> fator termo1 .)
 
 
-state 64
+state 68
 
     (78) termo1 -> % . fator termo1
     (79) fator -> . elemento fator1
@@ -1412,18 +1476,18 @@ state 64
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    elemento                       shift and go to state 40
-    fator                          shift and go to state 103
+    elemento                       shift and go to state 44
+    fator                          shift and go to state 107
 
-state 65
+state 69
 
     (76) termo1 -> * . fator termo1
     (79) fator -> . elemento fator1
@@ -1435,18 +1499,18 @@ state 65
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    elemento                       shift and go to state 40
-    fator                          shift and go to state 104
+    elemento                       shift and go to state 44
+    fator                          shift and go to state 108
 
-state 66
+state 70
 
     (77) termo1 -> / . fator termo1
     (79) fator -> . elemento fator1
@@ -1458,18 +1522,18 @@ state 66
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    elemento                       shift and go to state 40
-    fator                          shift and go to state 105
+    elemento                       shift and go to state 44
+    fator                          shift and go to state 109
 
-state 67
+state 71
 
     (75) termo1 -> empty .
 
@@ -1490,7 +1554,7 @@ state 67
     ,               reduce using rule 75 (termo1 -> empty .)
 
 
-state 68
+state 72
 
     (64) operador -> SIM_EQ .
 
@@ -1503,7 +1567,7 @@ state 68
     -               reduce using rule 64 (operador -> SIM_EQ .)
 
 
-state 69
+state 73
 
     (62) relacional1 -> operador . aritmetica
     (70) aritmetica -> . termo aritmetica1
@@ -1517,20 +1581,20 @@ state 69
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    fator                          shift and go to state 32
-    aritmetica                     shift and go to state 106
-    termo                          shift and go to state 37
-    elemento                       shift and go to state 40
+    fator                          shift and go to state 36
+    aritmetica                     shift and go to state 110
+    termo                          shift and go to state 41
+    elemento                       shift and go to state 44
 
-state 70
+state 74
 
     (69) operador -> SIM_GE .
 
@@ -1543,7 +1607,7 @@ state 70
     -               reduce using rule 69 (operador -> SIM_GE .)
 
 
-state 71
+state 75
 
     (65) operador -> SIM_DIF .
 
@@ -1556,20 +1620,20 @@ state 71
     -               reduce using rule 65 (operador -> SIM_DIF .)
 
 
-state 72
+state 76
 
     (61) relacional -> aritmetica relacional1 .
 
     OR              reduce using rule 61 (relacional -> aritmetica relacional1 .)
     AND             reduce using rule 61 (relacional -> aritmetica relacional1 .)
     error           reduce using rule 61 (relacional -> aritmetica relacional1 .)
-    ;               reduce using rule 61 (relacional -> aritmetica relacional1 .)
-    :               reduce using rule 61 (relacional -> aritmetica relacional1 .)
-    )               reduce using rule 61 (relacional -> aritmetica relacional1 .)
     ,               reduce using rule 61 (relacional -> aritmetica relacional1 .)
+    )               reduce using rule 61 (relacional -> aritmetica relacional1 .)
+    :               reduce using rule 61 (relacional -> aritmetica relacional1 .)
+    ;               reduce using rule 61 (relacional -> aritmetica relacional1 .)
 
 
-state 73
+state 77
 
     (68) operador -> > .
 
@@ -1582,7 +1646,7 @@ state 73
     -               reduce using rule 68 (operador -> > .)
 
 
-state 74
+state 78
 
     (66) operador -> < .
 
@@ -1595,7 +1659,7 @@ state 74
     -               reduce using rule 66 (operador -> < .)
 
 
-state 75
+state 79
 
     (63) relacional1 -> empty .
 
@@ -1608,7 +1672,7 @@ state 75
     ,               reduce using rule 63 (relacional1 -> empty .)
 
 
-state 76
+state 80
 
     (67) operador -> SIM_LE .
 
@@ -1621,14 +1685,14 @@ state 76
     -               reduce using rule 67 (operador -> SIM_LE .)
 
 
-state 77
+state 81
 
     (86) elemento -> ( expressao . )
 
-    )               shift and go to state 107
+    )               shift and go to state 111
 
 
-state 78
+state 82
 
     (55) expressao1 -> AND . valor expressao1
     (57) valor -> . relacional
@@ -1647,25 +1711,25 @@ state 78
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    aritmetica                     shift and go to state 33
-    valor                          shift and go to state 108
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    aritmetica                     shift and go to state 37
+    valor                          shift and go to state 112
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 79
+state 83
 
     (56) expressao1 -> error . valor expressao1
     (57) valor -> . relacional
@@ -1684,36 +1748,36 @@ state 79
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    aritmetica                     shift and go to state 33
-    valor                          shift and go to state 109
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    aritmetica                     shift and go to state 37
+    valor                          shift and go to state 113
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 80
+state 84
 
     (52) expressao -> valor expressao1 .
 
     ,               reduce using rule 52 (expressao -> valor expressao1 .)
     error           reduce using rule 52 (expressao -> valor expressao1 .)
     )               reduce using rule 52 (expressao -> valor expressao1 .)
-    :               reduce using rule 52 (expressao -> valor expressao1 .)
     ;               reduce using rule 52 (expressao -> valor expressao1 .)
+    :               reduce using rule 52 (expressao -> valor expressao1 .)
 
 
-state 81
+state 85
 
     (54) expressao1 -> OR . valor expressao1
     (57) valor -> . relacional
@@ -1732,25 +1796,25 @@ state 81
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    aritmetica                     shift and go to state 33
-    valor                          shift and go to state 110
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    aritmetica                     shift and go to state 37
+    valor                          shift and go to state 114
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 82
+state 86
 
     (53) expressao1 -> empty .
 
@@ -1761,7 +1825,7 @@ state 82
     ,               reduce using rule 53 (expressao1 -> empty .)
 
 
-state 83
+state 87
 
     (70) aritmetica -> termo aritmetica1 .
 
@@ -1775,12 +1839,12 @@ state 83
     AND             reduce using rule 70 (aritmetica -> termo aritmetica1 .)
     error           reduce using rule 70 (aritmetica -> termo aritmetica1 .)
     :               reduce using rule 70 (aritmetica -> termo aritmetica1 .)
+    ,               reduce using rule 70 (aritmetica -> termo aritmetica1 .)
     )               reduce using rule 70 (aritmetica -> termo aritmetica1 .)
     ;               reduce using rule 70 (aritmetica -> termo aritmetica1 .)
-    ,               reduce using rule 70 (aritmetica -> termo aritmetica1 .)
 
 
-state 84
+state 88
 
     (72) aritmetica1 -> + . termo aritmetica1
     (74) termo -> . fator termo1
@@ -1793,19 +1857,19 @@ state 84
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    fator                          shift and go to state 32
-    termo                          shift and go to state 111
-    elemento                       shift and go to state 40
+    fator                          shift and go to state 36
+    termo                          shift and go to state 115
+    elemento                       shift and go to state 44
 
-state 85
+state 89
 
     (73) aritmetica1 -> - . termo aritmetica1
     (74) termo -> . fator termo1
@@ -1818,19 +1882,19 @@ state 85
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    fator                          shift and go to state 32
-    termo                          shift and go to state 112
-    elemento                       shift and go to state 40
+    fator                          shift and go to state 36
+    termo                          shift and go to state 116
+    elemento                       shift and go to state 44
 
-state 86
+state 90
 
     (71) aritmetica1 -> empty .
 
@@ -1849,7 +1913,7 @@ state 86
     ,               reduce using rule 71 (aritmetica1 -> empty .)
 
 
-state 87
+state 91
 
     (79) fator -> elemento fator1 .
 
@@ -1867,13 +1931,13 @@ state 87
     OR              reduce using rule 79 (fator -> elemento fator1 .)
     AND             reduce using rule 79 (fator -> elemento fator1 .)
     error           reduce using rule 79 (fator -> elemento fator1 .)
-    ,               reduce using rule 79 (fator -> elemento fator1 .)
-    )               reduce using rule 79 (fator -> elemento fator1 .)
     :               reduce using rule 79 (fator -> elemento fator1 .)
+    )               reduce using rule 79 (fator -> elemento fator1 .)
     ;               reduce using rule 79 (fator -> elemento fator1 .)
+    ,               reduce using rule 79 (fator -> elemento fator1 .)
 
 
-state 88
+state 92
 
     (81) fator1 -> SIM_POT . elemento fator1
     (82) elemento -> . ID
@@ -1884,17 +1948,17 @@ state 88
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    elemento                       shift and go to state 113
+    elemento                       shift and go to state 117
 
-state 89
+state 93
 
     (80) fator1 -> empty .
 
@@ -1918,44 +1982,44 @@ state 89
     ,               reduce using rule 80 (fator1 -> empty .)
 
 
-state 90
+state 94
 
     (60) valor -> NOT valor .
 
     OR              reduce using rule 60 (valor -> NOT valor .)
     AND             reduce using rule 60 (valor -> NOT valor .)
     error           reduce using rule 60 (valor -> NOT valor .)
-    :               reduce using rule 60 (valor -> NOT valor .)
     ,               reduce using rule 60 (valor -> NOT valor .)
     )               reduce using rule 60 (valor -> NOT valor .)
+    :               reduce using rule 60 (valor -> NOT valor .)
     ;               reduce using rule 60 (valor -> NOT valor .)
 
 
-state 91
+state 95
 
     (23) cmdatribui -> listaidenti SIM_ATTR expressao . ;
 
-    ;               shift and go to state 114
+    ;               shift and go to state 118
 
 
-state 92
+state 96
 
     (24) cmdentrada -> INPUT ( listaidenti . ) ;
     (25) cmdentrada -> INPUT ( listaidenti . error ;
     (27) cmdentrada -> INPUT ( listaidenti . ) error
 
-    )               shift and go to state 115
-    error           shift and go to state 116
+    )               shift and go to state 119
+    error           shift and go to state 120
 
 
-state 93
+state 97
 
     (26) cmdentrada -> INPUT error listaidenti . ) ;
 
-    )               shift and go to state 117
+    )               shift and go to state 121
 
 
-state 94
+state 98
 
     (18) listaindenti1 -> , listaidenti .
 
@@ -1964,25 +2028,25 @@ state 94
     error           reduce using rule 18 (listaindenti1 -> , listaidenti .)
 
 
-state 95
+state 99
 
     (33) cmdselecao -> IF expressao error . [ listacmd ] elif else ;
 
-    [               shift and go to state 118
+    [               shift and go to state 122
 
 
-state 96
+state 100
 
     (32) cmdselecao -> IF expressao : . [ listacmd ] elif else ;
     (34) cmdselecao -> IF expressao : . error listacmd ] elif else ;
     (35) cmdselecao -> IF expressao : . [ listacmd error elif else ;
     (36) cmdselecao -> IF expressao : . [ listacmd ] elif else error
 
-    [               shift and go to state 120
-    error           shift and go to state 119
+    [               shift and go to state 124
+    error           shift and go to state 123
 
 
-state 97
+state 101
 
     (19) listaexp -> expressao . listaexp1
     (20) listaexp1 -> . , listaexp
@@ -1991,33 +2055,33 @@ state 97
     (7) empty -> .
 
   ! shift/reduce conflict for error resolved as shift
-    ,               shift and go to state 122
-    error           shift and go to state 123
+    ,               shift and go to state 126
+    error           shift and go to state 127
     )               reduce using rule 7 (empty -> .)
 
   ! error           [ reduce using rule 7 (empty -> .) ]
 
-    listaexp1                      shift and go to state 121
-    empty                          shift and go to state 124
+    listaexp1                      shift and go to state 125
+    empty                          shift and go to state 128
 
-state 98
+state 102
 
     (28) cmdsaida -> OUTPUT ( listaexp . ) ;
     (29) cmdsaida -> OUTPUT ( listaexp . error ;
     (31) cmdsaida -> OUTPUT ( listaexp . ) error
 
-    )               shift and go to state 125
-    error           shift and go to state 126
+    )               shift and go to state 129
+    error           shift and go to state 130
 
 
-state 99
+state 103
 
     (30) cmdsaida -> OUTPUT error listaexp . ) ;
 
-    )               shift and go to state 127
+    )               shift and go to state 131
 
 
-state 100
+state 104
 
     (48) cmdrepeticao -> WHILE expressao error [ . listacmd ] else ;
     (8) listacmd -> . comando listacmd1
@@ -2047,22 +2111,22 @@ state 100
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 128
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 132
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 101
+state 105
 
     (49) cmdrepeticao -> WHILE expressao : error . listacmd ] else ;
     (8) listacmd -> . comando listacmd1
@@ -2092,22 +2156,22 @@ state 101
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 129
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 133
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 102
+state 106
 
     (47) cmdrepeticao -> WHILE expressao : [ . listacmd ] else ;
     (50) cmdrepeticao -> WHILE expressao : [ . listacmd error else ;
@@ -2139,22 +2203,22 @@ state 102
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 130
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 134
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 103
+state 107
 
     (78) termo1 -> % fator . termo1
     (75) termo1 -> . empty
@@ -2163,9 +2227,9 @@ state 103
     (78) termo1 -> . % fator termo1
     (7) empty -> .
 
-    *               shift and go to state 65
-    /               shift and go to state 66
-    %               shift and go to state 64
+    *               shift and go to state 69
+    /               shift and go to state 70
+    %               shift and go to state 68
     +               reduce using rule 7 (empty -> .)
     -               reduce using rule 7 (empty -> .)
     SIM_EQ          reduce using rule 7 (empty -> .)
@@ -2182,10 +2246,10 @@ state 103
     ;               reduce using rule 7 (empty -> .)
     ,               reduce using rule 7 (empty -> .)
 
-    termo1                         shift and go to state 131
-    empty                          shift and go to state 67
+    termo1                         shift and go to state 135
+    empty                          shift and go to state 71
 
-state 104
+state 108
 
     (76) termo1 -> * fator . termo1
     (75) termo1 -> . empty
@@ -2194,9 +2258,9 @@ state 104
     (78) termo1 -> . % fator termo1
     (7) empty -> .
 
-    *               shift and go to state 65
-    /               shift and go to state 66
-    %               shift and go to state 64
+    *               shift and go to state 69
+    /               shift and go to state 70
+    %               shift and go to state 68
     +               reduce using rule 7 (empty -> .)
     -               reduce using rule 7 (empty -> .)
     SIM_EQ          reduce using rule 7 (empty -> .)
@@ -2213,10 +2277,10 @@ state 104
     ;               reduce using rule 7 (empty -> .)
     ,               reduce using rule 7 (empty -> .)
 
-    termo1                         shift and go to state 132
-    empty                          shift and go to state 67
+    termo1                         shift and go to state 136
+    empty                          shift and go to state 71
 
-state 105
+state 109
 
     (77) termo1 -> / fator . termo1
     (75) termo1 -> . empty
@@ -2225,9 +2289,9 @@ state 105
     (78) termo1 -> . % fator termo1
     (7) empty -> .
 
-    *               shift and go to state 65
-    /               shift and go to state 66
-    %               shift and go to state 64
+    *               shift and go to state 69
+    /               shift and go to state 70
+    %               shift and go to state 68
     +               reduce using rule 7 (empty -> .)
     -               reduce using rule 7 (empty -> .)
     SIM_EQ          reduce using rule 7 (empty -> .)
@@ -2244,10 +2308,10 @@ state 105
     ;               reduce using rule 7 (empty -> .)
     ,               reduce using rule 7 (empty -> .)
 
-    termo1                         shift and go to state 133
-    empty                          shift and go to state 67
+    termo1                         shift and go to state 137
+    empty                          shift and go to state 71
 
-state 106
+state 110
 
     (62) relacional1 -> operador aritmetica .
 
@@ -2260,7 +2324,7 @@ state 106
     ,               reduce using rule 62 (relacional1 -> operador aritmetica .)
 
 
-state 107
+state 111
 
     (86) elemento -> ( expressao ) .
 
@@ -2285,7 +2349,7 @@ state 107
     ,               reduce using rule 86 (elemento -> ( expressao ) .)
 
 
-state 108
+state 112
 
     (55) expressao1 -> AND valor . expressao1
     (53) expressao1 -> . empty
@@ -2295,9 +2359,9 @@ state 108
     (7) empty -> .
 
   ! shift/reduce conflict for error resolved as shift
-    OR              shift and go to state 81
-    AND             shift and go to state 78
-    error           shift and go to state 79
+    OR              shift and go to state 85
+    AND             shift and go to state 82
+    error           shift and go to state 83
     :               reduce using rule 7 (empty -> .)
     )               reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
@@ -2305,10 +2369,10 @@ state 108
 
   ! error           [ reduce using rule 7 (empty -> .) ]
 
-    expressao1                     shift and go to state 134
-    empty                          shift and go to state 82
+    expressao1                     shift and go to state 138
+    empty                          shift and go to state 86
 
-state 109
+state 113
 
     (56) expressao1 -> error valor . expressao1
     (53) expressao1 -> . empty
@@ -2318,9 +2382,9 @@ state 109
     (7) empty -> .
 
   ! shift/reduce conflict for error resolved as shift
-    OR              shift and go to state 81
-    AND             shift and go to state 78
-    error           shift and go to state 79
+    OR              shift and go to state 85
+    AND             shift and go to state 82
+    error           shift and go to state 83
     :               reduce using rule 7 (empty -> .)
     )               reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
@@ -2328,10 +2392,10 @@ state 109
 
   ! error           [ reduce using rule 7 (empty -> .) ]
 
-    expressao1                     shift and go to state 135
-    empty                          shift and go to state 82
+    expressao1                     shift and go to state 139
+    empty                          shift and go to state 86
 
-state 110
+state 114
 
     (54) expressao1 -> OR valor . expressao1
     (53) expressao1 -> . empty
@@ -2341,9 +2405,9 @@ state 110
     (7) empty -> .
 
   ! shift/reduce conflict for error resolved as shift
-    OR              shift and go to state 81
-    AND             shift and go to state 78
-    error           shift and go to state 79
+    OR              shift and go to state 85
+    AND             shift and go to state 82
+    error           shift and go to state 83
     :               reduce using rule 7 (empty -> .)
     )               reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
@@ -2351,10 +2415,10 @@ state 110
 
   ! error           [ reduce using rule 7 (empty -> .) ]
 
-    expressao1                     shift and go to state 136
-    empty                          shift and go to state 82
+    expressao1                     shift and go to state 140
+    empty                          shift and go to state 86
 
-state 111
+state 115
 
     (72) aritmetica1 -> + termo . aritmetica1
     (71) aritmetica1 -> . empty
@@ -2362,8 +2426,8 @@ state 111
     (73) aritmetica1 -> . - termo aritmetica1
     (7) empty -> .
 
-    +               shift and go to state 84
-    -               shift and go to state 85
+    +               shift and go to state 88
+    -               shift and go to state 89
     SIM_EQ          reduce using rule 7 (empty -> .)
     SIM_DIF         reduce using rule 7 (empty -> .)
     <               reduce using rule 7 (empty -> .)
@@ -2378,10 +2442,10 @@ state 111
     ;               reduce using rule 7 (empty -> .)
     ,               reduce using rule 7 (empty -> .)
 
-    aritmetica1                    shift and go to state 137
-    empty                          shift and go to state 86
+    aritmetica1                    shift and go to state 141
+    empty                          shift and go to state 90
 
-state 112
+state 116
 
     (73) aritmetica1 -> - termo . aritmetica1
     (71) aritmetica1 -> . empty
@@ -2389,8 +2453,8 @@ state 112
     (73) aritmetica1 -> . - termo aritmetica1
     (7) empty -> .
 
-    +               shift and go to state 84
-    -               shift and go to state 85
+    +               shift and go to state 88
+    -               shift and go to state 89
     SIM_EQ          reduce using rule 7 (empty -> .)
     SIM_DIF         reduce using rule 7 (empty -> .)
     <               reduce using rule 7 (empty -> .)
@@ -2405,17 +2469,17 @@ state 112
     ;               reduce using rule 7 (empty -> .)
     ,               reduce using rule 7 (empty -> .)
 
-    aritmetica1                    shift and go to state 138
-    empty                          shift and go to state 86
+    aritmetica1                    shift and go to state 142
+    empty                          shift and go to state 90
 
-state 113
+state 117
 
     (81) fator1 -> SIM_POT elemento . fator1
     (80) fator1 -> . empty
     (81) fator1 -> . SIM_POT elemento fator1
     (7) empty -> .
 
-    SIM_POT         shift and go to state 88
+    SIM_POT         shift and go to state 92
     *               reduce using rule 7 (empty -> .)
     /               reduce using rule 7 (empty -> .)
     %               reduce using rule 7 (empty -> .)
@@ -2435,10 +2499,10 @@ state 113
     ;               reduce using rule 7 (empty -> .)
     ,               reduce using rule 7 (empty -> .)
 
-    fator1                         shift and go to state 139
-    empty                          shift and go to state 89
+    fator1                         shift and go to state 143
+    empty                          shift and go to state 93
 
-state 114
+state 118
 
     (23) cmdatribui -> listaidenti SIM_ATTR expressao ; .
 
@@ -2451,30 +2515,30 @@ state 114
     error           reduce using rule 23 (cmdatribui -> listaidenti SIM_ATTR expressao ; .)
 
 
-state 115
+state 119
 
     (24) cmdentrada -> INPUT ( listaidenti ) . ;
     (27) cmdentrada -> INPUT ( listaidenti ) . error
 
-    ;               shift and go to state 141
-    error           shift and go to state 140
+    ;               shift and go to state 145
+    error           shift and go to state 144
 
 
-state 116
+state 120
 
     (25) cmdentrada -> INPUT ( listaidenti error . ;
 
-    ;               shift and go to state 142
+    ;               shift and go to state 146
 
 
-state 117
+state 121
 
     (26) cmdentrada -> INPUT error listaidenti ) . ;
 
-    ;               shift and go to state 143
+    ;               shift and go to state 147
 
 
-state 118
+state 122
 
     (33) cmdselecao -> IF expressao error [ . listacmd ] elif else ;
     (8) listacmd -> . comando listacmd1
@@ -2504,22 +2568,22 @@ state 118
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 144
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 148
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 119
+state 123
 
     (34) cmdselecao -> IF expressao : error . listacmd ] elif else ;
     (8) listacmd -> . comando listacmd1
@@ -2549,22 +2613,22 @@ state 119
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 145
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 149
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 120
+state 124
 
     (32) cmdselecao -> IF expressao : [ . listacmd ] elif else ;
     (35) cmdselecao -> IF expressao : [ . listacmd error elif else ;
@@ -2596,22 +2660,22 @@ state 120
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 146
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 150
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 121
+state 125
 
     (19) listaexp -> expressao listaexp1 .
 
@@ -2619,7 +2683,7 @@ state 121
     error           reduce using rule 19 (listaexp -> expressao listaexp1 .)
 
 
-state 122
+state 126
 
     (20) listaexp1 -> , . listaexp
     (19) listaexp -> . expressao listaexp1
@@ -2640,27 +2704,27 @@ state 122
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    expressao                      shift and go to state 97
-    listaexp                       shift and go to state 147
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    aritmetica                     shift and go to state 33
-    valor                          shift and go to state 35
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    expressao                      shift and go to state 101
+    listaexp                       shift and go to state 151
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    aritmetica                     shift and go to state 37
+    valor                          shift and go to state 39
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 123
+state 127
 
     (22) listaexp1 -> error . listaexp
     (19) listaexp -> . expressao listaexp1
@@ -2681,27 +2745,27 @@ state 123
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    expressao                      shift and go to state 97
-    listaexp                       shift and go to state 148
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    aritmetica                     shift and go to state 33
-    valor                          shift and go to state 35
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    expressao                      shift and go to state 101
+    listaexp                       shift and go to state 152
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    aritmetica                     shift and go to state 37
+    valor                          shift and go to state 39
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 124
+state 128
 
     (21) listaexp1 -> empty .
 
@@ -2709,54 +2773,54 @@ state 124
     error           reduce using rule 21 (listaexp1 -> empty .)
 
 
-state 125
+state 129
 
     (28) cmdsaida -> OUTPUT ( listaexp ) . ;
     (31) cmdsaida -> OUTPUT ( listaexp ) . error
 
-    ;               shift and go to state 150
-    error           shift and go to state 149
-
-
-state 126
-
-    (29) cmdsaida -> OUTPUT ( listaexp error . ;
-
-    ;               shift and go to state 151
-
-
-state 127
-
-    (30) cmdsaida -> OUTPUT error listaexp ) . ;
-
-    ;               shift and go to state 152
-
-
-state 128
-
-    (48) cmdrepeticao -> WHILE expressao error [ listacmd . ] else ;
-
-    ]               shift and go to state 153
-
-
-state 129
-
-    (49) cmdrepeticao -> WHILE expressao : error listacmd . ] else ;
-
-    ]               shift and go to state 154
+    ;               shift and go to state 154
+    error           shift and go to state 153
 
 
 state 130
+
+    (29) cmdsaida -> OUTPUT ( listaexp error . ;
+
+    ;               shift and go to state 155
+
+
+state 131
+
+    (30) cmdsaida -> OUTPUT error listaexp ) . ;
+
+    ;               shift and go to state 156
+
+
+state 132
+
+    (48) cmdrepeticao -> WHILE expressao error [ listacmd . ] else ;
+
+    ]               shift and go to state 157
+
+
+state 133
+
+    (49) cmdrepeticao -> WHILE expressao : error listacmd . ] else ;
+
+    ]               shift and go to state 158
+
+
+state 134
 
     (47) cmdrepeticao -> WHILE expressao : [ listacmd . ] else ;
     (50) cmdrepeticao -> WHILE expressao : [ listacmd . error else ;
     (51) cmdrepeticao -> WHILE expressao : [ listacmd . ] else error
 
-    ]               shift and go to state 156
-    error           shift and go to state 155
+    ]               shift and go to state 160
+    error           shift and go to state 159
 
 
-state 131
+state 135
 
     (78) termo1 -> % fator termo1 .
 
@@ -2777,7 +2841,7 @@ state 131
     ,               reduce using rule 78 (termo1 -> % fator termo1 .)
 
 
-state 132
+state 136
 
     (76) termo1 -> * fator termo1 .
 
@@ -2798,7 +2862,7 @@ state 132
     ,               reduce using rule 76 (termo1 -> * fator termo1 .)
 
 
-state 133
+state 137
 
     (77) termo1 -> / fator termo1 .
 
@@ -2819,7 +2883,7 @@ state 133
     ,               reduce using rule 77 (termo1 -> / fator termo1 .)
 
 
-state 134
+state 138
 
     (55) expressao1 -> AND valor expressao1 .
 
@@ -2830,7 +2894,7 @@ state 134
     ,               reduce using rule 55 (expressao1 -> AND valor expressao1 .)
 
 
-state 135
+state 139
 
     (56) expressao1 -> error valor expressao1 .
 
@@ -2841,7 +2905,7 @@ state 135
     ,               reduce using rule 56 (expressao1 -> error valor expressao1 .)
 
 
-state 136
+state 140
 
     (54) expressao1 -> OR valor expressao1 .
 
@@ -2852,7 +2916,7 @@ state 136
     ,               reduce using rule 54 (expressao1 -> OR valor expressao1 .)
 
 
-state 137
+state 141
 
     (72) aritmetica1 -> + termo aritmetica1 .
 
@@ -2871,7 +2935,7 @@ state 137
     ,               reduce using rule 72 (aritmetica1 -> + termo aritmetica1 .)
 
 
-state 138
+state 142
 
     (73) aritmetica1 -> - termo aritmetica1 .
 
@@ -2890,7 +2954,7 @@ state 138
     ,               reduce using rule 73 (aritmetica1 -> - termo aritmetica1 .)
 
 
-state 139
+state 143
 
     (81) fator1 -> SIM_POT elemento fator1 .
 
@@ -2914,7 +2978,7 @@ state 139
     ,               reduce using rule 81 (fator1 -> SIM_POT elemento fator1 .)
 
 
-state 140
+state 144
 
     (27) cmdentrada -> INPUT ( listaidenti ) error .
 
@@ -2927,7 +2991,7 @@ state 140
     error           reduce using rule 27 (cmdentrada -> INPUT ( listaidenti ) error .)
 
 
-state 141
+state 145
 
     (24) cmdentrada -> INPUT ( listaidenti ) ; .
 
@@ -2940,7 +3004,7 @@ state 141
     error           reduce using rule 24 (cmdentrada -> INPUT ( listaidenti ) ; .)
 
 
-state 142
+state 146
 
     (25) cmdentrada -> INPUT ( listaidenti error ; .
 
@@ -2953,7 +3017,7 @@ state 142
     error           reduce using rule 25 (cmdentrada -> INPUT ( listaidenti error ; .)
 
 
-state 143
+state 147
 
     (26) cmdentrada -> INPUT error listaidenti ) ; .
 
@@ -2966,31 +3030,31 @@ state 143
     error           reduce using rule 26 (cmdentrada -> INPUT error listaidenti ) ; .)
 
 
-state 144
+state 148
 
     (33) cmdselecao -> IF expressao error [ listacmd . ] elif else ;
 
-    ]               shift and go to state 157
+    ]               shift and go to state 161
 
 
-state 145
+state 149
 
     (34) cmdselecao -> IF expressao : error listacmd . ] elif else ;
 
-    ]               shift and go to state 158
+    ]               shift and go to state 162
 
 
-state 146
+state 150
 
     (32) cmdselecao -> IF expressao : [ listacmd . ] elif else ;
     (35) cmdselecao -> IF expressao : [ listacmd . error elif else ;
     (36) cmdselecao -> IF expressao : [ listacmd . ] elif else error
 
-    ]               shift and go to state 160
-    error           shift and go to state 159
+    ]               shift and go to state 164
+    error           shift and go to state 163
 
 
-state 147
+state 151
 
     (20) listaexp1 -> , listaexp .
 
@@ -2998,7 +3062,7 @@ state 147
     error           reduce using rule 20 (listaexp1 -> , listaexp .)
 
 
-state 148
+state 152
 
     (22) listaexp1 -> error listaexp .
 
@@ -3006,7 +3070,7 @@ state 148
     error           reduce using rule 22 (listaexp1 -> error listaexp .)
 
 
-state 149
+state 153
 
     (31) cmdsaida -> OUTPUT ( listaexp ) error .
 
@@ -3019,7 +3083,7 @@ state 149
     error           reduce using rule 31 (cmdsaida -> OUTPUT ( listaexp ) error .)
 
 
-state 150
+state 154
 
     (28) cmdsaida -> OUTPUT ( listaexp ) ; .
 
@@ -3032,7 +3096,7 @@ state 150
     error           reduce using rule 28 (cmdsaida -> OUTPUT ( listaexp ) ; .)
 
 
-state 151
+state 155
 
     (29) cmdsaida -> OUTPUT ( listaexp error ; .
 
@@ -3045,7 +3109,7 @@ state 151
     error           reduce using rule 29 (cmdsaida -> OUTPUT ( listaexp error ; .)
 
 
-state 152
+state 156
 
     (30) cmdsaida -> OUTPUT error listaexp ) ; .
 
@@ -3058,7 +3122,7 @@ state 152
     error           reduce using rule 30 (cmdsaida -> OUTPUT error listaexp ) ; .)
 
 
-state 153
+state 157
 
     (48) cmdrepeticao -> WHILE expressao error [ listacmd ] . else ;
     (42) else -> . empty
@@ -3068,13 +3132,13 @@ state 153
     (46) else -> . ELSE : [ listacmd error
     (7) empty -> .
 
-    ELSE            shift and go to state 162
+    ELSE            shift and go to state 166
     ;               reduce using rule 7 (empty -> .)
 
-    empty                          shift and go to state 163
-    else                           shift and go to state 161
+    empty                          shift and go to state 167
+    else                           shift and go to state 165
 
-state 154
+state 158
 
     (49) cmdrepeticao -> WHILE expressao : error listacmd ] . else ;
     (42) else -> . empty
@@ -3084,13 +3148,13 @@ state 154
     (46) else -> . ELSE : [ listacmd error
     (7) empty -> .
 
-    ELSE            shift and go to state 162
+    ELSE            shift and go to state 166
     ;               reduce using rule 7 (empty -> .)
 
-    empty                          shift and go to state 163
-    else                           shift and go to state 164
+    empty                          shift and go to state 167
+    else                           shift and go to state 168
 
-state 155
+state 159
 
     (50) cmdrepeticao -> WHILE expressao : [ listacmd error . else ;
     (42) else -> . empty
@@ -3100,13 +3164,13 @@ state 155
     (46) else -> . ELSE : [ listacmd error
     (7) empty -> .
 
-    ELSE            shift and go to state 162
+    ELSE            shift and go to state 166
     ;               reduce using rule 7 (empty -> .)
 
-    empty                          shift and go to state 163
-    else                           shift and go to state 165
+    empty                          shift and go to state 167
+    else                           shift and go to state 169
 
-state 156
+state 160
 
     (47) cmdrepeticao -> WHILE expressao : [ listacmd ] . else ;
     (51) cmdrepeticao -> WHILE expressao : [ listacmd ] . else error
@@ -3117,14 +3181,14 @@ state 156
     (46) else -> . ELSE : [ listacmd error
     (7) empty -> .
 
-    ELSE            shift and go to state 162
+    ELSE            shift and go to state 166
     ;               reduce using rule 7 (empty -> .)
     error           reduce using rule 7 (empty -> .)
 
-    empty                          shift and go to state 163
-    else                           shift and go to state 166
+    empty                          shift and go to state 167
+    else                           shift and go to state 170
 
-state 157
+state 161
 
     (33) cmdselecao -> IF expressao error [ listacmd ] . elif else ;
     (37) elif -> . empty
@@ -3134,14 +3198,14 @@ state 157
     (41) elif -> . ELIF expressao : [ listacmd error elif
     (7) empty -> .
 
-    ELIF            shift and go to state 168
+    ELIF            shift and go to state 172
     ELSE            reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
 
-    elif                           shift and go to state 167
-    empty                          shift and go to state 169
+    elif                           shift and go to state 171
+    empty                          shift and go to state 173
 
-state 158
+state 162
 
     (34) cmdselecao -> IF expressao : error listacmd ] . elif else ;
     (37) elif -> . empty
@@ -3151,14 +3215,14 @@ state 158
     (41) elif -> . ELIF expressao : [ listacmd error elif
     (7) empty -> .
 
-    ELIF            shift and go to state 168
+    ELIF            shift and go to state 172
     ELSE            reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
 
-    elif                           shift and go to state 170
-    empty                          shift and go to state 169
+    elif                           shift and go to state 174
+    empty                          shift and go to state 173
 
-state 159
+state 163
 
     (35) cmdselecao -> IF expressao : [ listacmd error . elif else ;
     (37) elif -> . empty
@@ -3168,14 +3232,14 @@ state 159
     (41) elif -> . ELIF expressao : [ listacmd error elif
     (7) empty -> .
 
-    ELIF            shift and go to state 168
+    ELIF            shift and go to state 172
     ELSE            reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
 
-    elif                           shift and go to state 171
-    empty                          shift and go to state 169
+    elif                           shift and go to state 175
+    empty                          shift and go to state 173
 
-state 160
+state 164
 
     (32) cmdselecao -> IF expressao : [ listacmd ] . elif else ;
     (36) cmdselecao -> IF expressao : [ listacmd ] . elif else error
@@ -3186,33 +3250,33 @@ state 160
     (41) elif -> . ELIF expressao : [ listacmd error elif
     (7) empty -> .
 
-    ELIF            shift and go to state 168
+    ELIF            shift and go to state 172
     ELSE            reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
     error           reduce using rule 7 (empty -> .)
 
-    elif                           shift and go to state 172
-    empty                          shift and go to state 169
+    elif                           shift and go to state 176
+    empty                          shift and go to state 173
 
-state 161
+state 165
 
     (48) cmdrepeticao -> WHILE expressao error [ listacmd ] else . ;
 
-    ;               shift and go to state 173
+    ;               shift and go to state 177
 
 
-state 162
+state 166
 
     (43) else -> ELSE . : [ listacmd ]
     (44) else -> ELSE . error [ listacmd ]
     (45) else -> ELSE . : error listacmd ]
     (46) else -> ELSE . : [ listacmd error
 
-    :               shift and go to state 175
-    error           shift and go to state 174
+    :               shift and go to state 179
+    error           shift and go to state 178
 
 
-state 163
+state 167
 
     (42) else -> empty .
 
@@ -3220,30 +3284,30 @@ state 163
     error           reduce using rule 42 (else -> empty .)
 
 
-state 164
+state 168
 
     (49) cmdrepeticao -> WHILE expressao : error listacmd ] else . ;
 
-    ;               shift and go to state 176
+    ;               shift and go to state 180
 
 
-state 165
+state 169
 
     (50) cmdrepeticao -> WHILE expressao : [ listacmd error else . ;
 
-    ;               shift and go to state 177
+    ;               shift and go to state 181
 
 
-state 166
+state 170
 
     (47) cmdrepeticao -> WHILE expressao : [ listacmd ] else . ;
     (51) cmdrepeticao -> WHILE expressao : [ listacmd ] else . error
 
-    ;               shift and go to state 179
-    error           shift and go to state 178
+    ;               shift and go to state 183
+    error           shift and go to state 182
 
 
-state 167
+state 171
 
     (33) cmdselecao -> IF expressao error [ listacmd ] elif . else ;
     (42) else -> . empty
@@ -3253,13 +3317,13 @@ state 167
     (46) else -> . ELSE : [ listacmd error
     (7) empty -> .
 
-    ELSE            shift and go to state 162
+    ELSE            shift and go to state 166
     ;               reduce using rule 7 (empty -> .)
 
-    empty                          shift and go to state 163
-    else                           shift and go to state 180
+    empty                          shift and go to state 167
+    else                           shift and go to state 184
 
-state 168
+state 172
 
     (38) elif -> ELIF . expressao : [ listacmd ] elif
     (39) elif -> ELIF . expressao error [ listacmd ] elif
@@ -3282,26 +3346,26 @@ state 168
     (87) elemento -> . + elemento
     (88) elemento -> . - elemento
 
-    TRUE            shift and go to state 28
-    FALSE           shift and go to state 41
-    NOT             shift and go to state 42
-    ID              shift and go to state 39
-    INTEIRO         shift and go to state 29
-    REAL            shift and go to state 26
-    LITERAL         shift and go to state 36
-    (               shift and go to state 34
-    +               shift and go to state 31
-    -               shift and go to state 27
+    TRUE            shift and go to state 32
+    FALSE           shift and go to state 45
+    NOT             shift and go to state 46
+    ID              shift and go to state 43
+    INTEIRO         shift and go to state 33
+    REAL            shift and go to state 30
+    LITERAL         shift and go to state 40
+    (               shift and go to state 38
+    +               shift and go to state 35
+    -               shift and go to state 31
 
-    aritmetica                     shift and go to state 33
-    expressao                      shift and go to state 181
-    fator                          shift and go to state 32
-    termo                          shift and go to state 37
-    valor                          shift and go to state 35
-    relacional                     shift and go to state 38
-    elemento                       shift and go to state 40
+    aritmetica                     shift and go to state 37
+    expressao                      shift and go to state 185
+    fator                          shift and go to state 36
+    termo                          shift and go to state 41
+    valor                          shift and go to state 39
+    relacional                     shift and go to state 42
+    elemento                       shift and go to state 44
 
-state 169
+state 173
 
     (37) elif -> empty .
 
@@ -3310,7 +3374,7 @@ state 169
     error           reduce using rule 37 (elif -> empty .)
 
 
-state 170
+state 174
 
     (34) cmdselecao -> IF expressao : error listacmd ] elif . else ;
     (42) else -> . empty
@@ -3320,13 +3384,13 @@ state 170
     (46) else -> . ELSE : [ listacmd error
     (7) empty -> .
 
-    ELSE            shift and go to state 162
+    ELSE            shift and go to state 166
     ;               reduce using rule 7 (empty -> .)
 
-    empty                          shift and go to state 163
-    else                           shift and go to state 182
+    empty                          shift and go to state 167
+    else                           shift and go to state 186
 
-state 171
+state 175
 
     (35) cmdselecao -> IF expressao : [ listacmd error elif . else ;
     (42) else -> . empty
@@ -3336,13 +3400,13 @@ state 171
     (46) else -> . ELSE : [ listacmd error
     (7) empty -> .
 
-    ELSE            shift and go to state 162
+    ELSE            shift and go to state 166
     ;               reduce using rule 7 (empty -> .)
 
-    empty                          shift and go to state 163
-    else                           shift and go to state 183
+    empty                          shift and go to state 167
+    else                           shift and go to state 187
 
-state 172
+state 176
 
     (32) cmdselecao -> IF expressao : [ listacmd ] elif . else ;
     (36) cmdselecao -> IF expressao : [ listacmd ] elif . else error
@@ -3353,14 +3417,14 @@ state 172
     (46) else -> . ELSE : [ listacmd error
     (7) empty -> .
 
-    ELSE            shift and go to state 162
+    ELSE            shift and go to state 166
     ;               reduce using rule 7 (empty -> .)
     error           reduce using rule 7 (empty -> .)
 
-    empty                          shift and go to state 163
-    else                           shift and go to state 184
+    empty                          shift and go to state 167
+    else                           shift and go to state 188
 
-state 173
+state 177
 
     (48) cmdrepeticao -> WHILE expressao error [ listacmd ] else ; .
 
@@ -3373,24 +3437,24 @@ state 173
     error           reduce using rule 48 (cmdrepeticao -> WHILE expressao error [ listacmd ] else ; .)
 
 
-state 174
+state 178
 
     (44) else -> ELSE error . [ listacmd ]
 
-    [               shift and go to state 185
+    [               shift and go to state 189
 
 
-state 175
+state 179
 
     (43) else -> ELSE : . [ listacmd ]
     (45) else -> ELSE : . error listacmd ]
     (46) else -> ELSE : . [ listacmd error
 
-    [               shift and go to state 187
-    error           shift and go to state 186
+    [               shift and go to state 191
+    error           shift and go to state 190
 
 
-state 176
+state 180
 
     (49) cmdrepeticao -> WHILE expressao : error listacmd ] else ; .
 
@@ -3403,7 +3467,7 @@ state 176
     error           reduce using rule 49 (cmdrepeticao -> WHILE expressao : error listacmd ] else ; .)
 
 
-state 177
+state 181
 
     (50) cmdrepeticao -> WHILE expressao : [ listacmd error else ; .
 
@@ -3416,7 +3480,7 @@ state 177
     error           reduce using rule 50 (cmdrepeticao -> WHILE expressao : [ listacmd error else ; .)
 
 
-state 178
+state 182
 
     (51) cmdrepeticao -> WHILE expressao : [ listacmd ] else error .
 
@@ -3429,7 +3493,7 @@ state 178
     error           reduce using rule 51 (cmdrepeticao -> WHILE expressao : [ listacmd ] else error .)
 
 
-state 179
+state 183
 
     (47) cmdrepeticao -> WHILE expressao : [ listacmd ] else ; .
 
@@ -3442,48 +3506,48 @@ state 179
     error           reduce using rule 47 (cmdrepeticao -> WHILE expressao : [ listacmd ] else ; .)
 
 
-state 180
+state 184
 
     (33) cmdselecao -> IF expressao error [ listacmd ] elif else . ;
 
-    ;               shift and go to state 188
+    ;               shift and go to state 192
 
 
-state 181
+state 185
 
     (38) elif -> ELIF expressao . : [ listacmd ] elif
     (39) elif -> ELIF expressao . error [ listacmd ] elif
     (40) elif -> ELIF expressao . : error listacmd ] elif
     (41) elif -> ELIF expressao . : [ listacmd error elif
 
-    :               shift and go to state 190
-    error           shift and go to state 189
+    :               shift and go to state 194
+    error           shift and go to state 193
 
 
-state 182
+state 186
 
     (34) cmdselecao -> IF expressao : error listacmd ] elif else . ;
 
-    ;               shift and go to state 191
+    ;               shift and go to state 195
 
 
-state 183
+state 187
 
     (35) cmdselecao -> IF expressao : [ listacmd error elif else . ;
 
-    ;               shift and go to state 192
+    ;               shift and go to state 196
 
 
-state 184
+state 188
 
     (32) cmdselecao -> IF expressao : [ listacmd ] elif else . ;
     (36) cmdselecao -> IF expressao : [ listacmd ] elif else . error
 
-    ;               shift and go to state 194
-    error           shift and go to state 193
+    ;               shift and go to state 198
+    error           shift and go to state 197
 
 
-state 185
+state 189
 
     (44) else -> ELSE error [ . listacmd ]
     (8) listacmd -> . comando listacmd1
@@ -3513,22 +3577,22 @@ state 185
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 195
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 199
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 186
+state 190
 
     (45) else -> ELSE : error . listacmd ]
     (8) listacmd -> . comando listacmd1
@@ -3558,22 +3622,22 @@ state 186
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 196
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 200
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 187
+state 191
 
     (43) else -> ELSE : [ . listacmd ]
     (46) else -> ELSE : [ . listacmd error
@@ -3604,22 +3668,22 @@ state 187
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 197
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 201
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 188
+state 192
 
     (33) cmdselecao -> IF expressao error [ listacmd ] elif else ; .
 
@@ -3632,24 +3696,24 @@ state 188
     error           reduce using rule 33 (cmdselecao -> IF expressao error [ listacmd ] elif else ; .)
 
 
-state 189
+state 193
 
     (39) elif -> ELIF expressao error . [ listacmd ] elif
 
-    [               shift and go to state 198
+    [               shift and go to state 202
 
 
-state 190
+state 194
 
     (38) elif -> ELIF expressao : . [ listacmd ] elif
     (40) elif -> ELIF expressao : . error listacmd ] elif
     (41) elif -> ELIF expressao : . [ listacmd error elif
 
-    [               shift and go to state 200
-    error           shift and go to state 199
+    [               shift and go to state 204
+    error           shift and go to state 203
 
 
-state 191
+state 195
 
     (34) cmdselecao -> IF expressao : error listacmd ] elif else ; .
 
@@ -3662,7 +3726,7 @@ state 191
     error           reduce using rule 34 (cmdselecao -> IF expressao : error listacmd ] elif else ; .)
 
 
-state 192
+state 196
 
     (35) cmdselecao -> IF expressao : [ listacmd error elif else ; .
 
@@ -3675,7 +3739,7 @@ state 192
     error           reduce using rule 35 (cmdselecao -> IF expressao : [ listacmd error elif else ; .)
 
 
-state 193
+state 197
 
     (36) cmdselecao -> IF expressao : [ listacmd ] elif else error .
 
@@ -3688,7 +3752,7 @@ state 193
     error           reduce using rule 36 (cmdselecao -> IF expressao : [ listacmd ] elif else error .)
 
 
-state 194
+state 198
 
     (32) cmdselecao -> IF expressao : [ listacmd ] elif else ; .
 
@@ -3701,30 +3765,30 @@ state 194
     error           reduce using rule 32 (cmdselecao -> IF expressao : [ listacmd ] elif else ; .)
 
 
-state 195
+state 199
 
     (44) else -> ELSE error [ listacmd . ]
 
-    ]               shift and go to state 201
+    ]               shift and go to state 205
 
 
-state 196
+state 200
 
     (45) else -> ELSE : error listacmd . ]
 
-    ]               shift and go to state 202
+    ]               shift and go to state 206
 
 
-state 197
+state 201
 
     (43) else -> ELSE : [ listacmd . ]
     (46) else -> ELSE : [ listacmd . error
 
-    ]               shift and go to state 204
-    error           shift and go to state 203
+    ]               shift and go to state 208
+    error           shift and go to state 207
 
 
-state 198
+state 202
 
     (39) elif -> ELIF expressao error [ . listacmd ] elif
     (8) listacmd -> . comando listacmd1
@@ -3754,22 +3818,22 @@ state 198
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 205
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 209
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 199
+state 203
 
     (40) elif -> ELIF expressao : error . listacmd ] elif
     (8) listacmd -> . comando listacmd1
@@ -3799,22 +3863,22 @@ state 199
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 206
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 210
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 200
+state 204
 
     (38) elif -> ELIF expressao : [ . listacmd ] elif
     (41) elif -> ELIF expressao : [ . listacmd error elif
@@ -3845,22 +3909,22 @@ state 200
     (51) cmdrepeticao -> . WHILE expressao : [ listacmd ] else error
     (16) listaidenti -> . ID listaindenti1
 
-    INPUT           shift and go to state 18
-    OUTPUT          shift and go to state 23
-    IF              shift and go to state 20
-    WHILE           shift and go to state 13
-    ID              shift and go to state 19
+    INPUT           shift and go to state 21
+    OUTPUT          shift and go to state 26
+    IF              shift and go to state 23
+    WHILE           shift and go to state 16
+    ID              shift and go to state 22
 
-    listaidenti                    shift and go to state 17
-    cmdrepeticao                   shift and go to state 21
-    cmdselecao                     shift and go to state 11
-    cmdentrada                     shift and go to state 12
-    listacmd                       shift and go to state 207
-    cmdsaida                       shift and go to state 16
-    comando                        shift and go to state 22
-    cmdatribui                     shift and go to state 15
+    listaidenti                    shift and go to state 20
+    cmdrepeticao                   shift and go to state 24
+    cmdselecao                     shift and go to state 14
+    cmdentrada                     shift and go to state 15
+    listacmd                       shift and go to state 211
+    cmdsaida                       shift and go to state 19
+    comando                        shift and go to state 25
+    cmdatribui                     shift and go to state 18
 
-state 201
+state 205
 
     (44) else -> ELSE error [ listacmd ] .
 
@@ -3868,7 +3932,7 @@ state 201
     error           reduce using rule 44 (else -> ELSE error [ listacmd ] .)
 
 
-state 202
+state 206
 
     (45) else -> ELSE : error listacmd ] .
 
@@ -3876,7 +3940,7 @@ state 202
     error           reduce using rule 45 (else -> ELSE : error listacmd ] .)
 
 
-state 203
+state 207
 
     (46) else -> ELSE : [ listacmd error .
 
@@ -3884,7 +3948,7 @@ state 203
     error           reduce using rule 46 (else -> ELSE : [ listacmd error .)
 
 
-state 204
+state 208
 
     (43) else -> ELSE : [ listacmd ] .
 
@@ -3892,30 +3956,30 @@ state 204
     error           reduce using rule 43 (else -> ELSE : [ listacmd ] .)
 
 
-state 205
+state 209
 
     (39) elif -> ELIF expressao error [ listacmd . ] elif
 
-    ]               shift and go to state 208
+    ]               shift and go to state 212
 
 
-state 206
+state 210
 
     (40) elif -> ELIF expressao : error listacmd . ] elif
 
-    ]               shift and go to state 209
+    ]               shift and go to state 213
 
 
-state 207
+state 211
 
     (38) elif -> ELIF expressao : [ listacmd . ] elif
     (41) elif -> ELIF expressao : [ listacmd . error elif
 
-    ]               shift and go to state 211
-    error           shift and go to state 210
+    ]               shift and go to state 215
+    error           shift and go to state 214
 
 
-state 208
+state 212
 
     (39) elif -> ELIF expressao error [ listacmd ] . elif
     (37) elif -> . empty
@@ -3925,15 +3989,15 @@ state 208
     (41) elif -> . ELIF expressao : [ listacmd error elif
     (7) empty -> .
 
-    ELIF            shift and go to state 168
+    ELIF            shift and go to state 172
     ELSE            reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
     error           reduce using rule 7 (empty -> .)
 
-    elif                           shift and go to state 212
-    empty                          shift and go to state 169
+    elif                           shift and go to state 216
+    empty                          shift and go to state 173
 
-state 209
+state 213
 
     (40) elif -> ELIF expressao : error listacmd ] . elif
     (37) elif -> . empty
@@ -3943,15 +4007,15 @@ state 209
     (41) elif -> . ELIF expressao : [ listacmd error elif
     (7) empty -> .
 
-    ELIF            shift and go to state 168
+    ELIF            shift and go to state 172
     ELSE            reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
     error           reduce using rule 7 (empty -> .)
 
-    elif                           shift and go to state 213
-    empty                          shift and go to state 169
+    elif                           shift and go to state 217
+    empty                          shift and go to state 173
 
-state 210
+state 214
 
     (41) elif -> ELIF expressao : [ listacmd error . elif
     (37) elif -> . empty
@@ -3961,15 +4025,15 @@ state 210
     (41) elif -> . ELIF expressao : [ listacmd error elif
     (7) empty -> .
 
-    ELIF            shift and go to state 168
+    ELIF            shift and go to state 172
     ELSE            reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
     error           reduce using rule 7 (empty -> .)
 
-    elif                           shift and go to state 214
-    empty                          shift and go to state 169
+    elif                           shift and go to state 218
+    empty                          shift and go to state 173
 
-state 211
+state 215
 
     (38) elif -> ELIF expressao : [ listacmd ] . elif
     (37) elif -> . empty
@@ -3979,15 +4043,15 @@ state 211
     (41) elif -> . ELIF expressao : [ listacmd error elif
     (7) empty -> .
 
-    ELIF            shift and go to state 168
+    ELIF            shift and go to state 172
     ELSE            reduce using rule 7 (empty -> .)
     ;               reduce using rule 7 (empty -> .)
     error           reduce using rule 7 (empty -> .)
 
-    elif                           shift and go to state 215
-    empty                          shift and go to state 169
+    elif                           shift and go to state 219
+    empty                          shift and go to state 173
 
-state 212
+state 216
 
     (39) elif -> ELIF expressao error [ listacmd ] elif .
 
@@ -3996,7 +4060,7 @@ state 212
     error           reduce using rule 39 (elif -> ELIF expressao error [ listacmd ] elif .)
 
 
-state 213
+state 217
 
     (40) elif -> ELIF expressao : error listacmd ] elif .
 
@@ -4005,7 +4069,7 @@ state 213
     error           reduce using rule 40 (elif -> ELIF expressao : error listacmd ] elif .)
 
 
-state 214
+state 218
 
     (41) elif -> ELIF expressao : [ listacmd error elif .
 
@@ -4014,7 +4078,7 @@ state 214
     error           reduce using rule 41 (elif -> ELIF expressao : [ listacmd error elif .)
 
 
-state 215
+state 219
 
     (38) elif -> ELIF expressao : [ listacmd ] elif .
 
@@ -4025,8 +4089,10 @@ state 215
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for error in state 35 resolved as shift
-WARNING: shift/reduce conflict for error in state 97 resolved as shift
-WARNING: shift/reduce conflict for error in state 108 resolved as shift
-WARNING: shift/reduce conflict for error in state 109 resolved as shift
-WARNING: shift/reduce conflict for error in state 110 resolved as shift
+WARNING: shift/reduce conflict for error in state 39 resolved as shift
+WARNING: shift/reduce conflict for error in state 101 resolved as shift
+WARNING: shift/reduce conflict for error in state 112 resolved as shift
+WARNING: shift/reduce conflict for error in state 113 resolved as shift
+WARNING: shift/reduce conflict for error in state 114 resolved as shift
+WARNING: reduce/reduce conflict in state 4 resolved using rule (action2 -> <empty>)
+WARNING: rejected rule (empty -> <empty>) in state 4

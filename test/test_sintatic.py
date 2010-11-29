@@ -18,7 +18,6 @@ class TestSintatic(MockerTestCase):
       try: 
         parser.parse(u"def teste : \n := a := 1; \n b := 2;  ]", lexer())
       except Exception, e:
-        print SemanticTools.defined_variables
         self.assertEqual(u"Erro na linha 2 - encontrado :=, esperado [", e.message)
 
     def test_sintatic_exception(self):
@@ -29,6 +28,5 @@ class TestSintatic(MockerTestCase):
       try: 
         parser.parse(u"def teste ab [ c := 1; \n d := 2;  ]", lexer())
       except Exception, e:
-        print SemanticTools.defined_variables
         self.assertEqual(u"Erro na linha 1 - encontrado ab, esperado :", e.message)
          

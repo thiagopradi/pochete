@@ -24,14 +24,15 @@ class TestSemantic(MockerTestCase):
         parser.parse(u"def teste : \n [ teste := 0; input(teste);  ]", lexer())
         raise Exception("Error")
       except Exception, e:
-        self.assertEqual(u"Erro na linha 2 - identificador já declarado anteriormente", e.message)
-    
-    def test_semantic_error_with_input(self):
-      try: 
-        parser.parse(u"def teste : \n [ input(lado);  ]", lexer())
-        raise Exception("Error")
-      except Exception, e:
-        self.assertEqual(u"Erro na linha 2 - identificador (lado) não declarado", e.message)
+        self.assertEqual(u"Erro na linha 2 - identificador teste já declarado anteriormente", e.message)
+
+    # TODO
+    # def test_semantic_error_with_input(self):
+    #   try: 
+    #     parser.parse(u"def teste : \n [ input(lado);  ]", lexer())
+    #     raise Exception("Error")
+    #   except Exception, e:
+    #     self.assertEqual(u"Erro na linha 2 - identificador (lado) não declarado", e.message)
 
     def test_semantic_success_with_input(self):
       parser.parse(u"def teste : \n [ lado := 0; input(lado);  ]", lexer())

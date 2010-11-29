@@ -30,14 +30,15 @@ def p_programa(p):
     if len(p) <= 2:
       raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
     
-def p_action(p):
+def p_action2(p):
     "action2 :"
     SemanticTools.defined_variables[p[-1]] = True
-
+    
+  
 def p_programa_error(t):
-    """programa : DEF ID action2 error '[' listacmd ']' 
-    | DEF ID action2 ':' error listacmd ']' 
-    | DEF ID action2 ':' '[' listacmd error """
+    """programa : DEF ID error '[' listacmd ']' 
+    | DEF ID empty ':' error listacmd ']' 
+    | DEF ID empty ':' '[' listacmd error """
     _generateError(t, {1:"def",3:":", 4:"[", 6:']'})
         
 def p_empty(p):
@@ -63,7 +64,8 @@ def p_comando(p):
 
 def p_listaidenti(p):
     "listaidenti : ID listaindenti1"    
-    
+    if SemanticTools.defined_variables.get(p[1]):
+      raise Exception(u"Erro na linha %s - identificador %s já declarado anteriormente" % (p.lineno(1), p[1]))
     
 def p_listaindenti1(p):
     """listaindenti1 : empty
