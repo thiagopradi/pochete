@@ -34,7 +34,6 @@ def p_action2(p):
     "action2 :"
     SemanticTools.defined_variables[p[-1]] = True
     
-  
 def p_programa_error(t):
     """programa : DEF ID error '[' listacmd ']' 
     | DEF ID empty ':' error listacmd ']' 

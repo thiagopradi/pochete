@@ -11,6 +11,9 @@ class TestCodeGeneration(unittest.TestCase):
     pass
     
   def test_should_create_the_header(self):
-    pass
-    #parser.parse(u"def teste : \n [ lado := 0; input(lado);  ]", lexer())
-    #self.assertNotNil(SemanticTools.g_llvm_module)
+    parser.parse(u"def teste : \n [ lado := 0; input(lado);  ]", lexer())
+    self.assertNotEqual(SemanticTools.g_llvm_module, None)
+  
+  def test_should_create_input_code(self):
+    parser.parse(u"def teste : \n [ lado := 0; input(lado);  ]", lexer())
+    self.assertEqual(str(SemanticTools.g_llvm_module), "; ModuleID = 'Pochete Module'\n input assembly goes here!" )
