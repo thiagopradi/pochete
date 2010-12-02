@@ -214,9 +214,9 @@ def p_termo(p):
 
 def p_termo1(p):
     """termo1 : empty
-              | '*' fator termo1
-              | '/' fator termo1
-              | '%' fator termo1"""
+              | '*' fator termo1 p_action25
+              | '/' fator termo1 p_action26
+              | '%' fator termo1 p_action27 """
     pass
 
 def p_fator(p):
@@ -246,6 +246,18 @@ def p_action23(p):
 def p_action24(p):
   "p_action24 : "
   SemanticTools.code += "\n sub"
+  
+def p_action25(p):
+  "p_action25 : "
+  SemanticTools.code += "\n mul"
+
+def p_action26(p):
+  "p_action26 : "
+  SemanticTools.code += "\n div"
+
+def p_action27(p):
+  "p_action27 : "
+  SemanticTools.code += "\n rem"
   
 def p_error(t):
     if not CompilerFlag.bool:
