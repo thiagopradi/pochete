@@ -259,16 +259,7 @@ def p_action26(p):
 def p_action27(p):
   "p_action27 : "
   SemanticTools.code += "\n rem"
-  
-def p_error(t):
-    if not CompilerFlag.bool:
-      CompilerFlag.bool = True
-      if not t:
-        raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % ('1', 'EOF', 'identificador'))
-      else:
-        raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (t.lineno, str(t), ''))
     
-  
 def _getTokenValue(t):
     if not t:
         return "EOF"
