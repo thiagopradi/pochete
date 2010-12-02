@@ -35,6 +35,35 @@ class TestSintatic(MockerTestCase):
       try: 
         parser.parse(u"def", lexer())
       except Exception, e:
-        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado programa", e.message)  
+        pass
+      try: 
+        parser.parse(u"def", lexer())
+      except Exception, e:      
+        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado identificador", e.message)  
+    
+    def test_with_def_and_identifier(self):
+      try: 
+        parser.parse(u"def abc", lexer())
+      except Exception, e:
+        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado ':'", e.message)  
+    
+    def test_with_def_and_identifier_and_symbol(self):
+      try: 
+        parser.parse(u"def abc : ", lexer())
+      except Exception, e:
+        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado '['", e.message)  
+
+    def test_with_def_and_identifier_and_symbol_other(self):
+      try: 
+        parser.parse(u"def abc : [", lexer())
+      except Exception, e:
+        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado comando", e.message)  
+    
+    def test_with_def_and_identifier_and_symbol_other(self):
+      try: 
+        parser.parse(u"def abc : [ a := a+1;", lexer())
+      except Exception, e:
+        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado ]", e.message)  
+    
     
          

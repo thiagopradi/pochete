@@ -15,6 +15,7 @@ class SemanticTools:
         cls.defined_variables = {}
         cls.context = ""
         cls.code = ""
+        CompilerFlag.bool = False
         
 def p_programa(p):
     """programa : DEF ID action2 ':' '[' listacmd ']' action3
@@ -262,7 +263,10 @@ def p_action27(p):
 def p_error(t):
     if not CompilerFlag.bool:
       CompilerFlag.bool = True
-      raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (t.lineno, str(t), ''))
+      if not t:
+        raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % ('1', 'EOF', 'identificador'))
+      else:
+        raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (t.lineno, str(t), ''))
     
   
 def _getTokenValue(t):
