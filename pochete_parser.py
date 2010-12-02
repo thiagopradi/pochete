@@ -1,8 +1,6 @@
 # coding: utf-8
 import ply.yacc as yacc
 from lexer import tokens, lexer
-from llvm import *
-from llvm.core import *
 
 class CompilerFlag:
     bool = False
@@ -10,22 +8,16 @@ class CompilerFlag:
 class SemanticTools:
     defined_variables = {}
     context = ""
-    # The LLVM module, which holds all the IR code.
-    g_llvm_module = Module.new('Pochete Module')
-    # The LLVM instruction builder. Created whenever a new function is entered.
-    g_llvm_builder = None
-    # A dictionary that keeps track of which values are defined in the current scope
-    # and what their LLVM representation is.
-    g_named_values = {}    
+    code = ""
     
     @classmethod
     def reset(cls):
         cls.defined_variables = {}
         cls.context = ""
-        
+        cls.code = ""
         
 def p_programa(p):
-    """programa : DEF ID action2 ':' '[' listacmd ']' 
+    """programa : DEF ID action2 ':' '[' listacmd ']' action3
     | empty"""
     if len(p) <= 2:
       raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
@@ -33,6 +25,22 @@ def p_programa(p):
 def p_action2(p):
     "action2 :"
     SemanticTools.defined_variables[p[-1]] = True
+    SemanticTools.code = """.assembly extern mscorlib{}
+    .assembly teste{}
+    .module teste.exe
+    .class public teste
+    {
+    .method public static void principal ()
+    {
+    .entrypoint"""
+    
+def p_action3(p):
+    "action3 :"
+    SemanticTools.code += """
+      ret
+      }
+      }
+    """
     
 def p_programa_error(t):
     """programa : DEF ID error '[' listacmd ']' 
@@ -196,8 +204,8 @@ def p_aritmetica(p):
     
 def p_aritmetica1(p):
     """aritmetica1 : empty
-                   | '+' termo aritmetica1
-                   | '-' termo aritmetica1"""
+                   | '+' termo aritmetica1 p_action23
+                   | '-' termo aritmetica1 p_action24 """
     pass
 
 def p_termo(p):
@@ -230,7 +238,15 @@ def p_elemento(p):
                 | '-' elemento"""
     pass
     
-    
+
+def p_action23(p):
+  "p_action23 : "
+  SemanticTools.code += "\n add"
+
+def p_action24(p):
+  "p_action24 : "
+  SemanticTools.code += "\n sub"
+  
 def p_error(t):
     if not CompilerFlag.bool:
       CompilerFlag.bool = True

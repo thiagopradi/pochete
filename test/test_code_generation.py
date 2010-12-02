@@ -8,12 +8,16 @@ from pochete_parser import SemanticTools
 
 class TestCodeGeneration(unittest.TestCase):
   def setUp(self):
-    pass
-    
-  def test_should_create_the_header(self):
-    parser.parse(u"def teste : \n [ lado := 0; input(lado);  ]", lexer())
-    self.assertNotEqual(SemanticTools.g_llvm_module, None)
+    SemanticTools.reset()
   
-  def test_should_create_input_code(self):
-    parser.parse(u"def teste : \n [ lado := 0; input(lado);  ]", lexer())
-    self.assertEqual(str(SemanticTools.g_llvm_module), "; ModuleID = 'Pochete Module'\n input assembly goes here!" )
+  def test_p_action1_and_paction2(self):
+    parser.parse(u"def teste : \n [ a := 0; ]", lexer())
+    self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n      ret\n      }\n      }\n    ')
+    
+  def test_p_action23(self):
+    parser.parse(u"def teste : \n [ a := 0;  a := b + 1; ]", lexer())
+    self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n add\n      ret\n      }\n      }\n    ' )
+    
+  def test_p_action24(self):
+    parser.parse(u"def teste : \n [ a := 0;  a := b - 1; ]", lexer())
+    self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n sub\n      ret\n      }\n      }\n    ')
