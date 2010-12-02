@@ -25,7 +25,7 @@ t_SIM_ATTR = r':='
 t_SIM_POT = r'\*\*'
 t_SIM_GE = r'>='
 t_SIM_LE = r'<='
-t_SIM_DIF = r'=!'
+t_SIM_DIF = r'!='
 t_INTEIRO = r'0|%s%s*' % (positivo, digito)
 t_ignore = ' \t'
 
@@ -57,7 +57,7 @@ def t_HEXADECIMAL(t):
   return t
   
 def t_REAL(t):
-  r"(0|[1-9][0-9]*)\.(0|[0-9]*[1-9])"
+  r"(0|[1-9][0-9]*)\.([0-9]*[1-9]|0)"
   return t
 
 @TOKEN(aux_literal)

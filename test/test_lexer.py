@@ -17,7 +17,25 @@ class TestLexer(MockerTestCase):
       self.assertEqual(tok.value, ":=")
       tok = self.var_lex.token()    
       self.assertEqual(tok.value, "1")
+      
+    def test_real_values(self):
+      self.var_lex.input("a := 12.03")
+      tok = self.var_lex.token()    
+      self.assertEqual(tok.value, "a")
+      tok = self.var_lex.token()    
+      self.assertEqual(tok.value, ":=")
+      tok = self.var_lex.token()   
+      self.assertEqual(tok.value, "12.03")
 
+    def test_comments_correct(self):
+      self.var_lex.input("# commentario \n a := 12.03")
+      tok = self.var_lex.token()    
+      self.assertEqual(tok.value, "a")
+      tok = self.var_lex.token()    
+      self.assertEqual(tok.value, ":=")
+      tok = self.var_lex.token()   
+      self.assertEqual(tok.value, "12.03")
+      
     def test_new_line(self):
       self.var_lex.input("a := 1\na := 2")
       tok = self.var_lex.token()    
@@ -36,6 +54,15 @@ class TestLexer(MockerTestCase):
     def test_real(self):
       self.var_lex.input("1.0")
       self.assertEqual(self.var_lex.token().value, "1.0")
+    
+    def test_lexer_special_symbols(self):
+      self.var_lex.input("!= <= >=")
+      tok = self.var_lex.token()    
+      self.assertEqual(tok.value, "!=")
+      tok = self.var_lex.token()    
+      self.assertEqual(tok.value, "<=")
+      tok = self.var_lex.token()    
+      self.assertEqual(tok.value, ">=")
     
     def test_binary(self):
       self.var_lex.input("0b01")
