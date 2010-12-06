@@ -288,14 +288,6 @@ class Ui_MainWindow(object):
           self.plainTextEdit.appendPlainText("Programa compilado com sucesso")
         except Exception, e:
           self.plainTextEdit.setPlainText(unicode(e.message))
-
-        try:
-          parser.parse(str(self.editor.text()), lexer())
-        except Exception, e:
-          self.plainTextEdit.clear()
-          self.plainTextEdit.setPlainText(unicode(e.message))
-
-        CompilerFlag.bool = False
     
     def _generate(self):
         QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")

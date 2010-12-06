@@ -51,20 +51,9 @@ def p_programa_error(p):
     | DEF ID action2 ':'
     | DEF ID action2 ':' '['
     | DEF ID action2 ':' '[' listacmd"""
-    if len(p) == 7:
-      raise Exception(u"Erro na linha %s - encontrado %s, esperado '%s'" % (p.lineno(1), 'EOF', "]"))        
-    
-    if len(p) == 6:
-      raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (p.lineno(1), 'EOF', "comando"))    
-    
-    if len(p) == 5:
-      raise Exception(u"Erro na linha %s - encontrado %s, esperado '%s'" % (p.lineno(1), 'EOF', "["))    
-    
-    if len(p) == 3:
-      raise Exception(u"Erro na linha %s - encontrado %s, esperado '%s'" % (p.lineno(2), 'EOF', ":"))    
-    
-    if len(p) == 2:
-      raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (p.lineno(1), 'EOF', 'identificador'))    
+    errors = {7: "']'", 6:"comando", 5:"'['", 3:"':'", 2:'identificador'}
+    if errors.get(len(p)):
+      raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (p.lineno(1), 'EOF',errors.get(len(p))))        
     _generateError(p, {1:"def",4:":", 5:"[", 7:']'})
         
 def p_empty(p):
