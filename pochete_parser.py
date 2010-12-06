@@ -16,12 +16,18 @@ class SemanticTools:
         cls.context = ""
         cls.code = ""
         CompilerFlag.bool = False
-        
+
+# ACTION3 está implementada aqui
 def p_programa(p):
-    """programa : DEF ID action2 ':' '[' listacmd ']' action3
-    | empty"""
+    """programa : DEF ID action2 ':' '[' listacmd ']'
+    | empty """
     if len(p) <= 2:
       raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
+    SemanticTools.code += """
+      ret
+      }
+      }
+    """
     
 def p_action2(p):
     "action2 :"
@@ -35,19 +41,31 @@ def p_action2(p):
     {
     .entrypoint"""
     
-def p_action3(p):
-    "action3 :"
-    SemanticTools.code += """
-      ret
-      }
-      }
-    """
     
-def p_programa_error(t):
-    """programa : DEF ID error '[' listacmd ']' 
-    | DEF ID empty ':' error listacmd ']' 
-    | DEF ID empty ':' '[' listacmd error """
-    _generateError(t, {1:"def",3:":", 4:"[", 6:']'})
+def p_programa_error(p):
+    """programa : DEF ID action2 error '[' listacmd ']'  
+    | DEF ID action2 ':' error listacmd ']' 
+    | DEF ID action2 ':' '[' listacmd error
+    | DEF
+    | DEF ID
+    | DEF ID action2 ':'
+    | DEF ID action2 ':' '['
+    | DEF ID action2 ':' '[' listacmd"""
+    if len(p) == 7:
+      raise Exception(u"Erro na linha %s - encontrado %s, esperado '%s'" % (p.lineno(1), 'EOF', "]"))        
+    
+    if len(p) == 6:
+      raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (p.lineno(1), 'EOF', "comando"))    
+    
+    if len(p) == 5:
+      raise Exception(u"Erro na linha %s - encontrado %s, esperado '%s'" % (p.lineno(1), 'EOF', "["))    
+    
+    if len(p) == 3:
+      raise Exception(u"Erro na linha %s - encontrado %s, esperado '%s'" % (p.lineno(2), 'EOF', ":"))    
+    
+    if len(p) == 2:
+      raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (p.lineno(1), 'EOF', 'identificador'))    
+    _generateError(p, {1:"def",4:":", 5:"[", 7:']'})
         
 def p_empty(p):
     "empty :"
@@ -258,8 +276,11 @@ def p_action26(p):
 
 def p_action27(p):
   "p_action27 : "
-  SemanticTools.code += "\n rem"
-    
+  SemanticTools.code += "\n rem"  
+
+def p_error(p):
+  pass
+
 def _getTokenValue(t):
     if not t:
         return "EOF"
