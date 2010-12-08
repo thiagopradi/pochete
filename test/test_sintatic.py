@@ -14,14 +14,14 @@ class TestSintatic(MockerTestCase):
         parser.parse(u"def teste : := 1; \n b := 2;  ]", lexer())
         raise Exception("oi")
       except Exception, e:
-        self.assertEqual(u"Erro na linha 1 - encontrado :=, esperado [", e.message)
+        self.assertEqual(u"Erro na linha 1 - encontrado :=, esperado algo", e.message)
 
     def test_sintatic_exception(self):
       try: 
         parser.parse(u"def teste ab [ c := 1; \n d := 2;  ]", lexer())
         raise Exception("oi")
       except Exception, e:
-        self.assertEqual(u"Erro na linha 1 - encontrado ab, esperado :", e.message)
+        self.assertEqual(u"Erro na linha 1 - encontrado ab, esperado algo", e.message)
         
     def test_with_only_def(self):
       try: 
