@@ -9,54 +9,26 @@ class TestSintatic(MockerTestCase):
       self.var_lex = lexer()
       SemanticTools.reset()
       
+    def assertParserError(self, parse_string, error):
+        self.assertRaisesRegexp(Exception, error, parser.parse, parse_string, lexer())
+        
     def test_sintatic_exception_with_line_number(self):
-      try: 
-        parser.parse(u"def teste : := 1; \n b := 2;  ]", lexer())
-        raise Exception("oi")
-      except Exception, e:
-        self.assertEqual(u"Erro na linha 1 - encontrado :=, esperado algo", e.message)
+        self.assertParserError(u"def teste : := 1; \n b := 2;  ]", 'Erro na linha 1 - encontrado :=, esperado algo')
 
     def test_sintatic_exception(self):
-      try: 
-        parser.parse(u"def teste ab [ c := 1; \n d := 2;  ]", lexer())
-        raise Exception("oi")
-      except Exception, e:
-        self.assertEqual(u"Erro na linha 1 - encontrado ab, esperado algo", e.message)
-        
+        self.assertParserError(u"def teste ab [ c := 1; \n d := 2;  ]", 'Erro na linha 1 - encontrado ab, esperado algo')
+      
     def test_with_only_def(self):
-      try: 
-        parser.parse(u"def", lexer())
-        raise Exception("oi")
-      except Exception, e:      
-        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado identificador", e.message)  
+        self.assertParserError(u"def", "Erro na linha 1 - encontrado EOF, esperado identificador")
     
     def test_with_def_and_identifier(self):
-      try: 
-        parser.parse(u"def abc", lexer())
-        raise Exception("oi")
-      except Exception, e:
-        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado ':'", e.message)  
-    
+        self.assertParserError(u"def abc", "Erro na linha 1 - encontrado EOF, esperado ':'")
+      
     def test_with_def_and_identifier_and_symbol(self):
-      try: 
-        parser.parse(u"def abc : ", lexer())
-        raise Exception("oi")
-      except Exception, e:
-        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado '['", e.message)  
+        self.assertParserError(u"def abc : ", "Erro na linha 1 - encontrado EOF, esperado '\['")
 
     def test_with_def_and_identifier_and_other_symbol(self):
-      try: 
-        parser.parse(u"def abc : [", lexer())
-        raise Exception("oi")
-      except Exception, e:
-        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado comando", e.message)  
-    
+        self.assertParserError(u"def abc : [ ", "Erro na linha 1 - encontrado EOF, esperado comando")
+
     def test_with_def_and_identifier_and_symbol_other(self):
-      try: 
-        parser.parse(u"def abc : [ a := a+1;", lexer())
-        raise Exception("oi")
-      except Exception, e:
-        self.assertEqual(u"Erro na linha 1 - encontrado EOF, esperado ']'", e.message)  
-    
-    
-         
+       self.assertParserError(u"def abc : [ a := a+1;", "Erro na linha 1 - encontrado EOF, esperado '\]'")
