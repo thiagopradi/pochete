@@ -9,18 +9,16 @@ class TestSemantic(MockerTestCase):
       self.var_lex = lexer()
       SemanticTools.reset()
     
+    def assertParserError(self, parse_string, error):
+        self.assertRaisesRegexp(Exception, error, parser.parse, parse_string, lexer())
     
     def test_semantic_action_2_with_success(self):
       parser.parse(u"def teste : \n [ lado := 0; input(lado);  ]", lexer())
       self.assertTrue(SemanticTools.defined_variables.get('teste'))
     
     def test_semantic_action_2_with_fail(self):
-      try: 
-        parser.parse(u"def teste : \n [ teste := 0; input(teste);  ]", lexer())
-        raise Exception("Error")
-      except Exception, e:
-        self.assertEqual(u"Erro na linha 2 - identificador teste já declarado anteriormente", e.message)
-
+        self.assertParserError(u"def teste : \n [ teste := 0; input(teste);  ]", u"Erro na linha 2 - identificador teste já declarado anteriormente")
+ 
     # TODO
     # def test_semantic_error_with_input(self):
     #   try: 
