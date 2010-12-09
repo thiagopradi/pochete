@@ -19,7 +19,8 @@ class TestSemantic(MockerTestCase):
     def test_semantic_action_2_with_fail(self):
         self.assertParserError(u"def teste : \n [ teste := 0; input(teste);  ]", u"Erro na linha 2 - identificador teste já declarado anteriormente")
  
-    # TODO
+
+    
     # def test_semantic_error_with_input(self):
     #   try: 
     #     parser.parse(u"def teste : \n [ input(lado);  ]", lexer())

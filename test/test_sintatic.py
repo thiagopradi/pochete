@@ -13,10 +13,10 @@ class TestSintatic(MockerTestCase):
         self.assertRaisesRegexp(Exception, error, parser.parse, parse_string, lexer())
         
     def test_sintatic_exception_with_line_number(self):
-        self.assertParserError(u"def teste : := 1; \n b := 2;  ]", 'Erro na linha 1 - encontrado :=, esperado algo')
+        self.assertParserError(u"def teste : := 1; \n b := 2;  ]", u'Erro na linha 1 - encontrado :=, esperado construção sintática válida')
 
     def test_sintatic_exception(self):
-        self.assertParserError(u"def teste ab [ c := 1; \n d := 2;  ]", 'Erro na linha 1 - encontrado ab, esperado algo')
+        self.assertParserError(u"def teste ab [ c := 1; \n d := 2;  ]", u'Erro na linha 1 - encontrado ab, esperado construção sintática válida')
       
     def test_with_only_def(self):
         self.assertParserError(u"def", "Erro na linha 1 - encontrado EOF, esperado identificador")

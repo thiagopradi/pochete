@@ -268,7 +268,7 @@ def p_action27(p):
   SemanticTools.code += "\n rem"  
 
 def p_error(p):
-    raise Exception(u"Erro na linha %s - encontrado %s, esperado algo" % (p.lineno, p.value))
+    raise Exception(u"Erro na linha %s - encontrado %s, esperado construção sintática válida" % (p.lineno, p.value))
 
 def _getTokenValue(t):
     if not t:
