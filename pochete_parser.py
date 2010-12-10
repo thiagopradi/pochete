@@ -83,32 +83,43 @@ def p_listaidenti(p):
       raise Exception(u"Erro na linha %s - identificador %s já declarado anteriormente" % (p.lineno(1), p[1]))
     
 def p_listaindenti1(p):
-    """listaindenti1 : empty
-                     | ',' listaidenti"""    
-    pass
+    """listaindenti1 : empty action5
+                     | ',' action5 listaidenti"""    
+
+def p_action5(p):
+    "action5 : "
         
 def p_listaexp(p):
     "listaexp : expressao listaexp1"
     pass
     
 def p_listaexp1(p):
-    """listaexp1 : ',' listaexp
-                 | empty """
+    """listaexp1 : ',' action7 listaexp
+                 | empty action7 """
+
+def p_action7(p):
+    "action7 : "
 
 def p_listaexp1_error(t):
-    """listaexp1 : error listaexp"""
+    """listaexp1 : error action7 listaexp"""
     _generateError(t, {1:","})
     
 def p_cmdatribui(p):
-    "cmdatribui : listaidenti SIM_ATTR expressao ';'"
-    
+    "cmdatribui : listaidenti SIM_ATTR expressao action4 ';'"
+
+def p_action4(p):
+    "action4 : "
+
 def p_cmdentrada(p):
-    "cmdentrada : INPUT '(' listaidenti ')' ';'"
+    "cmdentrada : INPUT '(' listaidenti action6 ')' ';'"
     
+def p_action6(p):
+    "action6 : "
+
 def p_cmdentrada_error(t):
-    """cmdentrada : INPUT '(' listaidenti error ';' 
-    | INPUT error listaidenti ')' ';' 
-    | INPUT '(' listaidenti ')' error """
+    """cmdentrada : INPUT '(' listaidenti action6 error ';' 
+    | INPUT error listaidenti action6 ')' ';' 
+    | INPUT '(' listaidenti  action6 ')' error """
     _generateError(t, {2:"(",4:")", 5:";"})
 
 def p_cmdsaida(p):
@@ -122,31 +133,46 @@ def p_cmdsaida_error(t):
     _generateError(t, {2:"(",4:")", 5:";"})
         
 def p_cmdselecao(p):
-    "cmdselecao : IF expressao ':' '[' listacmd ']' elif else ';'"
+    "cmdselecao : IF expressao action8 ':' '[' listacmd ']' action9 elif else ';'"
     pass
+
+def p_action8(p):
+    "action8 : "
+
+def p_action9(p):
+    "action9 : "
     
 def p_cmdselecao_error(t):
-    """cmdselecao : IF expressao error '[' listacmd ']' elif else ';'
-    | IF expressao ':' error listacmd ']' elif else ';'
-    | IF expressao ':' '[' listacmd error elif else ';' 
-    | IF expressao ':' '[' listacmd ']' elif else error """
+    """cmdselecao : IF expressao action8 error '[' listacmd ']' action9 elif else ';'
+    | IF expressao action8 ':' error listacmd ']' action9 elif else ';'
+    | IF expressao action8 ':' '[' listacmd error action9 elif else ';' 
+    | IF expressao action8 ':' '[' listacmd ']' action9 elif else error"""
     _generateError(t, {3:":", 4:"[", 6:']', 9:';'})
 
 def p_elif(p):
     """elif : empty 
-            | ELIF expressao ':' '[' listacmd ']' elif"""
+            | action10 ELIF expressao action11 ':' '[' listacmd ']' elif"""
     pass
+
+def p_action10(p):
+    "action10 : "
+
+def p_action11(p):
+    "action11 : "
     
 def p_elif_error(t):
-  """elif : ELIF expressao error '[' listacmd ']' elif
-     | ELIF expressao ':' error listacmd ']' elif
-     | ELIF expressao ':' '[' listacmd error elif"""
+  """elif : action10 ELIF expressao action11 error '[' listacmd ']' elif
+     | action10 ELIF expressao action11 ':' error listacmd ']' elif
+     | action10 ELIF expressao action11 ':' '[' listacmd error elif"""
   _generateError(t, {3:":", 4:"[", 6:']'})
   
 def p_else(p):
     """else : empty
-            | ELSE ':' '[' listacmd ']'"""
+            | action12 ELSE ':' '[' listacmd ']'"""
     pass
+
+def p_action12(p): 
+    "action12 : "
 
 def p_else_error(t):
     """else : ELSE error '[' listacmd ']' 
@@ -155,14 +181,23 @@ def p_else_error(t):
     _generateError(t, {2:":", 3:"[", 5:']'})
   
 def p_cmdrepeticao(p):
-    "cmdrepeticao : WHILE expressao ':' '[' listacmd ']' else ';'"
+    "cmdrepeticao : WHILE action13 expressao action14 ':' '[' listacmd ']' action15 else ';'"
     pass
 
+def p_action13(p): 
+    "action13 : "
+
+def p_action14(p): 
+    "action14 : "
+
+def p_action15(p): 
+    "action15 : "
+
 def p_cmdrepeticao_error(t):
-    """cmdrepeticao : WHILE expressao error '[' listacmd ']' else ';' 
-    | WHILE expressao ':' error listacmd ']' else ';'
-    | WHILE expressao ':' '[' listacmd error else ';'
-    | WHILE expressao ':' '[' listacmd ']' else error"""
+    """cmdrepeticao : WHILE action13 expressao action14 error '[' listacmd ']' action15 else ';' 
+    | WHILE action13 expressao action14 ':' error listacmd ']' action15 else ';'
+    | WHILE action13 expressao action14 ':' '[' listacmd error action15 else ';'
+    | WHILE action13 expressao action14 ':' '[' listacmd ']' action15 else error"""
     _generateError(t, {3:":", 4:"[", 6:']', 8:';'})
   
 def p_expressao(p):
@@ -189,20 +224,32 @@ def p_expressao1_error(t):
 
 def p_valor(p):
     """valor : relacional
-           | TRUE
-           | FALSE
-           | NOT valor"""
-    pass
+           | TRUE action18
+           | FALSE action19
+           | NOT valor action20"""
 
+def p_action_18(p):
+    "action18 : "
+
+def p_action_19(p):
+    "action19 : "
+
+def p_action_20(p):
+    "action20 : "
 
 def p_relacional(p):
     "relacional : aritmetica relacional1"
     pass
 
 def p_relacional1(p):
-    """relacional1 : operador aritmetica
+    """relacional1 : operador action21 aritmetica action22
                  | empty"""
-    pass
+
+def p_action_21(p):
+    "action21 : "
+
+def p_action_22(p):
+    "action22 : "
 
 def p_operador(p):
     """operador : SIM_EQ
@@ -241,23 +288,49 @@ def p_fator(p):
     
 def p_fator1(p):
     """fator1 : empty
-              | SIM_POT elemento fator1"""
-    pass
+              | SIM_POT elemento action28 fator1"""
+
+
+def p_action28(p):
+    "action28 : "
 
 def p_elemento(p):
-    """elemento : ID
-                | INTEIRO
-                | REAL
-                | LITERAL
+    """elemento : ID action29
+                | INTEIRO action30
+                | BINARIO action31
+                | OCTAL action32
+                | HEXADECIMAL action33
+                | REAL action34
+                | LITERAL action35
                 | '(' expressao ')'
                 | '+' elemento
                 | '-' elemento action36"""
     pass
     
+def p_action29(p):
+    "action29 : "
+
+def p_action30(p):
+    "action30 : "
+
+def p_action31(p):
+    "action31 : "
+
+def p_action32(p):
+    "action32 : "
+
+def p_action33(p):
+    "action33 : "
+
+def p_action34(p):
+    "action34 : "
+
+def p_action35(p):
+    "action35 : "
+
 def p_action36(p):
     "action36 : "
     SemanticTools.code += "\n        neg"
-
 
 def p_action23(p):
   "p_action23 : "

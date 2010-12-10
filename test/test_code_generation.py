@@ -46,5 +46,24 @@ class TestCodeGeneration(unittest.TestCase):
     parser.parse(u"def teste : \n [ a := 0;  a := -a; ]", lexer())
     self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n        neg\n      ret\n      }\n      }\n    ')
 
+  def test_p_action29(self):
+    pass
+
+  def test_p_action30(self):
+    pass
+
+  def test_p_action31(self):
+    pass
+
+  def test_p_action32(self):
+    pass
+
+  def test_p_action33(self):
+    pass
+
+  def test_p_action34(self):
+    pass
   
+  def test_p_action35(self):
+    pass
   
