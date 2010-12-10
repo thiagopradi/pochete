@@ -251,9 +251,13 @@ def p_elemento(p):
                 | LITERAL
                 | '(' expressao ')'
                 | '+' elemento
-                | '-' elemento"""
+                | '-' elemento action36"""
     pass
     
+def p_action36(p):
+    "action36 : "
+    SemanticTools.code += "\n        neg"
+
 
 def p_action23(p):
   "p_action23 : "

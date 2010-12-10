@@ -10,7 +10,7 @@ class TestCodeGeneration(unittest.TestCase):
   def setUp(self):
     SemanticTools.reset()
   
-  def test_p_action1_and_paction2(self):
+  def test_p_action1_and_p_action2(self):
     parser.parse(u"def teste : \n [ a := 0; ]", lexer())
     self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n      ret\n      }\n      }\n    ')
   
@@ -42,5 +42,9 @@ class TestCodeGeneration(unittest.TestCase):
     parser.parse(u"def teste : \n [ a := 0;  a := b % 1; ]", lexer())
     self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n rem\n      ret\n      }\n      }\n    ')
   
+  def test_p_action36(self):
+    parser.parse(u"def teste : \n [ a := 0;  a := -a; ]", lexer())
+    self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n        neg\n      ret\n      }\n      }\n    ')
+
   
   
