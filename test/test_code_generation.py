@@ -13,7 +13,15 @@ class TestCodeGeneration(unittest.TestCase):
   def test_p_action1_and_paction2(self):
     parser.parse(u"def teste : \n [ a := 0; ]", lexer())
     self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n      ret\n      }\n      }\n    ')
+  
+  def test_p_action16(self):
+    parser.parse(u"def teste : \n [ a := 0;  a := b + 1; if a or b : [ a := a+b; ]; ]", lexer())
+    self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n add        or\n add\n      ret\n      }\n      }\n    ')
     
+  def test_p_action17(self):
+    parser.parse(u"def teste : \n [ a := 0;  a := b + 1; if a and b : [ a := a+b; ]; ]", lexer())
+    self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n add        and\n add\n      ret\n      }\n      }\n    ')
+
   def test_p_action23(self):
     parser.parse(u"def teste : \n [ a := 0;  a := b + 1; ]", lexer())
     self.assertEqual(SemanticTools.code, '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint\n add\n      ret\n      }\n      }\n    ' )

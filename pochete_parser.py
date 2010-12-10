@@ -171,9 +171,17 @@ def p_expressao(p):
 
 def p_expressao1(p):
     """expressao1 : empty
-                | OR valor expressao1
-                | AND valor expressao1"""
+                | OR valor action_16 expressao1
+                | AND valor action_17 expressao1 """
     pass
+
+def p_action_16(p):
+    "action_16 : "
+    SemanticTools.code += "        or"
+    
+def p_action_17(p):
+    "action_17 : "
+    SemanticTools.code += "        and"
 
 def p_expressao1_error(t):
     """expressao1 : error valor expressao1"""
