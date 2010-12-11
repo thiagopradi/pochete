@@ -7,15 +7,24 @@ class CompilerFlag:
   
 class SemanticTools:
     defined_variables = {}
-    context = ""
-    code = ""
+    main_identifier = ""
+    code = []
+    alloc = []
+    program_name = "teste"
+    symbol_table = {}
+    codigo_operation = []
+    codigo_comp = []
+    operation = False
+    token = None
     
     @classmethod
     def reset(cls):
         cls.defined_variables = {}
         cls.context = ""
-        cls.code = ""
-        CompilerFlag.bool = False
+        cls.code = []
+        cls.alloc = []
+        cls.token = None
+        cls.symbol_table = {}
 
 # ACTION3 está implementada aqui
 def p_programa(p):
@@ -23,23 +32,25 @@ def p_programa(p):
     | empty """
     if len(p) <= 2:
       raise Exception(u"Erro na linha %s - encontrado %s, esperado %s" % (1, 'EOF', 'def'))
-    SemanticTools.code += """
-      ret
-      }
-      }
-    """
+    alloc_string = ''.join(SemanticTools.alloc)
+    SemanticTools.code.insert(1, alloc_string)
+    SemanticTools.code.append("""
+        ret
+        }
+        }
+      """) 
     
 def p_action2(p):
     "action2 :"
-    SemanticTools.defined_variables[p[-1]] = True
-    SemanticTools.code = """.assembly extern mscorlib{}
-    .assembly teste{}
-    .module teste.exe
-    .class public teste
+    SemanticTools.main_identifier = p[-1]
+    SemanticTools.code.append(""".assembly extern mscorlib{}
+    .assembly %s{}
+    .module %s.exe
+    .class public %s
     {
     .method public static void principal ()
     {
-    .entrypoint"""
+    .entrypoint""" % (SemanticTools.program_name, SemanticTools.program_name, SemanticTools.program_name))
     
     
 def p_programa_error(p):
@@ -77,18 +88,17 @@ def p_comando(p):
                | cmdrepeticao"""
     pass
 
+# ACTION5 is here
 def p_listaidenti(p):
     "listaidenti : ID listaindenti1"    
-    if SemanticTools.defined_variables.get(p[1]):
+    if SemanticTools.main_identifier == p[1]:
       raise Exception(u"Erro na linha %s - identificador %s já declarado anteriormente" % (p.lineno(1), p[1]))
+    SemanticTools.defined_variables[p[1]] = True
     
 def p_listaindenti1(p):
-    """listaindenti1 : empty action5
-                     | ',' action5 listaidenti"""    
+    """listaindenti1 : empty
+                     | ',' listaidenti"""    
 
-def p_action5(p):
-    "action5 : "
-        
 def p_listaexp(p):
     "listaexp : expressao listaexp1"
     pass
@@ -99,6 +109,18 @@ def p_listaexp1(p):
 
 def p_action7(p):
     "action7 : "
+    # Identificador x = (Identificador) tabelaSimbolos.get(token.getLexeme());
+    #     if (x == null) {
+    #         throw new SemanticError("identificador ( " + token.getLexeme() + " ) não declarado");
+    #     }
+    #     arrayCodigo.add("        ldloc " + token.getLexeme());
+    #     if (x.getTipo().equals("inteira") || x.getTipo().equals("hexadecimal") || x.getTipo().equals("octal") || x.getTipo().equals("binária")) {
+    #         arrayCodigo.add("        call void [mscorlib]System.Console::Write(int32)");
+    #     } else if (x.getTipo().equals("real")) {
+    #         arrayCodigo.add("        call void [mscorlib]System.Console::Write(float32)");
+    #     } else if (x.getTipo().equals("literal")) {
+    #         arrayCodigo.add("        call void [mscorlib]System.Console::Write(string)");
+    #     }
 
 def p_listaexp1_error(t):
     """listaexp1 : error action7 listaexp"""
@@ -109,6 +131,43 @@ def p_cmdatribui(p):
 
 def p_action4(p):
     "action4 : "
+    newVariable = False
+    for key, value in SemanticTools.defined_variables.iteritems():
+        if not key in SemanticTools.symbol_table.keys():
+          newVariable = True
+          SemanticTools.symbol_table[key] = value
+        if value in ["integer", "octal", "hexa", "binary"]:
+          if newVariable:
+            SemanticTools.alloc.append("        .locals (int32 " + key + ")")
+          if not SemanticTools.operation:
+            if value == "integer":
+              SemanticTools.code.append("        ldc.i4 "+ SemanticTools.token.value)
+          SemanticTools.code.append("       stloc "+ key)
+        elif value == "real":
+          if newVariable:
+            SemanticTools.alloc.append("        .locals (float32 " + key + ")")
+          if not SemanticTools.operation:
+             SemanticTools.code.append("        ldc.r4  "+ SemanticTools.token.value)
+        elif value == "literal":
+          if newVariable:
+            SemanticTools.alloc.append("        .locals (string " + key + ")")
+          if not SemanticTools.operation:
+            SemanticTools.code.append("        ldstr  teste")
+          SemanticTools.code.append("        stloc " + key)
+        else:
+          if value == "bool":
+            if newVariable:
+              SemanticTools.alloc.append("        .locals (int32 " + key + ")")
+            if not SemanticTools.operation:
+              if SemanticTools.token.value == "true":
+                integer = '1'
+              else:
+                integer = '0'
+              SemanticTools.code.append("        ldc.i4  " + integer)
+            SemanticTools.code.append("        stloc " + key)
+          
+    SemanticTools.defined_variables = {}
+    SemanticTools.operation = False
 
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti action6 ')' ';'"
@@ -202,7 +261,6 @@ def p_cmdrepeticao_error(t):
   
 def p_expressao(p):
     "expressao : valor expressao1"
-    pass
 
 def p_expressao1(p):
     """expressao1 : empty
@@ -212,11 +270,11 @@ def p_expressao1(p):
 
 def p_action_16(p):
     "action_16 : "
-    SemanticTools.code += "        or"
+    SemanticTools.code.append("        or")
     
 def p_action_17(p):
     "action_17 : "
-    SemanticTools.code += "        and"
+    SemanticTools.code.append("        and")
 
 def p_expressao1_error(t):
     """expressao1 : error valor expressao1"""
@@ -227,12 +285,18 @@ def p_valor(p):
            | TRUE action18
            | FALSE action19
            | NOT valor action20"""
-
+           
 def p_action_18(p):
     "action18 : "
+    for key, value in SemanticTools.defined_variables.iteritems():
+      SemanticTools.defined_variables[key] = "bool"
+    SemanticTools.token = p.stack[-1]
 
 def p_action_19(p):
     "action19 : "
+    for key, value in SemanticTools.defined_variables.iteritems():
+      SemanticTools.defined_variables[key] = "bool"
+    SemanticTools.token = p.stack[-1]
 
 def p_action_20(p):
     "action20 : "
@@ -305,13 +369,16 @@ def p_elemento(p):
                 | '(' expressao ')'
                 | '+' elemento
                 | '-' elemento action36"""
-    pass
+    
     
 def p_action29(p):
     "action29 : "
 
 def p_action30(p):
     "action30 : "
+    for key, value in SemanticTools.defined_variables.iteritems():
+      SemanticTools.defined_variables[key] = "integer"
+    SemanticTools.token = p.stack[-1]
 
 def p_action31(p):
     "action31 : "
@@ -324,6 +391,9 @@ def p_action33(p):
 
 def p_action34(p):
     "action34 : "
+    for key, value in SemanticTools.defined_variables.iteritems():
+      SemanticTools.defined_variables[key] = "real"
+    SemanticTools.token = p.stack[-1]
 
 def p_action35(p):
     "action35 : "
@@ -335,18 +405,26 @@ def p_action36(p):
 def p_action23(p):
   "p_action23 : "
   SemanticTools.code += "\n add"
-
+  for key, value in SemanticTools.defined_variables.iteritems():
+    SemanticTools.defined_variables[key] = "integer"
+  
 def p_action24(p):
   "p_action24 : "
   SemanticTools.code += "\n sub"
+  for key, value in SemanticTools.defined_variables.iteritems():
+    SemanticTools.defined_variables[key] = "integer"
   
 def p_action25(p):
   "p_action25 : "
   SemanticTools.code += "\n mul"
+  for key, value in SemanticTools.defined_variables.iteritems():
+    SemanticTools.defined_variables[key] = "integer"
 
 def p_action26(p):
   "p_action26 : "
   SemanticTools.code += "\n div"
+  for key, value in SemanticTools.defined_variables.iteritems():
+    SemanticTools.defined_variables[key] = "integer"
 
 def p_action27(p):
   "p_action27 : "

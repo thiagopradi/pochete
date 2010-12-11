@@ -14,13 +14,16 @@ class TestSemantic(MockerTestCase):
     
     def test_semantic_action_2_with_success(self):
       parser.parse(u"def teste : \n [ lado := 0; input(lado);  ]", lexer())
-      self.assertTrue(SemanticTools.defined_variables.get('teste'))
+      self.assertEqual(SemanticTools.main_identifier, "teste")
     
     def test_semantic_action_2_with_fail(self):
         self.assertParserError(u"def teste : \n [ teste := 0; input(teste);  ]", u"Erro na linha 2 - identificador teste já declarado anteriormente")
- 
-
     
+    def test_semantic_action_5(self):
+      parser.parse(u"def teste : \n [ esse, outro := 0; input(lado);  ]", lexer())
+      self.assertTrue(SemanticTools.symbol_table["esse"])    
+      self.assertTrue(SemanticTools.symbol_table["outro"])
+
     # def test_semantic_error_with_input(self):
     #   try: 
     #     parser.parse(u"def teste : \n [ input(lado);  ]", lexer())
