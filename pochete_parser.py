@@ -465,19 +465,31 @@ def p_action23(p):
   
 def p_action24(p):
   "p_action24 : "
+  SemanticTools.code += '\n'.join(SemanticTools.code_op)
   SemanticTools.code += "\n sub"
-  
+  for key in SemanticTools.defined_variables.keys():
+    SemanticTools.code += "\n stloc " + str(key)
+    
 def p_action25(p):
   "p_action25 : "
+  SemanticTools.code += '\n'.join(SemanticTools.code_op)
   SemanticTools.code += "\n mul"
+  for key in SemanticTools.defined_variables.keys():
+    SemanticTools.code += "\n stloc " + str(key)
 
 def p_action26(p):
   "p_action26 : "
+  SemanticTools.code += '\n'.join(SemanticTools.code_op)
   SemanticTools.code += "\n div"
-
+  for key in SemanticTools.defined_variables.keys():
+    SemanticTools.code += "\n stloc " + str(key)
+  
 def p_action27(p):
   "p_action27 : "
-  SemanticTools.code += "\n rem"  
+  SemanticTools.code += '\n'.join(SemanticTools.code_op)
+  SemanticTools.code += "\n rem"
+  for key in SemanticTools.defined_variables.keys():
+    SemanticTools.code += "\n stloc " + str(key)
 
 def p_error(p):
     raise Exception(u"Erro na linha %s - encontrado %s, esperado construção sintática válida" % (p.lineno, p.value))
