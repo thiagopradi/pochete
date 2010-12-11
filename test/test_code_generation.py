@@ -30,7 +30,22 @@ class TestCodeGeneration(unittest.TestCase):
   def test_allocating_bool_false(self):
     parser.parse(u"def teste : \n [ a := false; ]", lexer())
     self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4  0        stloc a\n        ret\n        }\n        }\n      ')
+
+  def test_allocating_binary(self):
+    parser.parse(u"def teste : \n [ a := 0b0101; ]", lexer())
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 5       stloc a\n        ret\n        }\n        }\n      ')
   
+  def test_allocating_hexadecimal(self):
+    parser.parse(u"def teste : \n [ a := 0x01AF; ]", lexer())
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 431       stloc a\n        ret\n        }\n        }\n      ' )
+
+  def test_allocating_octal(self):
+    parser.parse(u"def teste : \n [ a := 0o0132; ]", lexer())
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 90       stloc a\n        ret\n        }\n        }\n      ')
+
+  def test_allocating_literal(self):
+    parser.parse(u'def teste : \n [ a := "foo"; ]', lexer())
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (string a)        ldstr "foo"        stloc a\n        ret\n        }\n        }\n      ')  
   
   # def test_p_action16(self):
   #   parser.parse(u"def teste : \n [ a := 0;  a := b + 1; if a or b : [ a := a+b; ]; ]", lexer())

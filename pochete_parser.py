@@ -142,6 +142,13 @@ def p_action4(p):
           if not SemanticTools.operation:
             if value == "integer":
               SemanticTools.code.append("        ldc.i4 "+ SemanticTools.token.value)
+            elif value == "binary":
+              SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 2)))
+            elif value == "hexa":
+              SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 16)))
+            elif value == "octal":
+              SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 8)))
+              
           SemanticTools.code.append("       stloc "+ key)
         elif value == "real":
           if newVariable:
@@ -152,7 +159,7 @@ def p_action4(p):
           if newVariable:
             SemanticTools.alloc.append("        .locals (string " + key + ")")
           if not SemanticTools.operation:
-            SemanticTools.code.append("        ldstr  teste")
+            SemanticTools.code.append("        ldstr "+ SemanticTools.token.value)
           SemanticTools.code.append("        stloc " + key)
         else:
           if value == "bool":
@@ -382,12 +389,21 @@ def p_action30(p):
 
 def p_action31(p):
     "action31 : "
+    for key, value in SemanticTools.defined_variables.iteritems():
+      SemanticTools.defined_variables[key] = "binary"
+    SemanticTools.token = p.stack[-1]
 
 def p_action32(p):
     "action32 : "
+    for key, value in SemanticTools.defined_variables.iteritems():
+      SemanticTools.defined_variables[key] = "octal"
+    SemanticTools.token = p.stack[-1]
 
 def p_action33(p):
     "action33 : "
+    for key, value in SemanticTools.defined_variables.iteritems():
+      SemanticTools.defined_variables[key] = "hexa"
+    SemanticTools.token = p.stack[-1]
 
 def p_action34(p):
     "action34 : "
@@ -397,6 +413,9 @@ def p_action34(p):
 
 def p_action35(p):
     "action35 : "
+    for key, value in SemanticTools.defined_variables.iteritems():
+      SemanticTools.defined_variables[key] = "literal"
+    SemanticTools.token = p.stack[-1]
 
 def p_action36(p):
     "action36 : "
@@ -405,26 +424,18 @@ def p_action36(p):
 def p_action23(p):
   "p_action23 : "
   SemanticTools.code += "\n add"
-  for key, value in SemanticTools.defined_variables.iteritems():
-    SemanticTools.defined_variables[key] = "integer"
   
 def p_action24(p):
   "p_action24 : "
   SemanticTools.code += "\n sub"
-  for key, value in SemanticTools.defined_variables.iteritems():
-    SemanticTools.defined_variables[key] = "integer"
   
 def p_action25(p):
   "p_action25 : "
   SemanticTools.code += "\n mul"
-  for key, value in SemanticTools.defined_variables.iteritems():
-    SemanticTools.defined_variables[key] = "integer"
 
 def p_action26(p):
   "p_action26 : "
   SemanticTools.code += "\n div"
-  for key, value in SemanticTools.defined_variables.iteritems():
-    SemanticTools.defined_variables[key] = "integer"
 
 def p_action27(p):
   "p_action27 : "
