@@ -138,7 +138,7 @@ def p_action4(p):
           SemanticTools.symbol_table[key] = value
         if value in ["integer", "octal", "hexa", "binary"]:
           if newVariable:
-            SemanticTools.alloc.append("        .locals (int32 " + key + ")")
+            SemanticTools.alloc.append("        .locals init (int32 " + key + ")")
           if not SemanticTools.operation:
             if value == "integer":
               SemanticTools.code.append("        ldc.i4 "+ SemanticTools.token.value)
@@ -152,19 +152,19 @@ def p_action4(p):
           SemanticTools.code.append("       stloc "+ key)
         elif value == "real":
           if newVariable:
-            SemanticTools.alloc.append("        .locals (float32 " + key + ")")
+            SemanticTools.alloc.append("        .locals init (float32 " + key + ")")
           if not SemanticTools.operation:
              SemanticTools.code.append("        ldc.r4  "+ SemanticTools.token.value)
         elif value == "literal":
           if newVariable:
-            SemanticTools.alloc.append("        .locals (string " + key + ")")
+            SemanticTools.alloc.append("        .locals init (string " + key + ")")
           if not SemanticTools.operation:
             SemanticTools.code.append("        ldstr "+ SemanticTools.token.value)
           SemanticTools.code.append("        stloc " + key)
         else:
           if value == "bool":
             if newVariable:
-              SemanticTools.alloc.append("        .locals (int32 " + key + ")")
+              SemanticTools.alloc.append("        .locals init (int32 " + key + ")")
             if not SemanticTools.operation:
               if SemanticTools.token.value == "true":
                 integer = '1'
@@ -190,7 +190,6 @@ def p_cmdentrada(p):
         SemanticTools.code.append("call float32 [mscorlib]System.Float32::Parse(string)")
         SemanticTools.code.append("stloc "+ key)
       elif id_type == "literal":
-        SemanticTools.code.append("call string [mscorlib]System.Int32::Parse(string)")
         SemanticTools.code.append("stloc "+ key)
                 
 def p_action6(p):
