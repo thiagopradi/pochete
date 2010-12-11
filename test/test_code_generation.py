@@ -91,6 +91,11 @@ class TestCodeGeneration(MockerTestCase):
     
   def test_output_with_error(self):
     self.assertParserError(u'def teste : \n [ output(abc); ]', u'Erro na linha 2 - identificador abc n\xe3o declarado' )
+
+  def test_sum(self):
+    parser.parse(u'def teste : \n [ xpto := 1; b := 2; xpto := xpto + b; output(xpto); ]', lexer())
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (string a)        ldstr "abc"        stloc acall string [mscorlib]System.Console::ReadLine()stloc a        ldloc a        call void [mscorlib]System.Console::Write(string)\n        ret\n        }\n        }\n      ')
+  
   
   # def test_p_action16(self):
   #   parser.parse(u"def teste : \n [ a := 0;  a := b + 1; if a or b : [ a := a+b; ]; ]", lexer())

@@ -12,8 +12,7 @@ class SemanticTools:
     alloc = []
     program_name = "teste"
     symbol_table = {}
-    codigo_operation = []
-    codigo_comp = []
+    code_op = []
     operation = False
     token = None
     
@@ -25,6 +24,7 @@ class SemanticTools:
         cls.alloc = []
         cls.token = None
         cls.symbol_table = {}
+        cls.code_op = []
 
 # ACTION3 está implementada aqui
 def p_programa(p):
@@ -174,6 +174,7 @@ def p_action4(p):
             SemanticTools.code.append("        stloc " + key)
           
     SemanticTools.defined_variables = {}
+    SemanticTools.code_op = []
     SemanticTools.operation = False
 
 def p_cmdentrada(p):
@@ -357,14 +358,13 @@ def p_operador(p):
 
 def p_aritmetica(p):
     "aritmetica : termo aritmetica1"
-    pass
+    
     
 def p_aritmetica1(p):
     """aritmetica1 : empty
                    | '+' termo aritmetica1 p_action23
                    | '-' termo aritmetica1 p_action24 """
-    pass
-
+    
 def p_termo(p):
     "termo : fator termo1"
     pass
@@ -404,6 +404,7 @@ def p_elemento(p):
 def p_action29(p):
     "action29 : "
     SemanticTools.defined_variables[p.stack[-1].value] = "id"
+    SemanticTools.code_op.append("        ldloc " + p.stack[-1].value)
     SemanticTools.token = p.stack[-1]
 
 def p_action30(p):
@@ -448,7 +449,10 @@ def p_action36(p):
 
 def p_action23(p):
   "p_action23 : "
+  SemanticTools.code += '\n'.join(SemanticTools.code_op)
+  print SemanticTools.defined_variables
   SemanticTools.code += "\n add"
+  SemanticTools.operation = True
   
 def p_action24(p):
   "p_action24 : "
