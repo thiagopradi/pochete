@@ -178,7 +178,20 @@ def p_action4(p):
 
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti action6 ')' ';'"
-    
+    for key in SemanticTools.defined_variables.keys():
+      if not SemanticTools.symbol_table.get(key):
+        raise Exception(u"Erro na linha %s - identificador %s não declarado" % (p.lineno(1), key))
+      id_type = SemanticTools.symbol_table.get(key)
+      if id_type in ['integer', 'hexa', 'binary', 'octal']:
+        SemanticTools.code.append("        call int32 [mscorlib]System.Int32::Parse(string)")
+        SemanticTools.code.append("        stloc "+ key)
+      elif id_type == 'real':
+        SemanticTools.code.append("        call float32 [mscorlib]System.Float32::Parse(string)")
+        SemanticTools.code.append("        stloc "+ key)
+      elif id_type == "literal":
+        SemanticTools.code.append("        call string [mscorlib]System.Int32::Parse(string)")
+        SemanticTools.code.append("        stloc "+ key)
+                
 def p_action6(p):
     "action6 : "
 
@@ -190,8 +203,18 @@ def p_cmdentrada_error(t):
 
 def p_cmdsaida(p):
     "cmdsaida : OUTPUT '(' listaexp ')' ';'"
-    pass
-
+    for key in SemanticTools.defined_variables.keys():
+      if not SemanticTools.symbol_table.get(key) and SemanticTools.defined_variables.get(key) == 'id':
+        raise Exception(u"Erro na linha %s - identificador %s não declarado" % (p.lineno(1), key))
+      SemanticTools.code.append("        ldloc "+ key)
+      id_type = SemanticTools.symbol_table.get(key)
+      if id_type in ['integer', 'hexa', 'binary', 'octal']:
+        SemanticTools.code.append("        call void [mscorlib]System.Console::Write(int32)")
+      elif id_type == 'real':
+        SemanticTools.code.append("        call void [mscorlib]System.Console::Write(float32)")
+      elif id_type == "literal":
+        SemanticTools.code.append("        call void [mscorlib]System.Console::Write(string)")
+    
 def p_cmdsaida_error(t):
     """cmdsaida : OUTPUT '(' listaexp error ';' 
     | OUTPUT error listaexp ')' ';' 
@@ -380,6 +403,8 @@ def p_elemento(p):
     
 def p_action29(p):
     "action29 : "
+    SemanticTools.defined_variables[p.stack[-1].value] = "id"
+    SemanticTools.token = p.stack[-1]
 
 def p_action30(p):
     "action30 : "

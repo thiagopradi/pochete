@@ -20,7 +20,7 @@ class TestSemantic(MockerTestCase):
         self.assertParserError(u"def teste : \n [ teste := 0; input(teste);  ]", u"Erro na linha 2 - identificador teste já declarado anteriormente")
     
     def test_semantic_action_5(self):
-      parser.parse(u"def teste : \n [ esse, outro := 0; input(lado);  ]", lexer())
+      parser.parse(u"def teste : \n [ esse, outro := 0; input(esse);  ]", lexer())
       self.assertTrue(SemanticTools.symbol_table["esse"])    
       self.assertTrue(SemanticTools.symbol_table["outro"])
 
