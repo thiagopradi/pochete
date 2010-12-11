@@ -55,31 +55,31 @@ class TestCodeGeneration(MockerTestCase):
   
   def test_input_with_integer(self):
     parser.parse(u'def teste : \n [ a := 0; input(a); ]', lexer())
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 0       stloc a        call int32 [mscorlib]System.Int32::Parse(string)        stloc a\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 0       stloc acall string [mscorlib]System.Console::ReadLine()call int32 [mscorlib]System.Int32::Parse(string)stloc a\n        ret\n        }\n        }\n      ')
 
   def test_input_with_binary(self):
     parser.parse(u'def teste : \n [ a := 0b010; input(a); ]', lexer())
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 2       stloc a        call int32 [mscorlib]System.Int32::Parse(string)        stloc a\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 2       stloc acall string [mscorlib]System.Console::ReadLine()call int32 [mscorlib]System.Int32::Parse(string)stloc a\n        ret\n        }\n        }\n      ')
 
   def test_input_with_octal(self):
     parser.parse(u'def teste : \n [ a := 0o032; input(a); ]', lexer())
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 26       stloc a        call int32 [mscorlib]System.Int32::Parse(string)        stloc a\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 26       stloc acall string [mscorlib]System.Console::ReadLine()call int32 [mscorlib]System.Int32::Parse(string)stloc a\n        ret\n        }\n        }\n      ')
 
   def test_input_with_hexadecimal(self):
     parser.parse(u'def teste : \n [ a := 0x012; input(a); ]', lexer())    
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 18       stloc a        call int32 [mscorlib]System.Int32::Parse(string)        stloc a\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 18       stloc acall string [mscorlib]System.Console::ReadLine()call int32 [mscorlib]System.Int32::Parse(string)stloc a\n        ret\n        }\n        }\n      ')
 
   def test_input_with_real(self):
     parser.parse(u'def teste : \n [ a := 1.0; input(a); ]', lexer())
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (float32 a)        ldc.r4  1.0        call float32 [mscorlib]System.Float32::Parse(string)        stloc a\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (float32 a)        ldc.r4  1.0call string [mscorlib]System.Console::ReadLine()call float32 [mscorlib]System.Float32::Parse(string)stloc a\n        ret\n        }\n        }\n      ')
 
   def test_input_string(self):
     parser.parse(u'def teste : \n [ a := "foo"; input(a); ]', lexer())
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (string a)        ldstr "foo"        stloc a        call string [mscorlib]System.Int32::Parse(string)        stloc a\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (string a)        ldstr "foo"        stloc acall string [mscorlib]System.Console::ReadLine()call string [mscorlib]System.Int32::Parse(string)stloc a\n        ret\n        }\n        }\n      ')
   
   def test_output_with_integer(self):
     parser.parse(u'def teste : \n [ a := 0; input(a); output(a); ]', lexer())
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 0       stloc a        call int32 [mscorlib]System.Int32::Parse(string)        stloc a        ldloc a        call void [mscorlib]System.Console::Write(int32)\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals (int32 a)        ldc.i4 0       stloc acall string [mscorlib]System.Console::ReadLine()call int32 [mscorlib]System.Int32::Parse(string)stloc a        ldloc a        call void [mscorlib]System.Console::Write(int32)\n        ret\n        }\n        }\n      ')
   
   def test_output_with_error(self):
     self.assertParserError(u'def teste : \n [ output(abc); ]', u'Erro na linha 2 - identificador abc n\xe3o declarado' )

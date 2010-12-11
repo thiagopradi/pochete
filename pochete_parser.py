@@ -182,15 +182,16 @@ def p_cmdentrada(p):
       if not SemanticTools.symbol_table.get(key):
         raise Exception(u"Erro na linha %s - identificador %s não declarado" % (p.lineno(1), key))
       id_type = SemanticTools.symbol_table.get(key)
+      SemanticTools.code.append('call string [mscorlib]System.Console::ReadLine()')
       if id_type in ['integer', 'hexa', 'binary', 'octal']:
-        SemanticTools.code.append("        call int32 [mscorlib]System.Int32::Parse(string)")
-        SemanticTools.code.append("        stloc "+ key)
+        SemanticTools.code.append("call int32 [mscorlib]System.Int32::Parse(string)")
+        SemanticTools.code.append("stloc "+ key)
       elif id_type == 'real':
-        SemanticTools.code.append("        call float32 [mscorlib]System.Float32::Parse(string)")
-        SemanticTools.code.append("        stloc "+ key)
+        SemanticTools.code.append("call float32 [mscorlib]System.Float32::Parse(string)")
+        SemanticTools.code.append("stloc "+ key)
       elif id_type == "literal":
-        SemanticTools.code.append("        call string [mscorlib]System.Int32::Parse(string)")
-        SemanticTools.code.append("        stloc "+ key)
+        SemanticTools.code.append("call string [mscorlib]System.Int32::Parse(string)")
+        SemanticTools.code.append("stloc "+ key)
                 
 def p_action6(p):
     "action6 : "
