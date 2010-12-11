@@ -94,7 +94,7 @@ class TestCodeGeneration(MockerTestCase):
 
   def test_sum(self):
     parser.parse(u'def teste : \n [ xpto := 1; b := 2; xpto := xpto + b; output(xpto); ]', lexer())
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (string a)        ldstr "abc"        stloc acall string [mscorlib]System.Console::ReadLine()stloc a        ldloc a        call void [mscorlib]System.Console::Write(string)\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (int32 xpto)        .locals init (int32 b)        ldc.i4 1       stloc xpto        ldc.i4 2       stloc b        ldloc xpto\n        ldloc b\n add\n stloc xpto        ldloc xpto        call void [mscorlib]System.Console::Write(int32)\n        ret\n        }\n        }\n      ')
   
   
   # def test_p_action16(self):
