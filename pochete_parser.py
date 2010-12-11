@@ -1,9 +1,6 @@
 # coding: utf-8
 import ply.yacc as yacc
 from lexer import tokens, lexer
-
-class CompilerFlag:
-    bool = False
   
 class SemanticTools:
     defined_variables = {}
