@@ -12,6 +12,7 @@ class SemanticTools:
     code_op = []
     token = None
     command = False
+    negative = False
     
     @classmethod
     def reset(cls):
@@ -25,6 +26,7 @@ class SemanticTools:
         cls.code_op = []
         cls.program_name = "teste"
         cls.command = False
+        cls.negative = False
         
 class Identifier:
   def __init__(self, string):
@@ -141,26 +143,20 @@ def p_action4(p):
           if newVariable:
             SemanticTools.alloc.append("        .locals init (int32 " + str(key) + ")")
           if not SemanticTools.command:
-            if value == "integer":
-              SemanticTools.code.append("        ldc.i4 "+ SemanticTools.token.value)
-            elif value == "binary":
-              SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 2)))
-            elif value == "hexa":
-              SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 16)))
-            elif value == "octal":
-              SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 8)))
-              
+            if SemanticTools.negative:
+              SemanticTools.code.append("\n        neg")
             SemanticTools.code.append("       stloc "+ str(key))
         elif value == "real":
           if newVariable:
             SemanticTools.alloc.append("        .locals init (float32 " + str(key) + ")")
           if not SemanticTools.command:
-            SemanticTools.code.append("        ldc.r4  "+ SemanticTools.token.value)
+            if SemanticTools.negative:
+              SemanticTools.code.append("\n        neg")
+            SemanticTools.code.append("       stloc "+ str(key))
         elif value == "literal":
           if newVariable:
             SemanticTools.alloc.append("        .locals init (string " + str(key) + ")")
           if not SemanticTools.command:
-            SemanticTools.code.append("        ldstr "+ SemanticTools.token.value)
             SemanticTools.code.append("        stloc " + str(key))
         else:
           if value == "bool":
@@ -177,6 +173,7 @@ def p_action4(p):
     SemanticTools.defined_variables = {}
     SemanticTools.code_op = []
     SemanticTools.command = False
+    SemanticTools.negative = False
 
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti action6 ')' ';'"
@@ -400,8 +397,9 @@ def p_elemento(p):
                 | '(' expressao ')'
                 | '+' elemento
                 | '-' elemento action36"""
-    
-    
+    if p[1] == '-':
+      SemanticTools.negative = True
+      
 def p_action29(p):
     "action29 : "
     if len(SemanticTools.defined_variables.keys()) == 0:
@@ -416,55 +414,60 @@ def p_action30(p):
     "action30 : "
     for key, value in SemanticTools.defined_variables.iteritems():
       SemanticTools.defined_variables[key] = "integer"
-    SemanticTools.token = p.stack[-1]
-
+    SemanticTools.code.append("        ldc.i4 "+ p.stack[-1].value)    
+    
 def p_action31(p):
     "action31 : "
     for key, value in SemanticTools.defined_variables.iteritems():
       SemanticTools.defined_variables[key] = "binary"
-    SemanticTools.token = p.stack[-1]
-
+    SemanticTools.code.append("        ldc.i4 "+ str(int(p.stack[-1].value, 2)))
+    
 def p_action32(p):
     "action32 : "
     for key, value in SemanticTools.defined_variables.iteritems():
       SemanticTools.defined_variables[key] = "octal"
-    SemanticTools.token = p.stack[-1]
+    SemanticTools.code.append("        ldc.i4 "+ str(int(p.stack[-1].value, 8)))
 
 def p_action33(p):
     "action33 : "
     for key, value in SemanticTools.defined_variables.iteritems():
       SemanticTools.defined_variables[key] = "hexa"
-    SemanticTools.token = p.stack[-1]
+    SemanticTools.code.append("        ldc.i4 "+ str(int(p.stack[-1].value, 16)))
 
 def p_action34(p):
     "action34 : "
     for key, value in SemanticTools.defined_variables.iteritems():
       SemanticTools.defined_variables[key] = "real"
     SemanticTools.token = p.stack[-1]
+    SemanticTools.code.append("        ldc.r4  "+ SemanticTools.token.value)
 
 def p_action35(p):
     "action35 : "
     for key, value in SemanticTools.defined_variables.iteritems():
       SemanticTools.defined_variables[key] = "literal"
     SemanticTools.token = p.stack[-1]
+    SemanticTools.code.append("        ldstr "+ SemanticTools.token.value)
 
 def p_action36(p):
     "action36 : "
-    SemanticTools.code.append("\n        neg")
 
 def p_action23(p):
   "p_action23 : "
   SemanticTools.code.append('\n'.join(SemanticTools.code_op)) 
   SemanticTools.code.append("\n add")
-  for key in SemanticTools.defined_variables.keys():
-    SemanticTools.code.append("\n stloc " + str(key))
+  key = SemanticTools.defined_variables.keys()[-1]
+  SemanticTools.defined_variables[key] = 'integer'
+  SemanticTools.code.append("\n stloc " + str(key))
+  SemanticTools.command = True
   
 def p_action24(p):
   "p_action24 : "
   SemanticTools.code.append('\n'.join(SemanticTools.code_op))
   SemanticTools.code.append("\n sub")
-  for key in SemanticTools.defined_variables.keys():
-    SemanticTools.code.append("\n stloc " + str(key))
+  key = SemanticTools.defined_variables.keys()[-1]
+  SemanticTools.defined_variables[key] = 'integer'
+  SemanticTools.code.append("\n stloc " + str(key))
+  SemanticTools.command = True
     
 def p_action25(p):
   "p_action25 : "
@@ -479,15 +482,19 @@ def p_action26(p):
   "p_action26 : "
   SemanticTools.code.append('\n'.join(SemanticTools.code_op))
   SemanticTools.code.append("\n div")
-  for key in SemanticTools.defined_variables.keys():
-    SemanticTools.code.append("\n stloc " + str(key))
+  key = SemanticTools.defined_variables.keys()[-1]
+  SemanticTools.defined_variables[key] = 'integer'
+  SemanticTools.code.append("\n stloc " + str(key))
+  SemanticTools.command = True
   
 def p_action27(p):
   "p_action27 : "
   SemanticTools.code.append('\n'.join(SemanticTools.code_op))
   SemanticTools.code.append("\n rem")
-  for key in SemanticTools.defined_variables.keys():
-    SemanticTools.code.append("\n stloc " + str(key))
+  key = SemanticTools.defined_variables.keys()[-1]
+  SemanticTools.defined_variables[key] = 'integer'
+  SemanticTools.code.append("\n stloc " + str(key))
+  SemanticTools.command = True
 
 def p_error(p):
     raise Exception(u"Erro na linha %s - encontrado %s, esperado construção sintática válida" % (p.lineno, p.value))

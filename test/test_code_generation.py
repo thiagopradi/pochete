@@ -24,7 +24,7 @@ class TestCodeGeneration(MockerTestCase):
   
   def test_allocating_real(self):
     parser.parse(u"def teste : \n [ a := 1.0; ]", lexer())
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (float32 a)        ldc.r4  1.0\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (float32 a)        ldc.r4  1.0       stloc a\n        ret\n        }\n        }\n      ')
 
   def test_allocating_bool_true(self):
     parser.parse(u"def teste : \n [ a := true; ]", lexer())
@@ -71,7 +71,7 @@ class TestCodeGeneration(MockerTestCase):
 
   def test_input_with_real(self):
     parser.parse(u'def teste : \n [ a := 1.0; input(a); ]', lexer())
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (float32 a)        ldc.r4  1.0call string [mscorlib]System.Console::ReadLine()call float32 [mscorlib]System.Float32::Parse(string)stloc a\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (float32 a)        ldc.r4  1.0       stloc acall string [mscorlib]System.Console::ReadLine()call float32 [mscorlib]System.Float32::Parse(string)stloc a\n        ret\n        }\n        }\n      ')
 
   def test_input_string(self):
     parser.parse(u'def teste : \n [ a := "foo"; input(a); ]', lexer())
@@ -83,7 +83,7 @@ class TestCodeGeneration(MockerTestCase):
 
   def test_output_with_real(self):
     parser.parse(u'def teste : \n [ a := 1.0; input(a); output(a); ]', lexer())
-    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (float32 a)        ldc.r4  1.0call string [mscorlib]System.Console::ReadLine()call float32 [mscorlib]System.Float32::Parse(string)stloc a        ldloc a        call void [mscorlib]System.Console::Write(float32)\n        ret\n        }\n        }\n      ')
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (float32 a)        ldc.r4  1.0       stloc acall string [mscorlib]System.Console::ReadLine()call float32 [mscorlib]System.Float32::Parse(string)stloc a        ldloc a        call void [mscorlib]System.Console::Write(float32)\n        ret\n        }\n        }\n      ')
   
   def test_output_with_string(self):
     parser.parse(u'def teste : \n [ a := "abc"; input(a); output(a); ]', lexer())
@@ -119,8 +119,11 @@ class TestCodeGeneration(MockerTestCase):
   def test_rem(self):
     parser.parse(u'def teste : \n [ xpto := 1; b := 2; xpto := xpto % b; output(xpto); ]', lexer())
     self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (int32 xpto)        .locals init (int32 b)        ldc.i4 1       stloc xpto        ldc.i4 2       stloc b        ldloc xpto\n        ldloc b\n rem\n stloc xpto        ldloc xpto        call void [mscorlib]System.Console::Write(int32)\n        ret\n        }\n        }\n      ')
-  
-  
+
+  def test_neg(self):
+    parser.parse(u'def teste : \n [ xpto := -1; output(xpto); ]', lexer())
+    self.assertEqual(''.join(SemanticTools.code), '.assembly extern mscorlib{}\n    .assembly teste{}\n    .module teste.exe\n    .class public teste\n    {\n    .method public static void principal ()\n    {\n    .entrypoint        .locals init (int32 xpto)        ldc.i4 1\n        neg       stloc xpto        ldloc xpto        call void [mscorlib]System.Console::Write(int32)\n        ret\n        }\n        }\n      ')
+    
   def test_final(self):
     string = u"""def quadrado : [
     lado := 0;
