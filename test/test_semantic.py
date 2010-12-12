@@ -24,12 +24,12 @@ class TestSemantic(MockerTestCase):
       self.assertTrue(SemanticTools.symbol_table["esse"])    
       self.assertTrue(SemanticTools.symbol_table["outro"])
 
-    # def test_semantic_error_with_input(self):
-    #   try: 
-    #     parser.parse(u"def teste : \n [ input(lado);  ]", lexer())
-    #     raise Exception("Error")
-    #   except Exception, e:
-    #     self.assertEqual(u"Erro na linha 2 - identificador (lado) não declarado", e.message)
+    def test_semantic_error_with_input(self):
+      try: 
+        parser.parse(u"def teste : \n [ input(lado);  ]", lexer())
+        raise Exception("Error")
+      except Exception, e:
+        self.assertEqual(u"Erro na linha 2 - identificador lado não declarado", e.message)
 
     def test_semantic_success_with_input(self):
       parser.parse(u"def teste : \n [ lado := 0; input(lado);  ]", lexer())
