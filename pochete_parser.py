@@ -149,7 +149,6 @@ def p_action4(p):
         elif value == "real":
           if newVariable:
             SemanticTools.alloc.append("        .locals init (float32 " + str(key) + ")")
-          if not SemanticTools.command:
             if SemanticTools.negative:
               SemanticTools.code.append("\n        neg")
             SemanticTools.code.append("       stloc "+ str(key))
@@ -162,14 +161,8 @@ def p_action4(p):
           if value == "bool":
             if newVariable:
               SemanticTools.alloc.append("        .locals init (int32 " + str(key) + ")")
-            if SemanticTools.token.value == "true":
-              integer = '1'
-            else:
-              integer = '0'
             if not SemanticTools.command:
-              SemanticTools.code.append("        ldc.i4  " + integer)
-              SemanticTools.code.append("        stloc " + str(key))
-          
+              SemanticTools.code.append("        stloc " + str(key))          
     SemanticTools.defined_variables = {}
     SemanticTools.code_op = []
     SemanticTools.command = False
@@ -319,13 +312,13 @@ def p_action_18(p):
     "action18 : "
     for key, value in SemanticTools.defined_variables.iteritems():
       SemanticTools.defined_variables[key] = "bool"
-    SemanticTools.token = p.stack[-1]
+    SemanticTools.code.append("        ldc.i4  1")
 
 def p_action_19(p):
     "action19 : "
     for key, value in SemanticTools.defined_variables.iteritems():
       SemanticTools.defined_variables[key] = "bool"
-    SemanticTools.token = p.stack[-1]
+    SemanticTools.code.append("        ldc.i4  0")
 
 def p_action_20(p):
     "action20 : "
@@ -438,15 +431,13 @@ def p_action34(p):
     "action34 : "
     for key, value in SemanticTools.defined_variables.iteritems():
       SemanticTools.defined_variables[key] = "real"
-    SemanticTools.token = p.stack[-1]
-    SemanticTools.code.append("        ldc.r4  "+ SemanticTools.token.value)
+    SemanticTools.code.append("        ldc.r4  "+ p.stack[-1].value)
 
 def p_action35(p):
     "action35 : "
     for key, value in SemanticTools.defined_variables.iteritems():
       SemanticTools.defined_variables[key] = "literal"
-    SemanticTools.token = p.stack[-1]
-    SemanticTools.code.append("        ldstr "+ SemanticTools.token.value)
+    SemanticTools.code.append("        ldstr "+ p.stack[-1].value)
 
 def p_action36(p):
     "action36 : "
