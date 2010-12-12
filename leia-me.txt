@@ -1,0 +1,17 @@
+Pochete Compiler - 
+
+Thiago Pradi
+Paulo Eduardo Danker
+
+Algumas Considerações:
+
+- Arrumamos os problemas da parte 1 - Interface
+- Arrumamos os problemas da parte sintática
+- Infelizmente, não conseguimos implementar o if e o while. Acabamos ficando presos a ferramenta sem suporte, e enfrentamos vários problemas da parte sintática. isso acabou atrasando a parte semántica, que mesmo com o prazo extendido, não ficou implementada com sucesso. Caso a professora considere, podemos continuar implementando a ferramenta, e marcamos um outro prazo para mostrar isso funcionando. (mesmo que não modifique a nota final da disciplina, acabamos pegando gosto pela coisa e iriamos implementar por esporte.)
+- Notei que no Windows, se for copiado e coloado o texto diretamente do pdf, não funciona, teria que jogar primeiro no bloco de notas, e depois passar para o compilador.
+
+Bom, acredito que apesar de um pouco traído pela ferramenta que escolhemos, foi um aprendizado muito interessante. espero dar continuidade ao projeto pochete, tenho algumas idéias a caminho. Acredito que as notas das provas/trabalhos falam um pouco sobre o conhecimento que conseguimos absorver.
+
+Um Feliz natal e um Próspero ano novo para a Prof,
+
+- Thiago e Paulo.
