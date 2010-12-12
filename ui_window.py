@@ -23,8 +23,8 @@ class Ui_MainWindow(object):
 
         self.MainWindow = MainWindow
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(970, 529)
-        MainWindow.setMinimumSize(QtCore.QSize(970, 0))
+        MainWindow.resize(870, 529)
+        MainWindow.setMinimumSize(QtCore.QSize(870, 0))
         #MainWindow.setInputMethodHints(QtCore.Qt.ImhNone)
         MainWindow.setToolButtonStyle(QtCore.Qt.ToolButtonTextUnderIcon)
         self.centralwidget = QtGui.QWidget(MainWindow)
@@ -283,6 +283,7 @@ class Ui_MainWindow(object):
     
     def _compile(self):
         self.plainTextEdit.clear()
+        print(self.editor.text())
         try:
           parser.parse(str(self.editor.text()), lexer())
           self.plainTextEdit.appendPlainText("Programa compilado com sucesso")
