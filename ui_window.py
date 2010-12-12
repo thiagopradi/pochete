@@ -11,7 +11,7 @@ from PyQt4 import QtCore, QtGui
 from PyQt4 import Qsci
 import icons_rc
 from lexer import lexer
-from pochete_parser import parser
+from pochete_parser import parser, SemanticTools
 tokens = {"ID":"identificador", "RESERVADO":"palavra reservada", "INTEIRO":"constante inteira", 
           "BINARIO":"constante binária", "OCTAL":"constante octal", "HEXADECIMAL":"constante hexadecimal",
            "REAL":"constante real", "LITERAL":"constante literal", "SIMBOLO":u"símbolo especial" }
@@ -286,11 +286,24 @@ class Ui_MainWindow(object):
         try:
           parser.parse(str(self.editor.text()), lexer())
           self.plainTextEdit.appendPlainText("Programa compilado com sucesso")
+          SemanticTools.reset()
         except Exception, e:
           self.plainTextEdit.setPlainText(unicode(e.message))
     
     def _generate(self):
-        QtGui.QMessageBox.warning(self.MainWindow, "Aviso!", u"Não implementado ainda!")
+      self.plainTextEdit.clear()
+      try:
+        fileInfo = QtCore.QFileInfo(self.filename)
+        nameLayer = str(fileInfo.baseName())
+        SemanticTools.program_name = nameLayer
+        parser.parse(str(self.editor.text()), lexer())
+        self.plainTextEdit.appendPlainText(u"Código objeto gerado com sucesso")
+        fname = open(self.filename + ".il", 'w')
+        fname.write("\n".join(SemanticTools.code))
+        fname.close()
+        SemanticTools.reset()
+      except Exception, e:
+        self.plainTextEdit.setPlainText(unicode(e.message))
 
     def _about(self):
         QtGui.QMessageBox.about(self.MainWindow, "Sobre:", "Equipe:\nPaulo Eduardo Danker\nThiago Pradi")

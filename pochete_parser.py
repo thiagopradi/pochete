@@ -22,6 +22,7 @@ class SemanticTools:
         cls.token = None
         cls.symbol_table = {}
         cls.code_op = []
+        cls.program_name = "teste"
 
 class Identifier:
   def __init__(self, string):
@@ -119,18 +120,6 @@ def p_listaexp1(p):
 
 def p_action7(p):
     "action7 : "
-    # Identificador x = (Identificador) tabelaSimbolos.get(token.getLexeme());
-    #     if (x == null) {
-    #         throw new SemanticError("identificador ( " + token.getLexeme() + " ) não declarado");
-    #     }
-    #     arrayCodigo.add("        ldloc " + token.getLexeme());
-    #     if (x.getTipo().equals("inteira") || x.getTipo().equals("hexadecimal") || x.getTipo().equals("octal") || x.getTipo().equals("binária")) {
-    #         arrayCodigo.add("        call void [mscorlib]System.Console::Write(int32)");
-    #     } else if (x.getTipo().equals("real")) {
-    #         arrayCodigo.add("        call void [mscorlib]System.Console::Write(float32)");
-    #     } else if (x.getTipo().equals("literal")) {
-    #         arrayCodigo.add("        call void [mscorlib]System.Console::Write(string)");
-    #     }
 
 def p_listaexp1_error(t):
     """listaexp1 : error action7 listaexp"""
@@ -454,42 +443,42 @@ def p_action35(p):
 
 def p_action36(p):
     "action36 : "
-    SemanticTools.code += "\n        neg"
+    SemanticTools.code.append("\n        neg")
 
 def p_action23(p):
   "p_action23 : "
-  SemanticTools.code += '\n'.join(SemanticTools.code_op)
-  SemanticTools.code += "\n add"
+  SemanticTools.code.append('\n'.join(SemanticTools.code_op)) 
+  SemanticTools.code.append("\n add")
   for key in SemanticTools.defined_variables.keys():
-    SemanticTools.code += "\n stloc " + str(key)
+    SemanticTools.code.append("\n stloc " + str(key))
   
 def p_action24(p):
   "p_action24 : "
-  SemanticTools.code += '\n'.join(SemanticTools.code_op)
-  SemanticTools.code += "\n sub"
+  SemanticTools.code.append('\n'.join(SemanticTools.code_op))
+  SemanticTools.code.append("\n sub")
   for key in SemanticTools.defined_variables.keys():
-    SemanticTools.code += "\n stloc " + str(key)
+    SemanticTools.code.append("\n stloc " + str(key))
     
 def p_action25(p):
   "p_action25 : "
-  SemanticTools.code += '\n'.join(SemanticTools.code_op)
-  SemanticTools.code += "\n mul"
+  SemanticTools.code.append('\n'.join(SemanticTools.code_op))
+  SemanticTools.code.append("\n mul")
   for key in SemanticTools.defined_variables.keys():
-    SemanticTools.code += "\n stloc " + str(key)
+    SemanticTools.code.append("\n stloc " + str(key))
 
 def p_action26(p):
   "p_action26 : "
-  SemanticTools.code += '\n'.join(SemanticTools.code_op)
-  SemanticTools.code += "\n div"
+  SemanticTools.code.append('\n'.join(SemanticTools.code_op))
+  SemanticTools.code.append("\n div")
   for key in SemanticTools.defined_variables.keys():
-    SemanticTools.code += "\n stloc " + str(key)
+    SemanticTools.code.append("\n stloc " + str(key))
   
 def p_action27(p):
   "p_action27 : "
-  SemanticTools.code += '\n'.join(SemanticTools.code_op)
-  SemanticTools.code += "\n rem"
+  SemanticTools.code.append('\n'.join(SemanticTools.code_op))
+  SemanticTools.code.append("\n rem")
   for key in SemanticTools.defined_variables.keys():
-    SemanticTools.code += "\n stloc " + str(key)
+    SemanticTools.code.append("\n stloc " + str(key))
 
 def p_error(p):
     raise Exception(u"Erro na linha %s - encontrado %s, esperado construção sintática válida" % (p.lineno, p.value))
