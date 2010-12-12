@@ -11,6 +11,7 @@ class SemanticTools:
     symbol_table = {}
     code_op = []
     token = None
+    command = False
     
     @classmethod
     def reset(cls):
@@ -23,7 +24,8 @@ class SemanticTools:
         cls.symbol_table = {}
         cls.code_op = []
         cls.program_name = "teste"
-
+        cls.command = False
+        
 class Identifier:
   def __init__(self, string):
     self.string = string
@@ -101,7 +103,7 @@ def p_comando(p):
 
 # ACTION5 is here
 def p_listaidenti(p):
-    "listaidenti : ID listaindenti1"    
+    "listaidenti : ID listaindenti1"
     if SemanticTools.main_identifier == p[1]:
       raise Exception(u"Erro na linha %s - identificador %s já declarado anteriormente" % (p.lineno(1), p[1]))
     SemanticTools.defined_variables[Identifier(p[1])] = True
@@ -138,25 +140,28 @@ def p_action4(p):
         if value in ["integer", "octal", "hexa", "binary"]:
           if newVariable:
             SemanticTools.alloc.append("        .locals init (int32 " + str(key) + ")")
-          if value == "integer":
-            SemanticTools.code.append("        ldc.i4 "+ SemanticTools.token.value)
-          elif value == "binary":
-            SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 2)))
-          elif value == "hexa":
-            SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 16)))
-          elif value == "octal":
-            SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 8)))
+          if not SemanticTools.command:
+            if value == "integer":
+              SemanticTools.code.append("        ldc.i4 "+ SemanticTools.token.value)
+            elif value == "binary":
+              SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 2)))
+            elif value == "hexa":
+              SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 16)))
+            elif value == "octal":
+              SemanticTools.code.append("        ldc.i4 "+ str(int(SemanticTools.token.value, 8)))
               
-          SemanticTools.code.append("       stloc "+ str(key))
+            SemanticTools.code.append("       stloc "+ str(key))
         elif value == "real":
           if newVariable:
             SemanticTools.alloc.append("        .locals init (float32 " + str(key) + ")")
-          SemanticTools.code.append("        ldc.r4  "+ SemanticTools.token.value)
+          if not SemanticTools.command:
+            SemanticTools.code.append("        ldc.r4  "+ SemanticTools.token.value)
         elif value == "literal":
           if newVariable:
             SemanticTools.alloc.append("        .locals init (string " + str(key) + ")")
-          SemanticTools.code.append("        ldstr "+ SemanticTools.token.value)
-          SemanticTools.code.append("        stloc " + str(key))
+          if not SemanticTools.command:
+            SemanticTools.code.append("        ldstr "+ SemanticTools.token.value)
+            SemanticTools.code.append("        stloc " + str(key))
         else:
           if value == "bool":
             if newVariable:
@@ -165,11 +170,13 @@ def p_action4(p):
               integer = '1'
             else:
               integer = '0'
-            SemanticTools.code.append("        ldc.i4  " + integer)
-            SemanticTools.code.append("        stloc " + str(key))
+            if not SemanticTools.command:
+              SemanticTools.code.append("        ldc.i4  " + integer)
+              SemanticTools.code.append("        stloc " + str(key))
           
     SemanticTools.defined_variables = {}
     SemanticTools.code_op = []
+    SemanticTools.command = False
 
 def p_cmdentrada(p):
     "cmdentrada : INPUT '(' listaidenti action6 ')' ';'"
@@ -463,9 +470,11 @@ def p_action25(p):
   "p_action25 : "
   SemanticTools.code.append('\n'.join(SemanticTools.code_op))
   SemanticTools.code.append("\n mul")
-  for key in SemanticTools.defined_variables.keys():
-    SemanticTools.code.append("\n stloc " + str(key))
-
+  key = SemanticTools.defined_variables.keys()[-1]
+  SemanticTools.defined_variables[key] = 'integer'
+  SemanticTools.code.append("\n stloc " + str(key))
+  SemanticTools.command = True
+  
 def p_action26(p):
   "p_action26 : "
   SemanticTools.code.append('\n'.join(SemanticTools.code_op))
